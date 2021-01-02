@@ -96,12 +96,8 @@ A complete list of Git submodules used by the project can be found [here](./.git
 
 # System requirements
 
-Tbd.
+To be able to run Mail Server Factory the following system requirements must meet:
 
-## Project development system requirements
-
-Tbd.
-
-## Mail Server Factory system requirements
-
-Tbd.
+- Modern computer (or server) as a hardware
+- [OpenJDK](https://openjdk.java.net/) SDK
+- [Gradle](https://gradle.org/) build system
