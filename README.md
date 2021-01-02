@@ -13,7 +13,7 @@ Version information:
 Mail Server Factory project has been developed so end user can easily setup and run its own mail server.
 End user writes the configuration as simple JSON that is then interpreted and understood by the
 Mail Server Factory application. Mail Server Factory base on JSOn configuration performs
-installations and initializations on remote server endpoint.
+installations and initializations on remote server (target installation operating system).
 
 # Compatibility
 
