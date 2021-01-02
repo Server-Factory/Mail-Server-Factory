@@ -57,6 +57,8 @@ Mail Server Factory will be downloaded and installed.
 [Examples](./Examples) director contains examples of JSON configuration(s) for Mail Server Factory
 deployment(s).
 
+Note: Detailed explanations for every variable will be added in upcoming releases.
+
 # Cloning the project
 
 To be able to read project source code or contribute it is required to clone the Git repository. The following command
