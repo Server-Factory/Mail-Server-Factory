@@ -6,17 +6,16 @@ Version information:
 
 - [Current version](./version.txt)
 - [Current version code](./version_code.txt)
-- [Releases](https://github.com/milos85vasic/Mail-Server-Factory/releases).
+- [Releases](https://github.com/Server-Factory/Mail-Server-Factory/releases).
 
 # About the project
 
-Mail Server Factory project has been developed so end user can easily setup and run its own mail server.
-End user writes the configuration as simple JSON that is then interpreted and understood by the
-Mail Server Factory application. Mail Server Factory base on JSOn configuration performs
-installations and initializations on the target operating system.
+Mail Server Factory project has been developed so end user can easily setup and run its own mail server. End user writes
+the configuration as simple JSON that is then interpreted and understood by the Mail Server Factory application. Mail
+Server Factory base on JSOn configuration performs installations and initializations on the target operating system.
 
-Mail server stack that is instantiated on the target operating system runs on [Docker](https://www.docker.com/).
-Each stack component is loosely coupled which creates a solid base for scalability.
+Mail server stack that is instantiated on the target operating system runs on [Docker](https://www.docker.com/). Each
+stack component is loosely coupled which creates a solid base for scalability.
 
 # Compatibility
 
@@ -51,8 +50,7 @@ configured on the server.
 
 # Hot to use
 
-In this section it will be explained how to use Mail Server Factory in order to 
-configure and run your own mail server.
+In this section it will be explained how to use Mail Server Factory in order to configure and run your own mail server.
 
 # Cloning the project
 

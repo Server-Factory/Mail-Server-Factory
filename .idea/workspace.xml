@@ -10,6 +10,20 @@
   <component name="ChangeListManager">
     <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/Iso/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/Iso/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/Parallels/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/Parallels/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/Parallels/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/Parallels/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/Qemu/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/Qemu/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Utils/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/docker/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/docker/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/docker/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/docker/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/software/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/software/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/software/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/software/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/stacks/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/stacks/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Definitions/main/stacks/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Definitions/main/stacks/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1258,13 +1272,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-02000" summary="MSF-233 - Head position updated.">
-      <created>1608393500557</created>
-      <option name="number" value="02000" />
-      <option name="presentableId" value="LOCAL-02000" />
-      <option name="project" value="LOCAL" />
-      <updated>1608393500557</updated>
-    </task>
     <task id="LOCAL-02001" summary="MSF-233 - Head position updated.">
       <created>1608477254115</created>
       <option name="number" value="02001" />
@@ -1601,7 +1608,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609590535152</updated>
     </task>
-    <option name="localTasksCounter" value="2049" />
+    <task id="LOCAL-02049" summary="MSF-399 - Documentation continued.">
+      <created>1609590592726</created>
+      <option name="number" value="02049" />
+      <option name="presentableId" value="LOCAL-02049" />
+      <option name="project" value="LOCAL" />
+      <updated>1609590592726</updated>
+    </task>
+    <option name="localTasksCounter" value="2050" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
