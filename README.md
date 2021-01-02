@@ -17,6 +17,14 @@ operating system. Mail server stack that is deployed on the target operating sys
 on [Docker](https://www.docker.com/). Each stack component is loosely coupled which creates a solid base for further /
 future scalability.
 
+# System requirements
+
+To be able to run Mail Server Factory the following system requirements must meet:
+
+- Modern computer (or server) as a hardware
+- [OpenJDK](https://openjdk.java.net/) SDK
+- [Gradle](https://gradle.org/) build system
+
 # Compatibility
 
 Mail Server Factory supports the following target operating systems:
@@ -94,11 +102,3 @@ Note: To be able to pass tests [Docker](https://www.docker.com/) must be install
 ## Git submodules
 
 A complete list of Git submodules used by the project can be found [here](./.gitmodules).
-
-# System requirements
-
-To be able to run Mail Server Factory the following system requirements must meet:
-
-- Modern computer (or server) as a hardware
-- [OpenJDK](https://openjdk.java.net/) SDK
-- [Gradle](https://gradle.org/) build system
