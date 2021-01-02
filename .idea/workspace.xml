@@ -8,10 +8,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -1258,13 +1255,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-01994" summary="MSF-233 - Stack test - Fixed.">
-      <created>1608209147416</created>
-      <option name="number" value="01994" />
-      <option name="presentableId" value="LOCAL-01994" />
-      <option name="project" value="LOCAL" />
-      <updated>1608209147416</updated>
-    </task>
     <task id="LOCAL-01995" summary="MSF-233 - Feature use database.">
       <created>1608211011658</created>
       <option name="number" value="01995" />
@@ -1601,7 +1591,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609587282678</updated>
     </task>
-    <option name="localTasksCounter" value="2043" />
+    <task id="LOCAL-02043" summary="MSF-399 - Workspace.">
+      <created>1609588190568</created>
+      <option name="number" value="02043" />
+      <option name="presentableId" value="LOCAL-02043" />
+      <option name="project" value="LOCAL" />
+      <updated>1609588190569</updated>
+    </task>
+    <option name="localTasksCounter" value="2044" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1641,7 +1638,6 @@
       <path value="$PROJECT_DIR$/Definitions/Stacks" />
       <path value="$PROJECT_DIR$/Variables" />
     </ignored-roots>
-    <MESSAGE value="MSF-360 - Ignore warning." />
     <MESSAGE value="MSF-360 - Head position updated." />
     <MESSAGE value="MSF-388 - Removing file extension." />
     <MESSAGE value="MSF-388 - Head position updated." />
@@ -1666,7 +1662,8 @@
     <MESSAGE value="MSF-399 - Basic documentation - About section." />
     <MESSAGE value="MSF-399 - Repo redirect." />
     <MESSAGE value="MSF-399 - Stripping down repo(s)." />
-    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Stripping down repo(s)." />
+    <MESSAGE value="MSF-399 - Workspace." />
+    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Workspace." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
