@@ -9,6 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1257,13 +1258,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-02008" summary="MSF-233 - Removed direct script dependency.">
-      <created>1609419690783</created>
-      <option name="number" value="02008" />
-      <option name="presentableId" value="LOCAL-02008" />
-      <option name="project" value="LOCAL" />
-      <updated>1609419690784</updated>
-    </task>
     <task id="LOCAL-02009" summary="MSF-360 - Ignore warning.">
       <created>1609510077626</created>
       <option name="number" value="02009" />
@@ -1600,7 +1594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609591768028</updated>
     </task>
-    <option name="localTasksCounter" value="2057" />
+    <task id="LOCAL-02057" summary="MSF-399 - Documentation continued.">
+      <created>1609591907783</created>
+      <option name="number" value="02057" />
+      <option name="presentableId" value="LOCAL-02057" />
+      <option name="project" value="LOCAL" />
+      <updated>1609591907783</updated>
+    </task>
+    <option name="localTasksCounter" value="2058" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

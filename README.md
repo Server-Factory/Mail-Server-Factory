@@ -10,12 +10,11 @@ Version information:
 
 # About the project
 
-Mail Server Factory project has been developed so end user can easily setup and run its own mail server. End user writes
-the configuration as simple JSON that is then interpreted and understood by the Mail Server Factory application. Mail
-Server Factory base on JSOn configuration performs installations and initializations on the target operating system.
-
-Mail server stack that is instantiated on the target operating system runs on [Docker](https://www.docker.com/). Each
-stack component is loosely coupled which creates a solid base for scalability.
+The purpose of the Mail Server Factory project is to provide a simple way for the end-user to easily set up and run its
+mail server. The end-user writes the configuration as a simple JSON which is then interpreted and understood by the Mail
+Server Factory. Mail Server Factory performs various installations and initializations based on this JSON on the target
+operating system. Mail server stack that is deployed on the target operating system runs on [Docker](https://www.docker.com/). 
+Each stack component is loosely coupled which creates a solid base for further / future scalability.
 
 # Compatibility
 
