@@ -38,7 +38,7 @@ Installed mail server will be delivered with the following technology stack:
 - [Redis](https://redis.io/) as in-memory database for [Rspamd](https://www.rspamd.com/) service
 - [ClamAV](https://www.clamav.net/) for the anti-virus service.
 
-Note: Mail server will use self-signed certificates for encrypting the communication. For this purpose proper CA will be
+Note: The mail server will use self-signed certificates for encrypting the communication. For this purpose proper CA will be
 configured on the server.
 
 # Web setup
@@ -53,7 +53,9 @@ Mail Server Factory will be downloaded and installed.
 
 # Hot to use
 
-In this section it will be explained how to use Mail Server Factory in order to configure and run your own mail server.
+In this section, it will be explained how to use Mail Server Factory to configure and run your mail server.
+
+Tbd.
 
 # Cloning the project
 
