@@ -1,9 +1,6 @@
 [submodule "Logger"]
 	path = Logger
 	url = https://github.com/milos85vasic/Logger.git
-[submodule "Core"]
-	path = Core
-	url = git@github.com:milos85vasic/Server-Factory.git
 [submodule "Definitions/main/docker"]
 	path = Definitions/main/docker
 	url = git@github.com:milos85vasic/Server-Factory-Docker-Definitions.git
