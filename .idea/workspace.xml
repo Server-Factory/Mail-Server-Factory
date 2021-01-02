@@ -9,7 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1258,13 +1257,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-02003" summary="MSF-233 - New logo.">
-      <created>1608762929938</created>
-      <option name="number" value="02003" />
-      <option name="presentableId" value="LOCAL-02003" />
-      <option name="project" value="LOCAL" />
-      <updated>1608762929940</updated>
-    </task>
     <task id="LOCAL-02004" summary="MSF-233 - New logo.">
       <created>1609191932205</created>
       <option name="number" value="02004" />
@@ -1601,7 +1593,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609591118231</updated>
     </task>
-    <option name="localTasksCounter" value="2052" />
+    <task id="LOCAL-02052" summary="MSF-399 - Web setup.">
+      <created>1609591387386</created>
+      <option name="number" value="02052" />
+      <option name="presentableId" value="LOCAL-02052" />
+      <option name="project" value="LOCAL" />
+      <updated>1609591387386</updated>
+    </task>
+    <option name="localTasksCounter" value="2053" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1641,7 +1640,6 @@
       <path value="$PROJECT_DIR$/Definitions/Stacks" />
       <path value="$PROJECT_DIR$/Variables" />
     </ignored-roots>
-    <MESSAGE value="MSF-388 - Changelog added." />
     <MESSAGE value="MSF-388 - Versioning modules." />
     <MESSAGE value="MSF-388 - Versioning main module." />
     <MESSAGE value="MSF-399 - Basic documentation - First touches." />
@@ -1666,7 +1664,8 @@
     <MESSAGE value="MSF-399 - About." />
     <MESSAGE value="MSF-399 - Documentation continued." />
     <MESSAGE value="MSF-399 - Updating links." />
-    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Updating links." />
+    <MESSAGE value="MSF-399 - Web setup." />
+    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Web setup." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
