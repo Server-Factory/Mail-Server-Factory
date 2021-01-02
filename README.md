@@ -44,9 +44,13 @@ configured on the server.
 
 # Web setup
 
-```bash
+Cd into directory where you want to download Mail Server Factory and simply execute this command:
 
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Server-Factory/Utils/master/web_installer.sh)"
 ```
+
+Mail Server Factory will be downloaded and installed.
 
 # Hot to use
 
