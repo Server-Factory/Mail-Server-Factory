@@ -1,0 +1,1771 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand />
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="BashSupport Pro POSIX" />
+        <option value="Kotlin Enum" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Object" />
+        <option value="Class" />
+        <option value="Kotlin File" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/alpha_1" />
+        <entry key="$PROJECT_DIR$/Core" value="feature/alpha_1" />
+        <entry key="$PROJECT_DIR$/Core/Utils" value="feature/1_0_0_Alpha_2" />
+        <entry key="$PROJECT_DIR$/Core/Utils/Parallels" value="feature/1.0.0_Alpha_2" />
+        <entry key="$PROJECT_DIR$/Definitions/Docker" value="master" />
+        <entry key="$PROJECT_DIR$/Definitions/Software" value="master" />
+        <entry key="$PROJECT_DIR$/Definitions/main/docker" value="feature/alpha_1" />
+        <entry key="$PROJECT_DIR$/Definitions/main/software" value="feature/alpha_1" />
+        <entry key="$PROJECT_DIR$/Variables" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_COMMON_BRANCH" value="master" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JupyterTrust" id="c6a5724d-bf82-4c80-9917-b493f7b87f52" />
+  <component name="ProjectId" id="1aDSLqFLeSv4iTJsg2W31Gk77Pf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="Git.Branch.Popup.ShowAllRepositories" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/Logs/2020/10/2020_10_8_0.log" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/Definitions/main/docker" />
+      <recent name="$PROJECT_DIR$/Definitions/main/stacks" />
+      <recent name="$PROJECT_DIR$/Definitions/main/software" />
+      <recent name="$PROJECT_DIR$/Core" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/Application/src/main/resources" />
+      <recent name="$PROJECT_DIR$/Core/Utils/Iso" />
+      <recent name="$PROJECT_DIR$/Core/Utils/Iso/Examples" />
+      <recent name="$PROJECT_DIR$/Core/Utils/Qemu" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="net.milosvasic.factory.application" />
+      <recent name="net.milosvasic.factory" />
+      <recent name="net.milosvasic.factory.application.server_factory.common" />
+      <recent name="net.milosvasic.factory.configuration.definition.provider" />
+      <recent name="net.milosvasic.factory.configuration.group" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Fedora Server 32">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Centos Linux 7" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Centos_7.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Centos Linux 7: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="centos7.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Centos Linux 7: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.138 centos7.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Centos Linux 8" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Centos_8.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Centos Linux 8: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh</scriptContent>
+      <option name="scriptParameters" value="192.168.100.108 centos8.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 30" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Server_30.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 30: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora30.server.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 30: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.141 fedora30server.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 31" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Server_31.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 31: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora31.server.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 31: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.165 fedora31server.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 32" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Server_32.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 32: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora32.server.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 32: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.193 fedora32server.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 33: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora33server.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Server 33: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.133 fedora33server.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 30" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Workstation_30.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 30: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora30.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 30: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.155 fedora30.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 31" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Workstation_31.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 31: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora31.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 31: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.196 fedora31.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 32" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Workstation_32.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 32: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora32.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 32: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.117 fedora32.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 33" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Workstation_33.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Fedora Workstation 33: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="fedora33.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Installer" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptPath" value="$PROJECT_DIR$/installer.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Iso: Publish Iso" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptPath" value="Core/Utils/Iso/publish_iso.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Publish images" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/Parallels/publish_images.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Centos 7" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/CentOS_Linux_7.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Centos 8 Caching Proxy" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/CentOS_Linux_8_Caching_Proxy.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Centos 8" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/CentOS_Linux_8.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Server 30" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Server_30.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Server 31" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Server_31.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Server 32" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Server_32.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Server 33" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Server_33.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Workstation 30" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Workstation_30.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Workstation 31" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Workstation_31.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Workstation 32" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Workstation_32.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Fedora Workstation 33" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Workstation_33.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Parallels: Run Ubuntu 20" type="BashProRunConfiguration" folderName="Parallels">
+      <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Ubuntu_20.pvm" />
+      <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Create network" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="tap1" />
+      <option name="scriptPath" value="Core/Utils/Qemu/create_network.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Delete bridge" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="tap1" />
+      <option name="scriptPath" value="Core/Utils/Qemu/delete_bridge.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Fedora Server 31" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="$USER_HOME$/Documents/Temp/Qemu/Fedora_Server_30" />
+      <option name="scriptPath" value="Core/Utils/Qemu/machine.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Install Fedora 30" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Fedora_30 /Volumes/VermilionCode/Iso/Fedora-Workstation-Live-x86_64-30-1.2.iso" />
+      <option name="scriptPath" value="Core/Utils/Qemu/machine.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Install Fedora 31" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Fedora_31 /Volumes/VermilionCode/Iso/Fedora-Workstation-Live-x86_64-31-1.9.iso" />
+      <option name="scriptPath" value="Core/Utils/Qemu/machine.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Publish images" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptPath" value="Core/Utils/Qemu/publish_images.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Run Centos 7 Installation" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Centos_7 CentOS-7-x86_64-Minimal-1810.iso" />
+      <option name="scriptPath" value="Core/Utils/Qemu/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Run Centos 7" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Centos_7" />
+      <option name="scriptPath" value="Core/Utils/Qemu/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Run Centos 8 Installation" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Centos_8 CentOS-8.2.2004-x86_64-minimal.iso" />
+      <option name="scriptPath" value="Core/Utils/Qemu/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Qemu: Run Centos 8" type="BashProRunConfiguration" folderName="Qemu">
+      <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Centos_8" />
+      <option name="scriptPath" value="Core/Utils/Qemu/run.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Tunnel: Postgres" type="BashProRunConfiguration" folderName="Tunnels">
+      <option name="scriptParameters" value="35432 test1.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/tunnel.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Tunnel: Rspamd @ Ubuntu" type="BashProRunConfiguration" folderName="Tunnels">
+      <option name="scriptParameters" value="11334 test2.dev.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/tunnel.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Ubuntu 20" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Ubuntu_20.json</scriptContent>
+      <option name="sourceType" value="snippet" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Ubuntu 20: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="ubuntu20.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Ubuntu 20: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+      <option name="scriptParameters" value="192.168.100.106 ubuntu20.local" />
+      <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+      <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+      <method v="2" />
+    </configuration>
+    <configuration name="InstallationStepFlowTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.milosvasic.factory.test.InstallationStepFlowTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":Core:Framework:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="InstallerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.milosvasic.factory.test.InstallerTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":Core:Framework:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SkipConditionCheckStepTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.milosvasic.factory.test.SkipConditionCheckStepTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":Core:Framework:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SkipConditionStepFlowTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.milosvasic.factory.test.SkipConditionStepFlowTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":Core:Framework:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="StackStepTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.milosvasic.factory.test.StackStepTest&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":Core:Framework:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CentOS 7" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Centos_7.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CentOS 8" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Centos_8.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Server 30" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Server_30.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Server 31" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Server_31.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Server 32" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Server_32.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Server 33" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Server_33.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Workstation 30" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Workstation_30.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Workstation 31" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Workstation_31.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Workstation 32" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Workstation_32.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Fedora Workstation 33" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Fedora_Workstation_33.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Ubuntu 20" type="JetRunConfigurationType">
+      <module name="Mail-Server-Factory.Application.main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Examples/Ubuntu_20.json" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="net.milosvasic.factory.mail.application.Launcher" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="BashSupport Pro.Installer" />
+      <item itemvalue="BashSupport Pro.Centos Linux 7: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Centos Linux 7: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Centos Linux 7" />
+      <item itemvalue="BashSupport Pro.Centos Linux 8: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Centos Linux 8" />
+      <item itemvalue="BashSupport Pro.Fedora Server 30: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Server 30: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Server 30" />
+      <item itemvalue="BashSupport Pro.Fedora Server 31: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Server 31: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Server 31" />
+      <item itemvalue="BashSupport Pro.Fedora Server 32: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Server 32: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Server 32" />
+      <item itemvalue="BashSupport Pro.Fedora Server 33: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Server 33: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 30: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 30: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 30" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 31: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 31: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 31" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 32: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 32: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 32" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 33: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Fedora Workstation 33" />
+      <item itemvalue="BashSupport Pro.Ubuntu 20: Init SSH Access" />
+      <item itemvalue="BashSupport Pro.Ubuntu 20: Init mDNS" />
+      <item itemvalue="BashSupport Pro.Ubuntu 20" />
+      <item itemvalue="BashSupport Pro.Iso: Publish Iso" />
+      <item itemvalue="BashSupport Pro.Parallels: Publish images" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Centos 7" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Centos 8 Caching Proxy" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Centos 8" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Server 30" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Server 31" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Server 32" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Server 33" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Workstation 30" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Workstation 31" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Workstation 32" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Fedora Workstation 33" />
+      <item itemvalue="BashSupport Pro.Parallels: Run Ubuntu 20" />
+      <item itemvalue="BashSupport Pro.Qemu: Create network" />
+      <item itemvalue="BashSupport Pro.Qemu: Delete bridge" />
+      <item itemvalue="BashSupport Pro.Qemu: Fedora Server 31" />
+      <item itemvalue="BashSupport Pro.Qemu: Install Fedora 30" />
+      <item itemvalue="BashSupport Pro.Qemu: Install Fedora 31" />
+      <item itemvalue="BashSupport Pro.Qemu: Publish images" />
+      <item itemvalue="BashSupport Pro.Qemu: Run Centos 7 Installation" />
+      <item itemvalue="BashSupport Pro.Qemu: Run Centos 7" />
+      <item itemvalue="BashSupport Pro.Qemu: Run Centos 8 Installation" />
+      <item itemvalue="BashSupport Pro.Qemu: Run Centos 8" />
+      <item itemvalue="BashSupport Pro.Tunnel: Postgres" />
+      <item itemvalue="BashSupport Pro.Tunnel: Rspamd @ Ubuntu" />
+      <item itemvalue="Gradle.SkipConditionCheckStepTest" />
+      <item itemvalue="Gradle.SkipConditionStepFlowTest" />
+      <item itemvalue="Gradle.StackStepTest" />
+      <item itemvalue="Gradle.InstallationStepFlowTest" />
+      <item itemvalue="Gradle.InstallerTest" />
+      <item itemvalue="Application.CentOS 7" />
+      <item itemvalue="Application.CentOS 8" />
+      <item itemvalue="Application.Fedora Server 30" />
+      <item itemvalue="Application.Fedora Server 31" />
+      <item itemvalue="Application.Fedora Server 32" />
+      <item itemvalue="Application.Fedora Server 33" />
+      <item itemvalue="Application.Fedora Workstation 30" />
+      <item itemvalue="Application.Fedora Workstation 31" />
+      <item itemvalue="Application.Fedora Workstation 32" />
+      <item itemvalue="Application.Fedora Workstation 33" />
+      <item itemvalue="Application.Ubuntu 20" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.StackStepTest" />
+        <item itemvalue="Gradle.SkipConditionStepFlowTest" />
+        <item itemvalue="Gradle.SkipConditionCheckStepTest" />
+        <item itemvalue="Gradle.InstallerTest" />
+        <item itemvalue="Gradle.InstallationStepFlowTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="" />
+      <created>1586268617687</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586268617687</updated>
+      <workItem from="1586268620031" duration="6795000" />
+      <workItem from="1586347271652" duration="12803000" />
+      <workItem from="1586428222992" duration="14211000" />
+      <workItem from="1586461299656" duration="4171000" />
+      <workItem from="1586518335980" duration="6739000" />
+      <workItem from="1586623381185" duration="4641000" />
+      <workItem from="1586696103777" duration="83000" />
+      <workItem from="1586696227698" duration="65000" />
+      <workItem from="1586696308292" duration="8596000" />
+      <workItem from="1586768979028" duration="19156000" />
+      <workItem from="1586805987306" duration="232000" />
+      <workItem from="1586810295888" duration="17000" />
+      <workItem from="1586855814986" duration="4028000" />
+      <workItem from="1586864799395" duration="12544000" />
+      <workItem from="1586897026608" duration="30000" />
+      <workItem from="1586897238974" duration="304000" />
+      <workItem from="1586944460497" duration="7748000" />
+      <workItem from="1586958951573" duration="106000" />
+      <workItem from="1586964802538" duration="3121000" />
+      <workItem from="1586968046179" duration="2775000" />
+      <workItem from="1587036407644" duration="3705000" />
+      <workItem from="1587041389404" duration="7130000" />
+      <workItem from="1587121615169" duration="11482000" />
+      <workItem from="1587136981684" duration="1694000" />
+      <workItem from="1587198437043" duration="3566000" />
+      <workItem from="1587386003592" duration="6127000" />
+      <workItem from="1587462328607" duration="3989000" />
+      <workItem from="1587475410771" duration="4777000" />
+      <workItem from="1587484219647" duration="113000" />
+      <workItem from="1587554333175" duration="4020000" />
+      <workItem from="1587631214295" duration="3787000" />
+      <workItem from="1587714078741" duration="5395000" />
+      <workItem from="1587759998116" duration="574000" />
+      <workItem from="1587806910511" duration="1633000" />
+      <workItem from="1587893082491" duration="5442000" />
+      <workItem from="1587911031570" duration="475000" />
+      <workItem from="1587924074132" duration="409000" />
+      <workItem from="1587932476626" duration="406000" />
+      <workItem from="1587934094995" duration="328000" />
+      <workItem from="1587998172381" duration="3317000" />
+      <workItem from="1588006629221" duration="24000" />
+      <workItem from="1588077688920" duration="3020000" />
+      <workItem from="1588089408346" duration="1359000" />
+      <workItem from="1588165281996" duration="1633000" />
+      <workItem from="1588184799394" duration="271000" />
+      <workItem from="1588188719363" duration="766000" />
+      <workItem from="1588249493901" duration="3969000" />
+      <workItem from="1588324186293" duration="1654000" />
+      <workItem from="1588358334475" duration="38000" />
+      <workItem from="1588358383757" duration="112000" />
+      <workItem from="1588408796008" duration="32238000" />
+      <workItem from="1588521230651" duration="4361000" />
+      <workItem from="1588527597409" duration="516000" />
+      <workItem from="1588603645906" duration="7520000" />
+      <workItem from="1588685400296" duration="272000" />
+      <workItem from="1588685683314" duration="13998000" />
+      <workItem from="1588767500711" duration="14056000" />
+      <workItem from="1588844487587" duration="3177000" />
+      <workItem from="1588847702877" duration="19336000" />
+      <workItem from="1588931845044" duration="89000" />
+      <workItem from="1588932067322" duration="96000" />
+      <workItem from="1588932174262" duration="63000" />
+      <workItem from="1588932246849" duration="29000" />
+      <workItem from="1588932287163" duration="446000" />
+      <workItem from="1588932745994" duration="12700000" />
+      <workItem from="1588947003406" duration="7803000" />
+      <workItem from="1588957780108" duration="63000" />
+      <workItem from="1589027346704" duration="9951000" />
+      <workItem from="1589111036199" duration="11665000" />
+      <workItem from="1589204459031" duration="8874000" />
+      <workItem from="1589285576631" duration="11581000" />
+      <workItem from="1589303766627" duration="265000" />
+      <workItem from="1589373944051" duration="11363000" />
+      <workItem from="1589459188623" duration="4275000" />
+      <workItem from="1589465891692" duration="8329000" />
+      <workItem from="1589535137175" duration="15815000" />
+      <workItem from="1589720248666" duration="3818000" />
+      <workItem from="1589795226054" duration="19604000" />
+      <workItem from="1589827763978" duration="710000" />
+      <workItem from="1589874891653" duration="8357000" />
+      <workItem from="1589894475454" duration="8912000" />
+      <workItem from="1589962198074" duration="14201000" />
+      <workItem from="1590045246281" duration="17046000" />
+      <workItem from="1590138162721" duration="263000" />
+      <workItem from="1590246003670" duration="5627000" />
+      <workItem from="1590256844059" duration="87000" />
+      <workItem from="1590304947900" duration="13915000" />
+      <workItem from="1590323787468" duration="632000" />
+      <workItem from="1590324625207" duration="99000" />
+      <workItem from="1590324749711" duration="31000" />
+      <workItem from="1590397963133" duration="17724000" />
+      <workItem from="1590418880067" duration="1365000" />
+      <workItem from="1590477062452" duration="32060000" />
+      <workItem from="1590564525037" duration="25589000" />
+      <workItem from="1590650081128" duration="19704000" />
+      <workItem from="1590738252527" duration="10852000" />
+      <workItem from="1590917391872" duration="9402000" />
+      <workItem from="1590999595239" duration="16126000" />
+      <workItem from="1591099437192" duration="6742000" />
+      <workItem from="1591192255325" duration="9340000" />
+      <workItem from="1591269454560" duration="8004000" />
+      <workItem from="1591357554355" duration="8911000" />
+      <workItem from="1591544757116" duration="247000" />
+      <workItem from="1591545028367" duration="3520000" />
+      <workItem from="1591617026897" duration="5268000" />
+      <workItem from="1591703291441" duration="7766000" />
+      <workItem from="1591792949581" duration="6418000" />
+      <workItem from="1591874522152" duration="8507000" />
+      <workItem from="1591962367988" duration="6477000" />
+      <workItem from="1592053736993" duration="4953000" />
+      <workItem from="1592214500052" duration="12458000" />
+      <workItem from="1592293757832" duration="10749000" />
+      <workItem from="1592317156605" duration="1120000" />
+      <workItem from="1592387946374" duration="9537000" />
+      <workItem from="1592403109720" duration="2293000" />
+      <workItem from="1592471152745" duration="9990000" />
+      <workItem from="1592486706514" duration="1153000" />
+      <workItem from="1592555659976" duration="11710000" />
+      <workItem from="1592583662054" duration="1052000" />
+      <workItem from="1592741404798" duration="7330000" />
+      <workItem from="1592824560486" duration="10123000" />
+      <workItem from="1592902965560" duration="6340000" />
+      <workItem from="1592910057231" duration="6125000" />
+      <workItem from="1592994509562" duration="10465000" />
+      <workItem from="1593078992513" duration="16845000" />
+      <workItem from="1593164602482" duration="12282000" />
+      <workItem from="1593254208671" duration="13881000" />
+      <workItem from="1593343218443" duration="8649000" />
+      <workItem from="1593517259337" duration="6597000" />
+      <workItem from="1593597773242" duration="8149000" />
+      <workItem from="1593611637812" duration="582000" />
+      <workItem from="1593689849637" duration="6666000" />
+      <workItem from="1593774206739" duration="5549000" />
+      <workItem from="1593794184601" duration="782000" />
+      <workItem from="1594116232802" duration="3147000" />
+      <workItem from="1594188259868" duration="5232000" />
+      <workItem from="1594279005604" duration="14484000" />
+      <workItem from="1594361560489" duration="12378000" />
+      <workItem from="1594462822632" duration="9477000" />
+      <workItem from="1594547061108" duration="203000" />
+      <workItem from="1594547609852" duration="6127000" />
+      <workItem from="1594566570353" duration="265000" />
+      <workItem from="1594576560049" duration="3056000" />
+      <workItem from="1594631802330" duration="10227000" />
+      <workItem from="1594655708388" duration="2134000" />
+      <workItem from="1594717985193" duration="13321000" />
+      <workItem from="1594797632922" duration="15161000" />
+      <workItem from="1594908828875" duration="1021000" />
+      <workItem from="1595076511245" duration="8502000" />
+      <workItem from="1595165695657" duration="10000" />
+      <workItem from="1595247501911" duration="1389000" />
+      <workItem from="1595257957529" duration="4356000" />
+      <workItem from="1595344651201" duration="4000" />
+      <workItem from="1595425069750" duration="3156000" />
+      <workItem from="1595596602458" duration="19000" />
+      <workItem from="1595851981460" duration="4798000" />
+      <workItem from="1595941069543" duration="14000" />
+      <workItem from="1596028000781" duration="208000" />
+      <workItem from="1596028238796" duration="30000" />
+      <workItem from="1596028285094" duration="8095000" />
+      <workItem from="1596118151781" duration="6000" />
+      <workItem from="1596199886286" duration="4235000" />
+      <workItem from="1596396727912" duration="39000" />
+      <workItem from="1596397823329" duration="185000" />
+      <workItem from="1596630638023" duration="4281000" />
+      <workItem from="1596808796725" duration="4913000" />
+      <workItem from="1597148477515" duration="3323000" />
+      <workItem from="1598020267322" duration="2390000" />
+      <workItem from="1598088907610" duration="5376000" />
+      <workItem from="1598107162021" duration="268000" />
+      <workItem from="1598108887278" duration="1716000" />
+      <workItem from="1598182064594" duration="2476000" />
+      <workItem from="1598195123782" duration="181000" />
+      <workItem from="1598268340480" duration="5454000" />
+      <workItem from="1598290097257" duration="17000" />
+      <workItem from="1598290212065" duration="212000" />
+      <workItem from="1598355230838" duration="6183000" />
+      <workItem from="1598371080454" duration="611000" />
+      <workItem from="1598375252558" duration="985000" />
+      <workItem from="1598376584785" duration="84000" />
+      <workItem from="1598377192239" duration="310000" />
+      <workItem from="1598385812142" duration="1604000" />
+      <workItem from="1598440619778" duration="5266000" />
+      <workItem from="1598453055729" duration="3560000" />
+      <workItem from="1598471347085" duration="100000" />
+      <workItem from="1598471692990" duration="2245000" />
+      <workItem from="1598522634868" duration="5446000" />
+      <workItem from="1598545375165" duration="1349000" />
+      <workItem from="1598611003013" duration="9978000" />
+      <workItem from="1598632425210" duration="52000" />
+      <workItem from="1598632492572" duration="2593000" />
+      <workItem from="1598701915223" duration="5758000" />
+      <workItem from="1598788639598" duration="1011000" />
+      <workItem from="1598794087289" duration="102000" />
+      <workItem from="1598794347489" duration="7000" />
+      <workItem from="1598794366946" duration="5013000" />
+      <workItem from="1598807994063" duration="153000" />
+      <workItem from="1598884702368" duration="14000" />
+      <workItem from="1598884892530" duration="4000" />
+      <workItem from="1599076051830" duration="1269000" />
+      <workItem from="1599657851216" duration="2504000" />
+      <workItem from="1599829235911" duration="3258000" />
+      <workItem from="1599834361796" duration="2340000" />
+      <workItem from="1599925155736" duration="4532000" />
+      <workItem from="1600085377150" duration="5846000" />
+      <workItem from="1600113479533" duration="4597000" />
+      <workItem from="1600202591644" duration="920000" />
+      <workItem from="1600288198232" duration="3270000" />
+      <workItem from="1600354413386" duration="4114000" />
+      <workItem from="1600543159290" duration="851000" />
+      <workItem from="1600683823318" duration="8750000" />
+      <workItem from="1600782050215" duration="1457000" />
+      <workItem from="1600864599223" duration="6820000" />
+      <workItem from="1600951535468" duration="254000" />
+      <workItem from="1600953621439" duration="1610000" />
+      <workItem from="1600980083558" duration="8702000" />
+      <workItem from="1601132390545" duration="6195000" />
+      <workItem from="1601218820775" duration="6241000" />
+      <workItem from="1601239932037" duration="4705000" />
+      <workItem from="1601383645133" duration="1168000" />
+      <workItem from="1601467008934" duration="4388000" />
+      <workItem from="1601641722636" duration="4510000" />
+      <workItem from="1601654193175" duration="663000" />
+      <workItem from="1601734514674" duration="6000" />
+      <workItem from="1601734533537" duration="9920000" />
+      <workItem from="1601758527665" duration="4124000" />
+      <workItem from="1601813718721" duration="5570000" />
+      <workItem from="1601892728652" duration="6130000" />
+      <workItem from="1601922631267" duration="532000" />
+      <workItem from="1601983469110" duration="4083000" />
+      <workItem from="1602058375863" duration="1097000" />
+      <workItem from="1602059526003" duration="1642000" />
+      <workItem from="1602061203598" duration="87000" />
+      <workItem from="1602061303629" duration="10086000" />
+      <workItem from="1602151356274" duration="10437000" />
+      <workItem from="1602235718171" duration="8505000" />
+      <workItem from="1602260687775" duration="1053000" />
+      <workItem from="1602276435335" duration="2280000" />
+      <workItem from="1602279728117" duration="164000" />
+      <workItem from="1602342962949" duration="3418000" />
+      <workItem from="1602346768759" duration="515000" />
+      <workItem from="1602351759836" duration="372000" />
+      <workItem from="1602414015501" duration="5653000" />
+      <workItem from="1602422328258" duration="6629000" />
+      <workItem from="1602430322583" duration="672000" />
+      <workItem from="1602446848843" duration="4644000" />
+      <workItem from="1602491208677" duration="6188000" />
+      <workItem from="1602506580557" duration="875000" />
+      <workItem from="1602583142639" duration="13781000" />
+      <workItem from="1602599857130" duration="7000" />
+      <workItem from="1602668249799" duration="3175000" />
+      <workItem from="1602674583325" duration="2960000" />
+      <workItem from="1602752413795" duration="9609000" />
+      <workItem from="1602879131107" duration="2229000" />
+      <workItem from="1602942715134" duration="389000" />
+      <workItem from="1602947482063" duration="843000" />
+      <workItem from="1603012713818" duration="1286000" />
+      <workItem from="1603096062663" duration="4936000" />
+      <workItem from="1603183002258" duration="1379000" />
+      <workItem from="1603190458669" duration="5939000" />
+      <workItem from="1603363435490" duration="3230000" />
+      <workItem from="1603447934896" duration="2450000" />
+      <workItem from="1603552261147" duration="2497000" />
+      <workItem from="1603618586996" duration="10744000" />
+      <workItem from="1603709118890" duration="4806000" />
+      <workItem from="1603733532053" duration="4522000" />
+      <workItem from="1603795475179" duration="819000" />
+      <workItem from="1603889619209" duration="5067000" />
+      <workItem from="1603907983665" duration="4233000" />
+      <workItem from="1603966861376" duration="1775000" />
+      <workItem from="1604053795525" duration="7602000" />
+      <workItem from="1604064563141" duration="8000" />
+      <workItem from="1604086240722" duration="2737000" />
+      <workItem from="1604151787468" duration="5144000" />
+      <workItem from="1604163724197" duration="5674000" />
+      <workItem from="1604174745461" duration="6692000" />
+      <workItem from="1604232218874" duration="9609000" />
+      <workItem from="1604249895235" duration="1660000" />
+      <workItem from="1604251707754" duration="2615000" />
+      <workItem from="1604259205759" duration="295000" />
+      <workItem from="1604259685068" duration="1582000" />
+      <workItem from="1604310156342" duration="1266000" />
+      <workItem from="1604311607383" duration="11247000" />
+      <workItem from="1604403743594" duration="7185000" />
+      <workItem from="1604425940381" duration="554000" />
+      <workItem from="1604494187782" duration="3893000" />
+      <workItem from="1604499167115" duration="133000" />
+      <workItem from="1604499525672" duration="5358000" />
+      <workItem from="1604516120092" duration="504000" />
+      <workItem from="1604573871227" duration="356000" />
+      <workItem from="1604576833905" duration="1119000" />
+      <workItem from="1604578167361" duration="930000" />
+      <workItem from="1604580321250" duration="2322000" />
+      <workItem from="1604583071789" duration="771000" />
+      <workItem from="1604584051886" duration="1449000" />
+      <workItem from="1604585722329" duration="646000" />
+      <workItem from="1604660297140" duration="7109000" />
+      <workItem from="1604697848377" duration="3871000" />
+      <workItem from="1604751206954" duration="10980000" />
+      <workItem from="1604839473690" duration="3794000" />
+      <workItem from="1604867204045" duration="3285000" />
+      <workItem from="1604923573064" duration="5825000" />
+      <workItem from="1604938662745" duration="9000" />
+      <workItem from="1604952552310" duration="665000" />
+      <workItem from="1605002621903" duration="10000" />
+      <workItem from="1605008923054" duration="3796000" />
+      <workItem from="1605015077821" duration="281000" />
+      <workItem from="1605015516609" duration="4015000" />
+      <workItem from="1605022138401" duration="1201000" />
+      <workItem from="1605025788434" duration="2244000" />
+      <workItem from="1605090487929" duration="893000" />
+      <workItem from="1605092442615" duration="724000" />
+      <workItem from="1605093354566" duration="247000" />
+      <workItem from="1605101668095" duration="1243000" />
+      <workItem from="1605104500948" duration="2148000" />
+      <workItem from="1605132207649" duration="372000" />
+      <workItem from="1605133826849" duration="1191000" />
+      <workItem from="1605179865618" duration="2410000" />
+      <workItem from="1605185151119" duration="1618000" />
+      <workItem from="1605190238806" duration="1123000" />
+      <workItem from="1605192319785" duration="15000" />
+      <workItem from="1605192487484" duration="5982000" />
+      <workItem from="1605262732964" duration="1374000" />
+      <workItem from="1605268028950" duration="11192000" />
+      <workItem from="1605353311000" duration="255000" />
+      <workItem from="1605451502840" duration="714000" />
+      <workItem from="1605518834346" duration="10532000" />
+      <workItem from="1605538126836" duration="2000" />
+      <workItem from="1605610582593" duration="10348000" />
+      <workItem from="1605631478203" duration="2182000" />
+      <workItem from="1605704646630" duration="2204000" />
+      <workItem from="1605789127452" duration="1000" />
+      <workItem from="1605792898186" duration="3123000" />
+      <workItem from="1606122367064" duration="8290000" />
+      <workItem from="1606144414799" duration="2229000" />
+      <workItem from="1606223180187" duration="4179000" />
+      <workItem from="1606310171076" duration="4167000" />
+      <workItem from="1606392160200" duration="2578000" />
+      <workItem from="1606415703953" duration="1608000" />
+      <workItem from="1606483821030" duration="5183000" />
+      <workItem from="1606595026353" duration="829000" />
+      <workItem from="1606595915570" duration="943000" />
+      <workItem from="1606669587943" duration="2969000" />
+      <workItem from="1606739961207" duration="3878000" />
+      <workItem from="1606770801903" duration="3450000" />
+      <workItem from="1606824134101" duration="4241000" />
+      <workItem from="1606910588464" duration="5223000" />
+      <workItem from="1606999402965" duration="3064000" />
+      <workItem from="1607099905515" duration="6711000" />
+      <workItem from="1607175058399" duration="41000" />
+      <workItem from="1607179423177" duration="3215000" />
+      <workItem from="1607195528412" duration="3261000" />
+      <workItem from="1607199074726" duration="2672000" />
+      <workItem from="1607265665039" duration="10170000" />
+      <workItem from="1607345125727" duration="8659000" />
+      <workItem from="1607429693943" duration="16752000" />
+      <workItem from="1607525107501" duration="6986000" />
+      <workItem from="1607546931723" duration="2478000" />
+      <workItem from="1607604541480" duration="7472000" />
+      <workItem from="1607693882636" duration="3304000" />
+      <workItem from="1607786502858" duration="3296000" />
+      <workItem from="1607865622426" duration="5969000" />
+      <workItem from="1607952603877" duration="12705000" />
+      <workItem from="1608025893247" duration="10279000" />
+      <workItem from="1608114753251" duration="9099000" />
+      <workItem from="1608207551744" duration="5081000" />
+      <workItem from="1608332166698" duration="175000" />
+      <workItem from="1608332633809" duration="140000" />
+      <workItem from="1608387189847" duration="11000" />
+      <workItem from="1608390132820" duration="2761000" />
+      <workItem from="1608476027748" duration="1052000" />
+      <workItem from="1608566962873" duration="2015000" />
+      <workItem from="1608643733855" duration="4133000" />
+      <workItem from="1608650439797" duration="24000" />
+      <workItem from="1608731141380" duration="620000" />
+      <workItem from="1608733950054" duration="789000" />
+      <workItem from="1608762364464" duration="578000" />
+      <workItem from="1608818942046" duration="2270000" />
+      <workItem from="1608839317172" duration="674000" />
+      <workItem from="1608912204400" duration="181000" />
+      <workItem from="1609070643507" duration="15000" />
+      <workItem from="1609072990993" duration="64000" />
+      <workItem from="1609170202967" duration="49000" />
+      <workItem from="1609171101315" duration="4000" />
+      <workItem from="1609191684448" duration="153000" />
+      <workItem from="1609192348096" duration="87000" />
+      <workItem from="1609246977663" duration="2179000" />
+      <workItem from="1609263359310" duration="325000" />
+      <workItem from="1609263699172" duration="385000" />
+      <workItem from="1609419268843" duration="1085000" />
+      <workItem from="1609508617241" duration="4263000" />
+      <workItem from="1609520642835" duration="2998000" />
+      <workItem from="1609537520900" duration="2084000" />
+      <workItem from="1609583598491" duration="2999000" />
+    </task>
+    <task id="LOCAL-01994" summary="MSF-233 - Stack test - Fixed.">
+      <created>1608209147416</created>
+      <option name="number" value="01994" />
+      <option name="presentableId" value="LOCAL-01994" />
+      <option name="project" value="LOCAL" />
+      <updated>1608209147416</updated>
+    </task>
+    <task id="LOCAL-01995" summary="MSF-233 - Feature use database.">
+      <created>1608211011658</created>
+      <option name="number" value="01995" />
+      <option name="presentableId" value="LOCAL-01995" />
+      <option name="project" value="LOCAL" />
+      <updated>1608211011658</updated>
+    </task>
+    <task id="LOCAL-01996" summary="MSF-233 - Feature: use database.">
+      <created>1608211264485</created>
+      <option name="number" value="01996" />
+      <option name="presentableId" value="LOCAL-01996" />
+      <option name="project" value="LOCAL" />
+      <updated>1608211264485</updated>
+    </task>
+    <task id="LOCAL-01997" summary="MSF-233 - Script added.">
+      <created>1608332319854</created>
+      <option name="number" value="01997" />
+      <option name="presentableId" value="LOCAL-01997" />
+      <option name="project" value="LOCAL" />
+      <updated>1608332319854</updated>
+    </task>
+    <task id="LOCAL-01998" summary="MSF-233 - Network name.">
+      <created>1608390226753</created>
+      <option name="number" value="01998" />
+      <option name="presentableId" value="LOCAL-01998" />
+      <option name="project" value="LOCAL" />
+      <updated>1608390226754</updated>
+    </task>
+    <task id="LOCAL-01999" summary="MSF-233 - Head position updated.">
+      <created>1608390268157</created>
+      <option name="number" value="01999" />
+      <option name="presentableId" value="LOCAL-01999" />
+      <option name="project" value="LOCAL" />
+      <updated>1608390268157</updated>
+    </task>
+    <task id="LOCAL-02000" summary="MSF-233 - Head position updated.">
+      <created>1608393500557</created>
+      <option name="number" value="02000" />
+      <option name="presentableId" value="LOCAL-02000" />
+      <option name="project" value="LOCAL" />
+      <updated>1608393500557</updated>
+    </task>
+    <task id="LOCAL-02001" summary="MSF-233 - Head position updated.">
+      <created>1608477254115</created>
+      <option name="number" value="02001" />
+      <option name="presentableId" value="LOCAL-02001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608477254116</updated>
+    </task>
+    <task id="LOCAL-02002" summary="MSF-233 - Get directory size script added.">
+      <created>1608569721272</created>
+      <option name="number" value="02002" />
+      <option name="presentableId" value="LOCAL-02002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608569721273</updated>
+    </task>
+    <task id="LOCAL-02003" summary="MSF-233 - New logo.">
+      <created>1608762929938</created>
+      <option name="number" value="02003" />
+      <option name="presentableId" value="LOCAL-02003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608762929940</updated>
+    </task>
+    <task id="LOCAL-02004" summary="MSF-233 - New logo.">
+      <created>1609191932205</created>
+      <option name="number" value="02004" />
+      <option name="presentableId" value="LOCAL-02004" />
+      <option name="project" value="LOCAL" />
+      <updated>1609191932205</updated>
+    </task>
+    <task id="LOCAL-02005" summary="MSF-233 - Head positions updated.">
+      <created>1609247024318</created>
+      <option name="number" value="02005" />
+      <option name="presentableId" value="LOCAL-02005" />
+      <option name="project" value="LOCAL" />
+      <updated>1609247024318</updated>
+    </task>
+    <task id="LOCAL-02006" summary="MSF-233 - Head positions updated.">
+      <created>1609247057890</created>
+      <option name="number" value="02006" />
+      <option name="presentableId" value="LOCAL-02006" />
+      <option name="project" value="LOCAL" />
+      <updated>1609247057890</updated>
+    </task>
+    <task id="LOCAL-02007" summary="MSF-233 - Head position updated.">
+      <created>1609247225921</created>
+      <option name="number" value="02007" />
+      <option name="presentableId" value="LOCAL-02007" />
+      <option name="project" value="LOCAL" />
+      <updated>1609247225921</updated>
+    </task>
+    <task id="LOCAL-02008" summary="MSF-233 - Removed direct script dependency.">
+      <created>1609419690783</created>
+      <option name="number" value="02008" />
+      <option name="presentableId" value="LOCAL-02008" />
+      <option name="project" value="LOCAL" />
+      <updated>1609419690784</updated>
+    </task>
+    <task id="LOCAL-02009" summary="MSF-360 - Ignore warning.">
+      <created>1609510077626</created>
+      <option name="number" value="02009" />
+      <option name="presentableId" value="LOCAL-02009" />
+      <option name="project" value="LOCAL" />
+      <updated>1609510077627</updated>
+    </task>
+    <task id="LOCAL-02010" summary="MSF-360 - Head position updated.">
+      <created>1609510100062</created>
+      <option name="number" value="02010" />
+      <option name="presentableId" value="LOCAL-02010" />
+      <option name="project" value="LOCAL" />
+      <updated>1609510100062</updated>
+    </task>
+    <task id="LOCAL-02011" summary="MSF-388 - Removing file extension.">
+      <created>1609510642373</created>
+      <option name="number" value="02011" />
+      <option name="presentableId" value="LOCAL-02011" />
+      <option name="project" value="LOCAL" />
+      <updated>1609510642373</updated>
+    </task>
+    <task id="LOCAL-02012" summary="MSF-388 - Head position updated.">
+      <created>1609512536899</created>
+      <option name="number" value="02012" />
+      <option name="presentableId" value="LOCAL-02012" />
+      <option name="project" value="LOCAL" />
+      <updated>1609512536899</updated>
+    </task>
+    <task id="LOCAL-02013" summary="MSF-388 - Versioning Core module.">
+      <created>1609512704399</created>
+      <option name="number" value="02013" />
+      <option name="presentableId" value="LOCAL-02013" />
+      <option name="project" value="LOCAL" />
+      <updated>1609512704399</updated>
+    </task>
+    <task id="LOCAL-02014" summary="MSF-388 - Changelog added.">
+      <created>1609512820595</created>
+      <option name="number" value="02014" />
+      <option name="presentableId" value="LOCAL-02014" />
+      <option name="project" value="LOCAL" />
+      <updated>1609512820595</updated>
+    </task>
+    <task id="LOCAL-02015" summary="MSF-388 - Versioning modules.">
+      <created>1609513402157</created>
+      <option name="number" value="02015" />
+      <option name="presentableId" value="LOCAL-02015" />
+      <option name="project" value="LOCAL" />
+      <updated>1609513402157</updated>
+    </task>
+    <task id="LOCAL-02016" summary="MSF-388 - Versioning main module.">
+      <created>1609513962418</created>
+      <option name="number" value="02016" />
+      <option name="presentableId" value="LOCAL-02016" />
+      <option name="project" value="LOCAL" />
+      <updated>1609513962418</updated>
+    </task>
+    <task id="LOCAL-02017" summary="MSF-399 - Basic documentation - First touches.">
+      <created>1609520936378</created>
+      <option name="number" value="02017" />
+      <option name="presentableId" value="LOCAL-02017" />
+      <option name="project" value="LOCAL" />
+      <updated>1609520936379</updated>
+    </task>
+    <task id="LOCAL-02018" summary="MSF-399 - Basic documentation - First touches.">
+      <created>1609521033729</created>
+      <option name="number" value="02018" />
+      <option name="presentableId" value="LOCAL-02018" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521033729</updated>
+    </task>
+    <task id="LOCAL-02019" summary="MSF-399 - Basic documentation - Stack.">
+      <created>1609521169760</created>
+      <option name="number" value="02019" />
+      <option name="presentableId" value="LOCAL-02019" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521169760</updated>
+    </task>
+    <task id="LOCAL-02020" summary="MSF-399 - Basic documentation - Stack.">
+      <created>1609521402001</created>
+      <option name="number" value="02020" />
+      <option name="presentableId" value="LOCAL-02020" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521402001</updated>
+    </task>
+    <task id="LOCAL-02021" summary="MSF-399 - Basic documentation.">
+      <created>1609521465545</created>
+      <option name="number" value="02021" />
+      <option name="presentableId" value="LOCAL-02021" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521465545</updated>
+    </task>
+    <task id="LOCAL-02022" summary="MSF-399 - Build info.">
+      <created>1609521525226</created>
+      <option name="number" value="02022" />
+      <option name="presentableId" value="LOCAL-02022" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521525226</updated>
+    </task>
+    <task id="LOCAL-02023" summary="MSF-399 - Build info.">
+      <created>1609521661952</created>
+      <option name="number" value="02023" />
+      <option name="presentableId" value="LOCAL-02023" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521661953</updated>
+    </task>
+    <task id="LOCAL-02024" summary="MSF-399 - Releases link.">
+      <created>1609521706668</created>
+      <option name="number" value="02024" />
+      <option name="presentableId" value="LOCAL-02024" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521706668</updated>
+    </task>
+    <task id="LOCAL-02025" summary="MSF-399 - Basic documentation - Stack.">
+      <created>1609521845662</created>
+      <option name="number" value="02025" />
+      <option name="presentableId" value="LOCAL-02025" />
+      <option name="project" value="LOCAL" />
+      <updated>1609521845662</updated>
+    </task>
+    <task id="LOCAL-02026" summary="MSF-399 - Basic documentation - Cloning the project.">
+      <created>1609522098204</created>
+      <option name="number" value="02026" />
+      <option name="presentableId" value="LOCAL-02026" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522098204</updated>
+    </task>
+    <task id="LOCAL-02027" summary="MSF-399 - Basic documentation - Building the project.">
+      <created>1609522583702</created>
+      <option name="number" value="02027" />
+      <option name="presentableId" value="LOCAL-02027" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522583702</updated>
+    </task>
+    <task id="LOCAL-02028" summary="MSF-399 - Basic documentation - Running tests.">
+      <created>1609522643935</created>
+      <option name="number" value="02028" />
+      <option name="presentableId" value="LOCAL-02028" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522643935</updated>
+    </task>
+    <task id="LOCAL-02029" summary="MSF-399 - Basic documentation - Gradle wrapper.">
+      <created>1609522698651</created>
+      <option name="number" value="02029" />
+      <option name="presentableId" value="LOCAL-02029" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522698651</updated>
+    </task>
+    <task id="LOCAL-02030" summary="MSF-399 - Basic documentation - Notes.">
+      <created>1609522878489</created>
+      <option name="number" value="02030" />
+      <option name="presentableId" value="LOCAL-02030" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522878489</updated>
+    </task>
+    <task id="LOCAL-02031" summary="MSF-399 - Basic documentation - Stack.">
+      <created>1609522963073</created>
+      <option name="number" value="02031" />
+      <option name="presentableId" value="LOCAL-02031" />
+      <option name="project" value="LOCAL" />
+      <updated>1609522963073</updated>
+    </task>
+    <task id="LOCAL-02032" summary="MSF-399 - Basic documentation - Note.">
+      <created>1609523087485</created>
+      <option name="number" value="02032" />
+      <option name="presentableId" value="LOCAL-02032" />
+      <option name="project" value="LOCAL" />
+      <updated>1609523087485</updated>
+    </task>
+    <task id="LOCAL-02033" summary="MSF-399 - Basic documentation - Git submodules list.">
+      <created>1609523220652</created>
+      <option name="number" value="02033" />
+      <option name="presentableId" value="LOCAL-02033" />
+      <option name="project" value="LOCAL" />
+      <updated>1609523220652</updated>
+    </task>
+    <task id="LOCAL-02034" summary="MSF-399 - Basic documentation - Requirements.">
+      <created>1609523300711</created>
+      <option name="number" value="02034" />
+      <option name="presentableId" value="LOCAL-02034" />
+      <option name="project" value="LOCAL" />
+      <updated>1609523300711</updated>
+    </task>
+    <task id="LOCAL-02035" summary="MSF-399 - Basic documentation - Description.">
+      <created>1609523477183</created>
+      <option name="number" value="02035" />
+      <option name="presentableId" value="LOCAL-02035" />
+      <option name="project" value="LOCAL" />
+      <updated>1609523477183</updated>
+    </task>
+    <task id="LOCAL-02036" summary="MSF-399 - Basic documentation - About section.">
+      <created>1609523521916</created>
+      <option name="number" value="02036" />
+      <option name="presentableId" value="LOCAL-02036" />
+      <option name="project" value="LOCAL" />
+      <updated>1609523521916</updated>
+    </task>
+    <task id="LOCAL-02037" summary="MSF-399 - Repo redirect.">
+      <created>1609585289673</created>
+      <option name="number" value="02037" />
+      <option name="presentableId" value="LOCAL-02037" />
+      <option name="project" value="LOCAL" />
+      <updated>1609585289673</updated>
+    </task>
+    <task id="LOCAL-02038" summary="MSF-399 - Repo redirect.">
+      <created>1609585464456</created>
+      <option name="number" value="02038" />
+      <option name="presentableId" value="LOCAL-02038" />
+      <option name="project" value="LOCAL" />
+      <updated>1609585464456</updated>
+    </task>
+    <task id="LOCAL-02039" summary="MSF-399 - Repo redirect.">
+      <created>1609586739029</created>
+      <option name="number" value="02039" />
+      <option name="presentableId" value="LOCAL-02039" />
+      <option name="project" value="LOCAL" />
+      <updated>1609586739029</updated>
+    </task>
+    <task id="LOCAL-02040" summary="MSF-399 - Repo redirect.">
+      <created>1609586829087</created>
+      <option name="number" value="02040" />
+      <option name="presentableId" value="LOCAL-02040" />
+      <option name="project" value="LOCAL" />
+      <updated>1609586829087</updated>
+    </task>
+    <task id="LOCAL-02041" summary="MSF-399 - Repo redirect.">
+      <created>1609586920163</created>
+      <option name="number" value="02041" />
+      <option name="presentableId" value="LOCAL-02041" />
+      <option name="project" value="LOCAL" />
+      <updated>1609586920163</updated>
+    </task>
+    <task id="LOCAL-02042" summary="MSF-399 - Stripping down repo(s).">
+      <created>1609587282678</created>
+      <option name="number" value="02042" />
+      <option name="presentableId" value="LOCAL-02042" />
+      <option name="project" value="LOCAL" />
+      <updated>1609587282678</updated>
+    </task>
+    <option name="localTasksCounter" value="2043" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.ext" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/Utils" />
+      <path value="$PROJECT_DIR$/Definitions/Docker" />
+      <path value="$PROJECT_DIR$/Definitions/Software" />
+      <path value="$PROJECT_DIR$/Definitions/Stacks" />
+      <path value="$PROJECT_DIR$/Variables" />
+    </ignored-roots>
+    <MESSAGE value="MSF-360 - Ignore warning." />
+    <MESSAGE value="MSF-360 - Head position updated." />
+    <MESSAGE value="MSF-388 - Removing file extension." />
+    <MESSAGE value="MSF-388 - Head position updated." />
+    <MESSAGE value="MSF-388 - Versioning Core module." />
+    <MESSAGE value="MSF-388 - Changelog added." />
+    <MESSAGE value="MSF-388 - Versioning modules." />
+    <MESSAGE value="MSF-388 - Versioning main module." />
+    <MESSAGE value="MSF-399 - Basic documentation - First touches." />
+    <MESSAGE value="MSF-399 - Basic documentation." />
+    <MESSAGE value="MSF-399 - Build info." />
+    <MESSAGE value="MSF-399 - Releases link." />
+    <MESSAGE value="MSF-399 - Basic documentation - Cloning the project." />
+    <MESSAGE value="MSF-399 - Basic documentation - Building the project." />
+    <MESSAGE value="MSF-399 - Basic documentation - Running tests." />
+    <MESSAGE value="MSF-399 - Basic documentation - Gradle wrapper." />
+    <MESSAGE value="MSF-399 - Basic documentation - Notes." />
+    <MESSAGE value="MSF-399 - Basic documentation - Stack." />
+    <MESSAGE value="MSF-399 - Basic documentation - Note." />
+    <MESSAGE value="MSF-399 - Basic documentation - Git submodules list." />
+    <MESSAGE value="MSF-399 - Basic documentation - Requirements." />
+    <MESSAGE value="MSF-399 - Basic documentation - Description." />
+    <MESSAGE value="MSF-399 - Basic documentation - About section." />
+    <MESSAGE value="MSF-399 - Repo redirect." />
+    <MESSAGE value="MSF-399 - Stripping down repo(s)." />
+    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Stripping down repo(s)." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Logger/Logger/src/main/kotlin/net/milosvasic/logger/Logger.kt</url>
+          <line>7</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/database/manager/DatabaseManager.kt</url>
+          <line>197</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/installer/InstallerInitializationFlowCallback.kt</url>
+          <line>9</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/database/manager/DatabaseManager.kt</url>
+          <line>246</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/execution/flow/FlowPerformBuilder.kt</url>
+          <line>87</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/test/kotlin/net/milosvasic/factory/test/implementation/StubInstallationStepFactory.kt</url>
+          <line>36</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/execution/flow/FlowBuilder.kt</url>
+          <line>134</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/docker/recipe/StackRecipe.kt</url>
+          <line>48</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/docker/recipe/StackRecipe.kt</url>
+          <line>51</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/test/kotlin/net/milosvasic/factory/test/FlowConnectTestWithFailure.kt</url>
+          <line>35</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/configuration/variable/PathBuilder.kt</url>
+          <line>29</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/database/manager/DatabaseManager.kt</url>
+          <line>231</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/configuration/variable/Node.kt</url>
+          <line>58</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/configuration/variable/Node.kt</url>
+          <line>51</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/configuration/variable/Node.kt</url>
+          <line>62</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/component/database/manager/DatabaseManager.kt</url>
+          <line>130</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/Core/Framework/src/main/kotlin/net/milosvasic/factory/configuration/variable/Variable.kt</url>
+          <line>47</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="((CollectionWrapper)((CommandFlow)it).collectionWrapper).collection" custom="net.milosvasic.factory.common.CollectionWrapper,net.milosvasic.factory.execution.flow.implementation.CommandFlow" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Mail_Server_Factory$CentOS___Net_100.ic" NAME="CentOS @ Net 100 Coverage Results" MODIFIED="1592743604443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Mail_Server_Factory$sendmail.coverage" NAME="sendmail Coverage Results" MODIFIED="1591545175067" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scripts" />
+  </component>
+</project>
