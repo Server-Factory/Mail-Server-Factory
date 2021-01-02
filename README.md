@@ -44,7 +44,7 @@ configured on the server.
 
 # Web setup
 
-Simply execute this command:
+Simply execute the following command:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Server-Factory/Utils/master/web_installer.sh)"

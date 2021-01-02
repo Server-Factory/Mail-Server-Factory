@@ -1257,13 +1257,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-02006" summary="MSF-233 - Head positions updated.">
-      <created>1609247057890</created>
-      <option name="number" value="02006" />
-      <option name="presentableId" value="LOCAL-02006" />
-      <option name="project" value="LOCAL" />
-      <updated>1609247057890</updated>
-    </task>
     <task id="LOCAL-02007" summary="MSF-233 - Head position updated.">
       <created>1609247225921</created>
       <option name="number" value="02007" />
@@ -1600,7 +1593,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609591670890</updated>
     </task>
-    <option name="localTasksCounter" value="2055" />
+    <task id="LOCAL-02055" summary="MSF-399 - Documentation continued.">
+      <created>1609591705716</created>
+      <option name="number" value="02055" />
+      <option name="presentableId" value="LOCAL-02055" />
+      <option name="project" value="LOCAL" />
+      <updated>1609591705716</updated>
+    </task>
+    <option name="localTasksCounter" value="2056" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1662,10 +1662,10 @@
     <MESSAGE value="MSF-399 - Workspace." />
     <MESSAGE value="MSF-399 - Working on basic documentation." />
     <MESSAGE value="MSF-399 - About." />
-    <MESSAGE value="MSF-399 - Documentation continued." />
     <MESSAGE value="MSF-399 - Updating links." />
     <MESSAGE value="MSF-399 - Web setup." />
-    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Web setup." />
+    <MESSAGE value="MSF-399 - Documentation continued." />
+    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Documentation continued." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
