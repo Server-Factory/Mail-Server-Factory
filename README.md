@@ -62,8 +62,7 @@ The following command clones the project and initializes all Git submodules:
 
 ```bash
 mkdir Factory && cd Factory
-git clone git@github.com:Server-Factory/Mail-Server-Factory.git .
-git submodule init && git submodule update
+git clone --recurse-submodules git@github.com:Server-Factory/Mail-Server-Factory.git .
 ```
 
 ## Building the project

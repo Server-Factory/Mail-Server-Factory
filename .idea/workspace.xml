@@ -9,8 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Utils/web_installer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Utils/web_installer.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +65,7 @@
       </map>
     </option>
     <option name="RECENT_COMMON_BRANCH" value="master" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Core/Utils" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -1258,13 +1257,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-02005" summary="MSF-233 - Head positions updated.">
-      <created>1609247024318</created>
-      <option name="number" value="02005" />
-      <option name="presentableId" value="LOCAL-02005" />
-      <option name="project" value="LOCAL" />
-      <updated>1609247024318</updated>
-    </task>
     <task id="LOCAL-02006" summary="MSF-233 - Head positions updated.">
       <created>1609247057890</created>
       <option name="number" value="02006" />
@@ -1601,7 +1593,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609591538922</updated>
     </task>
-    <option name="localTasksCounter" value="2054" />
+    <task id="LOCAL-02054" summary="MSF-399 - Web setup.">
+      <created>1609591670890</created>
+      <option name="number" value="02054" />
+      <option name="presentableId" value="LOCAL-02054" />
+      <option name="project" value="LOCAL" />
+      <updated>1609591670890</updated>
+    </task>
+    <option name="localTasksCounter" value="2055" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
