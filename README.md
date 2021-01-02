@@ -63,6 +63,7 @@ Mail Server Factory will be downloaded and installed.
 # Hot to use
 
 [Examples](./Examples) director contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
+Detailed explanations for every configuration variable will be provided in upcoming releases.
 
 The current version of Mail Server Factory performs SSH access to target hosts using keys. For enabling SSH access using
 keys the [following bash script](Core/Utils/init_ssh_access.sh) can be used.
@@ -75,8 +76,6 @@ sh Core/Utils/init_ssh_access.sh centos7.local
 
 A detailed explanation of the script can be found [here](https://github.com/Server-Factory/Utils) under
 "SSH login without password" section.
-
-Note: Detailed explanations for every configuration variable will be added in upcoming releases.
 
 # Cloning the project
 
