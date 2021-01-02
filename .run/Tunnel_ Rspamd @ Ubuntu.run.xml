@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tunnel: Rspamd @ Ubuntu" type="BashProRunConfiguration" folderName="Tunnels">
+    <option name="scriptParameters" value="11334 test2.dev.local" />
+    <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/tunnel.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

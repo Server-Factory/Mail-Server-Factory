@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Parallels: Run Fedora Workstation 32" type="BashProRunConfiguration" folderName="Parallels">
+    <option name="scriptParameters" value="/Volumes/RedElf/Parallels/Using/Fedora_Workstation_32.pvm" />
+    <option name="scriptPath" value="Core/Utils/Parallels/run.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

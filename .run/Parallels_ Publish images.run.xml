@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Parallels: Publish images" type="BashProRunConfiguration" folderName="Parallels">
+    <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/Parallels/publish_images.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

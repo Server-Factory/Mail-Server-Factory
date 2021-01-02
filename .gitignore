@@ -118,5 +118,3 @@ gradle
 gradle/*
 .gradle
 .gradle/*
-
-!.idea/workspace.xml

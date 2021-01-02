@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Qemu: Publish images" type="BashProRunConfiguration" folderName="Qemu">
+    <option name="scriptPath" value="Core/Utils/Qemu/publish_images.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Qemu: Install Fedora 30" type="BashProRunConfiguration" folderName="Qemu">
+    <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Fedora_30 /Volumes/VermilionCode/Iso/Fedora-Workstation-Live-x86_64-30-1.2.iso" />
+    <option name="scriptPath" value="Core/Utils/Qemu/machine.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

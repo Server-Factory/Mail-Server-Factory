@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Qemu: Run Centos 8" type="BashProRunConfiguration" folderName="Qemu">
+    <option name="scriptParameters" value="/Volumes/RedElf/Qemu/Using/Centos_8" />
+    <option name="scriptPath" value="Core/Utils/Qemu/run.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Qemu: Fedora Server 31" type="BashProRunConfiguration" folderName="Qemu">
+    <option name="scriptParameters" value="$USER_HOME$/Documents/Temp/Qemu/Fedora_Server_30" />
+    <option name="scriptPath" value="Core/Utils/Qemu/machine.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

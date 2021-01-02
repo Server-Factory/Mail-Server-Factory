@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Fedora Server 32: Init SSH Access" type="BashProRunConfiguration" folderName="Mail Server Factory">
+    <option name="scriptParameters" value="fedora32.server.dev.local" />
+    <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_ssh_access.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>
