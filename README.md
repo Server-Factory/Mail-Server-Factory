@@ -51,7 +51,8 @@ configured on the server.
 
 # Hot to use
 
-Tbd.
+In this section it will be explained how to use Mail Server Factory in order to 
+configure and run your own mail server.
 
 # Cloning the project
 

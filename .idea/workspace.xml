@@ -1258,13 +1258,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-01999" summary="MSF-233 - Head position updated.">
-      <created>1608390268157</created>
-      <option name="number" value="01999" />
-      <option name="presentableId" value="LOCAL-01999" />
-      <option name="project" value="LOCAL" />
-      <updated>1608390268157</updated>
-    </task>
     <task id="LOCAL-02000" summary="MSF-233 - Head position updated.">
       <created>1608393500557</created>
       <option name="number" value="02000" />
@@ -1601,7 +1594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609590297644</updated>
     </task>
-    <option name="localTasksCounter" value="2048" />
+    <task id="LOCAL-02048" summary="MSF-399 - Documentation continued.">
+      <created>1609590535151</created>
+      <option name="number" value="02048" />
+      <option name="presentableId" value="LOCAL-02048" />
+      <option name="project" value="LOCAL" />
+      <updated>1609590535152</updated>
+    </task>
+    <option name="localTasksCounter" value="2049" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1641,7 +1641,6 @@
       <path value="$PROJECT_DIR$/Definitions/Stacks" />
       <path value="$PROJECT_DIR$/Variables" />
     </ignored-roots>
-    <MESSAGE value="MSF-388 - Head position updated." />
     <MESSAGE value="MSF-388 - Versioning Core module." />
     <MESSAGE value="MSF-388 - Changelog added." />
     <MESSAGE value="MSF-388 - Versioning modules." />
@@ -1666,7 +1665,8 @@
     <MESSAGE value="MSF-399 - Workspace." />
     <MESSAGE value="MSF-399 - Working on basic documentation." />
     <MESSAGE value="MSF-399 - About." />
-    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - About." />
+    <MESSAGE value="MSF-399 - Documentation continued." />
+    <option name="LAST_COMMIT_MESSAGE" value="MSF-399 - Documentation continued." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
