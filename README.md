@@ -54,9 +54,8 @@ Mail Server Factory will be downloaded and installed.
 
 # Hot to use
 
-In this section, it will be explained how to use Mail Server Factory to configure and run your mail server.
-
-Tbd.
+[Examples](./Examples) director contains examples of JSON configuration(s) for Mail Server Factory
+deployment(s).
 
 # Cloning the project
 
