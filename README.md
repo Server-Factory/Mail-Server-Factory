@@ -13,8 +13,9 @@ Version information:
 The purpose of the Mail Server Factory project is to provide a simple way for the end-user to easily set up and run its
 mail server. The end-user writes the configuration as a simple JSON which is then interpreted and understood by the Mail
 Server Factory. Mail Server Factory performs various installations and initializations based on this JSON on the target
-operating system. Mail server stack that is deployed on the target operating system runs on [Docker](https://www.docker.com/). 
-Each stack component is loosely coupled which creates a solid base for further / future scalability.
+operating system. Mail server stack that is deployed on the target operating system runs
+on [Docker](https://www.docker.com/). Each stack component is loosely coupled which creates a solid base for further /
+future scalability.
 
 # Compatibility
 
@@ -38,8 +39,8 @@ Installed mail server will be delivered with the following technology stack:
 - [Redis](https://redis.io/) as in-memory database for [Rspamd](https://www.rspamd.com/) service
 - [ClamAV](https://www.clamav.net/) for the anti-virus service.
 
-Note: The mail server will use self-signed certificates for encrypting the communication. For this purpose proper CA will be
-configured on the server.
+Note: The mail server will use self-signed certificates for encrypting the communication. For this purpose proper CA
+will be configured on the server.
 
 # Web setup
 
@@ -59,8 +60,8 @@ Tbd.
 
 # Cloning the project
 
-In order to be able to read project source code or contribute it is required to clone Git repository. The following
-command clones the project and initializes all Git submodules:
+To be able to read project source code or contribute it is required to clone the Git repository. The following command
+clones the project and initializes all Git submodules:
 
 ```bash
 mkdir Factory && cd Factory
@@ -87,11 +88,11 @@ To execute project tests cd into the directory where you have cloned the code an
 ./gradlew test
 ```
 
-Note: In order to be able to pass tests [Docker](https://www.docker.com/) must be installed on your system.
+Note: To be able to pass tests [Docker](https://www.docker.com/) must be installed on your system.
 
 ## Git submodules
 
-Complete list of Git submodules used by project can be found [here](./.gitmodules).
+A complete list of Git submodules used by the project can be found [here](./.gitmodules).
 
 # System requirements
 
