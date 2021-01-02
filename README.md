@@ -58,7 +58,8 @@ In this section it will be explained how to use Mail Server Factory in order to 
 
 # Cloning the project
 
-The following command clones the project and initializes all Git submodules:
+In order to be able to read project source code or contribute it is required to clone Git repository. The following
+command clones the project and initializes all Git submodules:
 
 ```bash
 mkdir Factory && cd Factory
