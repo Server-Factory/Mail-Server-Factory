@@ -8,7 +8,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="" />
+    <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,7 +94,7 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/Logs/2020/10/2020_10_8_0.log" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Core/Utils/Parallels" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -105,11 +108,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Core/Utils/Parallels" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Definitions/main/docker" />
       <recent name="$PROJECT_DIR$/Definitions/main/stacks" />
       <recent name="$PROJECT_DIR$/Definitions/main/software" />
-      <recent name="$PROJECT_DIR$/Core" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -126,7 +129,7 @@
       <recent name="net.milosvasic.factory.configuration.group" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Fedora Server 32">
+  <component name="RunManager" selected="Application.CentOS 8">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -1255,13 +1258,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-01995" summary="MSF-233 - Feature use database.">
-      <created>1608211011658</created>
-      <option name="number" value="01995" />
-      <option name="presentableId" value="LOCAL-01995" />
-      <option name="project" value="LOCAL" />
-      <updated>1608211011658</updated>
-    </task>
     <task id="LOCAL-01996" summary="MSF-233 - Feature: use database.">
       <created>1608211264485</created>
       <option name="number" value="01996" />
@@ -1598,7 +1594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609588190569</updated>
     </task>
-    <option name="localTasksCounter" value="2044" />
+    <task id="LOCAL-02044" summary="MSF-399 - Workspace.">
+      <created>1609588479143</created>
+      <option name="number" value="02044" />
+      <option name="presentableId" value="LOCAL-02044" />
+      <option name="project" value="LOCAL" />
+      <updated>1609588479143</updated>
+    </task>
+    <option name="localTasksCounter" value="2045" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

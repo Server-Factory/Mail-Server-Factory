@@ -2,17 +2,15 @@
 
 # Mail Server Factory
 
-Setup and run your own mail server.
-
-Mail Server Factory version information:
+Version information:
 
 - [Current version](./version.txt)
 - [Current version code](./version_code.txt)
 - [Releases](https://github.com/milos85vasic/Mail-Server-Factory/releases).
 
-# About
+# About the project
 
-Tbd.
+Setup and run your own mail server.
 
 # Compatibility
 
