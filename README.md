@@ -22,7 +22,7 @@ future scalability.
 To be able to run Mail Server Factory the following system requirements must meet:
 
 - Modern computer (or server) as a hardware
-- [OpenJDK](https://openjdk.java.net/) SDK
+- [OpenJDK](https://openjdk.java.net/)
 - [Gradle](https://gradle.org/) build system
 
 # Compatibility
