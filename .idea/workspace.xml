@@ -9,6 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90cd0acc-abdf-4a32-9ed1-d18bd9fc3164" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1257,13 +1258,6 @@
       <workItem from="1609537520900" duration="2084000" />
       <workItem from="1609583598491" duration="2999000" />
     </task>
-    <task id="LOCAL-01998" summary="MSF-233 - Network name.">
-      <created>1608390226753</created>
-      <option name="number" value="01998" />
-      <option name="presentableId" value="LOCAL-01998" />
-      <option name="project" value="LOCAL" />
-      <updated>1608390226754</updated>
-    </task>
     <task id="LOCAL-01999" summary="MSF-233 - Head position updated.">
       <created>1608390268157</created>
       <option name="number" value="01999" />
@@ -1600,7 +1594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609590246240</updated>
     </task>
-    <option name="localTasksCounter" value="2047" />
+    <task id="LOCAL-02047" summary="MSF-399 - About.">
+      <created>1609590297644</created>
+      <option name="number" value="02047" />
+      <option name="presentableId" value="LOCAL-02047" />
+      <option name="project" value="LOCAL" />
+      <updated>1609590297644</updated>
+    </task>
+    <option name="localTasksCounter" value="2048" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

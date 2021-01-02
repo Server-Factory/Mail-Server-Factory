@@ -13,16 +13,21 @@ Version information:
 Mail Server Factory project has been developed so end user can easily setup and run its own mail server.
 End user writes the configuration as simple JSON that is then interpreted and understood by the
 Mail Server Factory application. Mail Server Factory base on JSOn configuration performs
-installations and initializations on remote server (target installation operating system).
+installations and initializations on the target operating system.
+
+Mail server stack that is instantiated on the target operating system runs on [Docker](https://www.docker.com/).
+Each stack component is loosely coupled which creates a solid base for scalability.
 
 # Compatibility
 
-Mail Server Factory works on the following target installation operating systems:
+Mail Server Factory supports the following target operating systems:
 
 - CentOS Server 7 and 8
 - Fedora Server versions: 30 to 33
 - Fedora Workstation versions: 30 to 33
 - Ubuntu Desktop 20
+
+Note: Many other operating systems will be supported in upcoming releases.
 
 # Specifications
 
@@ -40,8 +45,8 @@ configured on the server.
 
 # Web setup
 
-```
-$ Tbd.
+```bash
+
 ```
 
 # Hot to use
