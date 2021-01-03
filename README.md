@@ -69,7 +69,7 @@ To run Mail Server Factory simply execute the program and pass to it path to the
 For Instance:
 
 ```bash
-mail_factory mail_factory Examples/Centos_8.json 
+mail_factory Examples/Centos_8.json 
 ```
 
 or (if you are using Java .jar):
