@@ -65,6 +65,19 @@ Mail Server Factory will be downloaded and installed.
 [Examples](./Examples) director contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
 Detailed explanations for every configuration variable will be provided in upcoming releases.
 
+To run Mail Server Factory simply execute the program and pass to it path to the configuration JSON file.
+For Instance:
+
+```bash
+mail_factory mail_factory Examples/Centos_8.json 
+```
+
+or (if you are using Java .jar):
+
+```bash
+java -jar Application/build/libs/Application.jar Examples/Centos_8.json
+```
+
 The current version of Mail Server Factory performs SSH access to target hosts using keys. For enabling SSH access using
 keys the [following bash script](Core/Utils/init_ssh_access.sh) can be used.
 
