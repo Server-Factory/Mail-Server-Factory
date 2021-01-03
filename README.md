@@ -62,7 +62,7 @@ Mail Server Factory will be downloaded and installed.
 
 # Hot to use
 
-[Examples](./Examples) director contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
+[Examples](./Examples) directory contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
 Detailed explanations for every configuration variable will be provided in upcoming releases.
 
 To run Mail Server Factory simply execute the program and pass to it path to the configuration JSON file.
