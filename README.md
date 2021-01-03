@@ -90,6 +90,9 @@ sh Core/Utils/init_ssh_access.sh centos7.local
 A detailed explanation of the script can be found [here](https://github.com/Server-Factory/Utils) under
 "SSH login without password" section.
 
+*Note:* We strongly recommend the clean installation of the server operating system to be used with Mail Server Factory so
+there is no conflict of any kind with existing software or services.
+
 # Cloning the project
 
 To be able to read project source code or contribute it is required to clone the Git repository. The following command
