@@ -1,6 +1,7 @@
 {
   "includes": [
     "Uses.json",
+    "Proxy.json",
     "Server.json",
     "Behavior.json",
     "Database.json",
