@@ -104,13 +104,12 @@ docker ps -a
 
 The list will contain the following services:
 
-CONTAINER ID   IMAGE                         COMMAND                  CREATED              STATUS          PORTS                                         NAMES
-721e0c63d2c2   dovecot_postmaster_receive    "/bin/sh -c 'sh star…"   About a minute ago   Up 47 seconds   3993/tcp, 0.0.0.0:3993->993/tcp               postmaster_receive
-eb845a9e078d   postfix_postmaster_send       "/bin/sh -c 'sh star…"   10 minutes ago       Up 43 seconds   0.0.0.0:465->465/tcp                          postmaster_send
-11bd28d9a6ad   rspamd_postmaster_antispam    "/bin/sh -c 'sh star…"   16 minutes ago       Up 49 seconds   11332-11333/tcp, 127.0.0.1:11334->11334/tcp   postmaster_antispam
-5d8aa0911ac3   clamav_postmaster_antivirus   "/bin/sh -c 'sh star…"   24 minutes ago       Up 49 seconds                                                 postmaster_antivirus
-d7625533c19b   redis:6.0.6                   "docker-entrypoint.s…"   30 minutes ago       Up 49 seconds   127.0.0.1:36379->6379/tcp                     postmaster_mem_db
-1bcd7d47d3c2   postgres:13                   "docker-entrypoint.s…"   31 minutes ago       Up 48 seconds   127.0.0.1:35432->5432/tcp                     postmaster_db
+- postmaster_receive, ports: 3993/tcp, 0.0.0.0:3993->993/tcp
+- postmaster_send, ports: 0.0.0.0:465->465/tcp
+- postmaster_antispam, 11332-11333/tcp, 127.0.0.1:11334->11334/tcp
+- postmaster_antivirus, no ports
+- postmaster_mem_db, ports: 127.0.0.1:36379->6379/tcp
+- postmaster_db, 127.0.0.1:35432->5432/tcp
 
 Example configuration for one of the installed email accounts on the Mozilla Thunderbird client:
 
