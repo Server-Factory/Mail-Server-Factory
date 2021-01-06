@@ -111,7 +111,7 @@ The list will contain the following services:
 - postmaster_mem_db, ports: 127.0.0.1:36379->6379/tcp
 - postmaster_db, 127.0.0.1:35432->5432/tcp
 
-Example configuration for one of the installed email accounts on the Mozilla Thunderbird client:
+Example configuration for one of the installed email accounts on the [Mozilla Thunderbird](https://www.thunderbird.net/en-US/) client:
 
 ![](Documentation/Thunderbird.png)
 
