@@ -115,6 +115,10 @@ Example configuration for one of the installed email accounts on the Mozilla Thu
 
 ![](Documentation/Thunderbird.png)
 
+Once configuration is filled in the form, you must accept TLS certificate:
+
+![](Documentation/Thunderbird_Certificate.png)
+
 *Note:* Pay attention to custom port numbers!
 
 ## Mail Server Factory in action
