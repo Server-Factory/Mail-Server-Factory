@@ -95,9 +95,16 @@ there is no conflict of any kind with existing software or services.
 
 ## Using installed mail server
 
-After the mail server is installed the following Docker services will be running:
+After the mail server is installed execute the following command on your server to see the list 
+of running Docker containers:
 
-Tbd.
+```bash
+docker ps -a
+```
+
+The list will contain the following services:
+
+
 
 Example configuration for one of the installed email accounts on the Mozilla Thunderbird client:
 
