@@ -93,6 +93,10 @@ A detailed explanation of the script can be found [here](https://github.com/Serv
 *Note:* We strongly recommend the clean installation of the server operating system to be used with Mail Server Factory so
 there is no conflict of any kind with existing software or services.
 
+## Using installed mail server
+
+Tbd.
+
 # Cloning the project
 
 To be able to read project source code or contribute it is required to clone the Git repository. The following command
