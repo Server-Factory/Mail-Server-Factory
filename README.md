@@ -95,7 +95,19 @@ there is no conflict of any kind with existing software or services.
 
 ## Using installed mail server
 
+After the mail server is installed the following Docker services will be running:
+
 Tbd.
+
+Example configuration for one of the installed email accounts on the Mozilla Thunderbird client:
+
+![](Documentation/Thunderbird.png)
+
+*Note:* Pay attention to custom port numbers!
+
+## Mail Server Factory in action
+
+Tbd. (YouTube video)
 
 # Cloning the project
 
