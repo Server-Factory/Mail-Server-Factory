@@ -115,7 +115,7 @@ Example configuration for one of the installed email accounts on the Mozilla Thu
 
 ![](Documentation/Thunderbird.png)
 
-*Note:* Pay attention to custom port numbers!
+*Note:* Pay attention to custom port number.
 
 Once configuration is filled in the form, you must accept TLS certificate:
 
