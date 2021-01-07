@@ -90,6 +90,41 @@ sh Core/Utils/init_ssh_access.sh centos7.local
 A detailed explanation of the script can be found [here](https://github.com/Server-Factory/Utils) under
 "SSH login without password" section.
 
+*Note:* We strongly recommend the clean installation of the server operating system to be used with Mail Server Factory so
+there is no conflict of any kind with existing software or services.
+
+## Using installed mail server
+
+After the mail server is installed execute the following command on your server to see the list 
+of running Docker containers:
+
+```bash
+docker ps -a
+```
+
+The list will contain the following services:
+
+- postmaster_receive, ports: 3993/tcp, 0.0.0.0:3993->993/tcp
+- postmaster_send, ports: 0.0.0.0:465->465/tcp
+- postmaster_antispam, 11332-11333/tcp, 127.0.0.1:11334->11334/tcp
+- postmaster_antivirus, no ports
+- postmaster_mem_db, ports: 127.0.0.1:36379->6379/tcp
+- postmaster_db, 127.0.0.1:35432->5432/tcp
+
+Example configuration for one of the installed email accounts on the [Mozilla Thunderbird](https://www.thunderbird.net/en-US/) client:
+
+![](Documentation/Thunderbird.png)
+
+*Note:* Pay attention to custom port number.
+
+Once configuration is filled in the form, you must accept TLS certificate:
+
+![](Documentation/Thunderbird_Certificate.png)
+
+## Mail Server Factory in action
+
+Tbd. (YouTube video)
+
 # Cloning the project
 
 To be able to read project source code or contribute it is required to clone the Git repository. The following command
