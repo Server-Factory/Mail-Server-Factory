@@ -1,8 +1,6 @@
 {
   "proxy": {
     "host": "cache.local",
-    "port": 3128,
-    "user": "cache",
-    "password": "Test12345"
+    "port": 3128
   }
 }
