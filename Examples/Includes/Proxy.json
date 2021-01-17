@@ -1,6 +1,7 @@
 {
   "proxy": {
     "host": "cache.local",
-    "port": 3128
+    "port": 3128,
+    "selfSignedCA": true
   }
 }
