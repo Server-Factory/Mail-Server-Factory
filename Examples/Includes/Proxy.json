@@ -2,7 +2,7 @@
   "proxy": {
     "host": "cache.local",
     "port": 3128,
-    "selfSignedCA": true,
+    "self_signed_ca": true,
     "certificate_endpoint": "http://cache.local:3129/proxyCA.pem"
   }
 }
