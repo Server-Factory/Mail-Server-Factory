@@ -36,6 +36,10 @@ Mail Server Factory supports the following target operating systems:
 
 *Note:* Many other operating systems will be supported in upcoming releases.
 
+## SeLinux
+
+The current version of Mail Server Factory does not support SELinux enforcing.
+
 # Specifications
 
 Installed mail server will be delivered with the following technology stack:
