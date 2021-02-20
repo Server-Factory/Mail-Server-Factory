@@ -41,7 +41,6 @@
             "type": "portCheck",
             "value": "{{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}"
           },
-
           {
             "type": "command",
             "value": "ln {{DOCKER.DOCKER_HOME}}/Dovecot/receivemail.service /etc/systemd/system/receivemail.service"
