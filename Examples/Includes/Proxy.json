@@ -3,7 +3,7 @@
     "host": "cache.local",
     "port": 3128,
     "self_signed_ca": true,
-    "refreshFrequency": 10,
+    "refreshFrequency": 900,
     "certificate_endpoint": "http://cache.local:3129/proxyCA.pem"
   }
 }
