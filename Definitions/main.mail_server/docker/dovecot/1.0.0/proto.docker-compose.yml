@@ -15,6 +15,8 @@ services:
       - {{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}:993
     networks:
       - {{SERVICE.NETWORK.NAME}}
+    env_file:
+      - ./default.env
     volumes:
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.SERVER_HOME}}/Server/Dovecot/Maildir:/maildir

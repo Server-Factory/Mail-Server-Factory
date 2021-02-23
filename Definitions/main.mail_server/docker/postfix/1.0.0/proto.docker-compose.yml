@@ -18,6 +18,8 @@ services:
       - 465:465
     networks:
       - {{SERVICE.NETWORK.NAME}}
+    env_file:
+      - ./default.env
     volumes:
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.SERVER_HOME}}/Server/Postfix/Data:/var/lib/postfix

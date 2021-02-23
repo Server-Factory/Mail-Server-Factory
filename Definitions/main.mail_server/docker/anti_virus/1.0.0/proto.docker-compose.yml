@@ -11,6 +11,8 @@ services:
     restart: always
     networks:
       - {{SERVICE.NETWORK.NAME}}
+    env_file:
+      - ./default.env
     volumes:
       - {{SERVER.SERVER_HOME}}/Server/ClamAV/Log:/var/log
       - {{SERVER.SERVER_HOME}}/Server/Dovecot/VMail:/target/vmail

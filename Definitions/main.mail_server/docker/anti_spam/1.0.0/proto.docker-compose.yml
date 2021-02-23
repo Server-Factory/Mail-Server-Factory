@@ -18,6 +18,8 @@ services:
       - 127.0.0.1:{{SERVICE.ANTI_SPAM.PORTS.WEBUI_EXPOSED}}:{{SERVICE.ANTI_SPAM.PORTS.WEBUI}}
     networks:
       - {{SERVICE.NETWORK.NAME}}
+    env_file:
+      - ./default.env
     volumes:
       - {{SERVER.SERVER_HOME}}/Server/Rspamd/Log:/var/log
       - {{SERVER.SERVER_HOME}}/Server/Rspamd/Lib:/var/lib/rspamd
