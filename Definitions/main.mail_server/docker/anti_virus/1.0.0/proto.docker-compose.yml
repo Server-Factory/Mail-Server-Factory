@@ -6,10 +6,6 @@ services:
       - ./default.env
     build:
       context: .
-      args:
-        # TODO: Remove
-        UTILS_HOME: $UTILS_HOME
-        MAIN_PORT: $MAIN_PORT
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}
     restart: always
