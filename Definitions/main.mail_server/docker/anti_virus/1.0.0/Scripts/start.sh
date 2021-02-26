@@ -23,6 +23,15 @@ if amavisd >> ${antivirusStackLog}
 then
 
     mainPort=$1
+    if [ "$mainPort" = "" ]; then
+
+      echo "ERROR: No main port defined" >> ${antivirusStackLog}
+      exit 1
+    else
+
+      echo "Main port: $mainPort" >> ${antivirusStackLog}
+    fi
+
     ports="${mainPort}"
     for port in $ports; do
 

@@ -1,5 +1,7 @@
 FROM fedora:33
 
+ADD $UTILS_HOME /Utils
+
 RUN dnf update -y && \
     dnf clean all -y && \
     dnf install findutils -y && \
@@ -14,9 +16,6 @@ ADD Scripts/do_clam.sh /do_clam.sh
 ADD Scripts/start.sh /start.sh
 ADD Scripts/logrotate.sh /logrotate.sh
 
-ARG MAIN_PORT
-ENV MAIN_PORT "$MAIN_PORT"
-
-EXPOSE $MAINPORT
+EXPOSE $MAIN_PORT
 
 CMD sh start.sh "${MAIN_PORT}"

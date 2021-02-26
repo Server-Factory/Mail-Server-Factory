@@ -2,15 +2,17 @@ version: "3.7"
 
 services:
   {{SERVICE.MAIL_SEND.NAME}}:
+    env_file:
+      - ./default.env
     build:
       context: .
       args:
-        - DB_NAME={{SERVICE.DATABASE.NAME}}
-        - AV_NAME={{SERVICE.ANTI_VIRUS.NAME}}
-        - DB_PORT={{SERVICE.DATABASE.PORTS.PORT}}
-        - AV_PORT={{SERVICE.ANTI_VIRUS.PORTS.PORT}}
-        - AV_PORT_MAIL_SEND={{SERVICE.MAIL_SEND.PORTS.PORT_ANTI_VIRUS}}
-        - SERVICE_RECEIVE={{SERVICE.MAIL_RECEIVE.NAME}}
+        DB_NAME: {{SERVICE.DATABASE.NAME}}
+        AV_NAME: {{SERVICE.ANTI_VIRUS.NAME}}
+        DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
+        AV_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
+        AV_PORT_MAIL_SEND: {{SERVICE.MAIL_SEND.PORTS.PORT_ANTI_VIRUS}}
+        SERVICE_RECEIVE: {{SERVICE.MAIL_RECEIVE.NAME}}
     container_name: {{SERVICE.MAIL_SEND.NAME}}
     hostname: {{SERVICE.MAIL_SEND.NAME}}.{{SERVER.DOMAIN}}
     restart: always
@@ -18,8 +20,6 @@ services:
       - 465:465
     networks:
       - {{SERVICE.NETWORK.NAME}}
-    env_file:
-      - ./default.env
     volumes:
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.SERVER_HOME}}/Server/Postfix/Data:/var/lib/postfix
