@@ -2,11 +2,11 @@ version: "3.7"
 
 services:
   {{SERVICE.ANTI_SPAM.NAME}}:
-    env_file:
-      - ./default.env
     build:
       context: .
       args:
+        FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         PROXY_PORT: {{SERVICE.ANTI_SPAM.PORTS.PROXY}}
         WORKER_PORT: {{SERVICE.ANTI_SPAM.PORTS.WORKER}}
         WEBUI_PORT: {{SERVICE.ANTI_SPAM.PORTS.WEBUI}}

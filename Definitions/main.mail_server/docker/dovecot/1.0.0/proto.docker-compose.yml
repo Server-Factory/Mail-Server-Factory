@@ -2,11 +2,11 @@ version: "3.7"
 
 services:
   {{SERVICE.MAIL_RECEIVE.NAME}}:
-    env_file:
-      - ./default.env
     build:
       context: .
       args:
+        FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         DB: {{SERVICE.DATABASE.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
         PORT_EXPOSED_IMAPS: {{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}
