@@ -11,15 +11,15 @@
           },
           {
             "type": "deploy",
-            "value": "main.mail_server/docker/anti_virus:1.0.0@:{{DOCKER.DOCKER_HOME}}/ClamAV"
+            "value": "main.mail_server/docker/anti_virus:1.0.0@:{{DOCKER.HOME}}/ClamAV"
           },
           {
             "type": "deploy",
-            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.DOCKER_HOME}}/ClamAV/Utils"
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.HOME}}/ClamAV/Utils"
           },
           {
             "type": "stack",
-            "value": "{{DOCKER.DOCKER_HOME}}/ClamAV"
+            "value": "{{DOCKER.HOME}}/ClamAV"
           },
           {
             "type": "check",
@@ -27,11 +27,11 @@
           },
           {
             "type": "command",
-            "value": "ln {{DOCKER.DOCKER_HOME}}/ClamAV/antivirus.service /etc/systemd/system/antivirus.service"
+            "value": "ln {{DOCKER.HOME}}/ClamAV/antivirus.service /etc/systemd/system/antivirus.service"
           },
           {
             "type": "command",
-            "value": "sh {{SERVER.SERVER_HOME}}/Utils/setenforce.sh"
+            "value": "sh {{SERVER.HOME}}/Utils/setenforce.sh"
           },
           {
             "type": "command",

@@ -5,7 +5,7 @@ Requires=docker.service
 
 [Service]
 Restart=always
-ExecStart={{DOCKER.DOCKER_HOME}}/Definitions/Dovecot/start.sh
+ExecStart={{DOCKER.HOME}}/Definitions/Dovecot/start.sh
 
 [Install]
 WantedBy=multi-user.target

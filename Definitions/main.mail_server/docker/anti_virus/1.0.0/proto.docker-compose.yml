@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
   {{SERVICE.ANTI_VIRUS.NAME}}:
@@ -6,6 +6,7 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         MAIN_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}
@@ -13,10 +14,11 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
-      - {{SERVER.SERVER_HOME}}/Server/ClamAV/Log:/var/log
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/VMail:/target/vmail
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Maildir:/target/maildir
-      - {{SERVER.SERVER_HOME}}/Server/ClamAV/Definitions:/var/lib/clamav
+      - {{PROXY.HOME}}:{{PROXY.HOME}}
+      - {{SERVER.HOME}}/Server/ClamAV/Log:/var/log
+      - {{SERVER.HOME}}/Server/Dovecot/VMail:/target/vmail
+      - {{SERVER.HOME}}/Server/Dovecot/Maildir:/target/maildir
+      - {{SERVER.HOME}}/Server/ClamAV/Definitions:/var/lib/clamav
 
 networks:
   {{SERVICE.NETWORK.NAME}}:

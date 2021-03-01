@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
   {{SERVICE.MAIL_RECEIVE.NAME}}:
@@ -6,6 +6,7 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         DB: {{SERVICE.DATABASE.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
         PORT_EXPOSED_IMAPS: {{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}
@@ -17,12 +18,13 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
+      - {{PROXY.HOME}}:{{PROXY.HOME}}
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Maildir:/maildir
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/VMail:/usr/local/vmail
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Masters:/etc/dovecot/masters
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Log:/var/log/dovecot
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Sieve:/sieve
+      - {{SERVER.HOME}}/Server/Dovecot/Maildir:/maildir
+      - {{SERVER.HOME}}/Server/Dovecot/VMail:/usr/local/vmail
+      - {{SERVER.HOME}}/Server/Dovecot/Masters:/etc/dovecot/masters
+      - {{SERVER.HOME}}/Server/Dovecot/Log:/var/log/dovecot
+      - {{SERVER.HOME}}/Server/Dovecot/Sieve:/sieve
 
 networks:
   {{SERVICE.NETWORK.NAME}}:

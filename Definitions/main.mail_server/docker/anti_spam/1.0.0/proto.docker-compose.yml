@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
   {{SERVICE.ANTI_SPAM.NAME}}:
@@ -6,6 +6,7 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         PROXY_PORT: {{SERVICE.ANTI_SPAM.PORTS.PROXY}}
         WORKER_PORT: {{SERVICE.ANTI_SPAM.PORTS.WORKER}}
         WEBUI_PORT: {{SERVICE.ANTI_SPAM.PORTS.WEBUI}}
@@ -20,8 +21,9 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
-      - {{SERVER.SERVER_HOME}}/Server/Rspamd/Log:/var/log
-      - {{SERVER.SERVER_HOME}}/Server/Rspamd/Lib:/var/lib/rspamd
+      - {{PROXY.HOME}}:{{PROXY.HOME}}
+      - {{SERVER.HOME}}/Server/Rspamd/Log:/var/log
+      - {{SERVER.HOME}}/Server/Rspamd/Lib:/var/lib/rspamd
 
 networks:
   {{SERVICE.NETWORK.NAME}}:

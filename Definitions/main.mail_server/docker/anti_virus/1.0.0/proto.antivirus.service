@@ -5,7 +5,7 @@ Requires=docker.service
 
 [Service]
 Restart=always
-ExecStart={{DOCKER.DOCKER_HOME}}/Definitions/ClamAV/start.sh
+ExecStart={{DOCKER.HOME}}/Definitions/ClamAV/start.sh
 
 [Install]
 WantedBy=multi-user.target

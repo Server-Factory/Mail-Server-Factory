@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
   {{SERVICE.MAIL_SEND.NAME}}:
@@ -6,6 +6,7 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
+        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         DB_NAME: {{SERVICE.DATABASE.NAME}}
         AV_NAME: {{SERVICE.ANTI_VIRUS.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
@@ -20,12 +21,13 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
+      - {{PROXY.HOME}}:{{PROXY.HOME}}
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
-      - {{SERVER.SERVER_HOME}}/Server/Postfix/Data:/var/lib/postfix
-      - {{SERVER.SERVER_HOME}}/Server/Postfix/Queue:/var/spool/postfix
-      - {{SERVER.SERVER_HOME}}/Server/Postfix/VMail:/usr/local/vmail
-      - {{SERVER.SERVER_HOME}}/Server/Postfix/Mail:/var/spool/mail
-      - {{SERVER.SERVER_HOME}}/Server/Postfix/Log:/var/log/postfix
+      - {{SERVER.HOME}}/Server/Postfix/Data:/var/lib/postfix
+      - {{SERVER.HOME}}/Server/Postfix/Queue:/var/spool/postfix
+      - {{SERVER.HOME}}/Server/Postfix/VMail:/usr/local/vmail
+      - {{SERVER.HOME}}/Server/Postfix/Mail:/var/spool/mail
+      - {{SERVER.HOME}}/Server/Postfix/Log:/var/log/postfix
 
 networks:
   {{SERVICE.NETWORK.NAME}}:

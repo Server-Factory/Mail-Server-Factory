@@ -3,7 +3,7 @@
     "SERVER": {
       "DOMAIN": "dev.local",
       "DOMAINS": "dev.local, test.local",
-      "SERVER_HOME": "/root",
+      "HOME": "/root",
       "REBOOT_ALLOWED": true,
 
       "INFO": {
