@@ -26,6 +26,10 @@
             "value": "main.mail_server/docker/postfix:1.0.0@:{{DOCKER.DOCKER_HOME}}/Postfix"
           },
           {
+            "type": "deploy",
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.DOCKER_HOME}}/Postfix/Utils"
+          },
+          {
             "type": "database",
             "value": "{{DOCKER.DOCKER_HOME}}/Postfix/Database"
           },

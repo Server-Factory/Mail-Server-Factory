@@ -6,7 +6,6 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
-        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         DB: {{SERVICE.DATABASE.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
         PORT_EXPOSED_IMAPS: {{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}

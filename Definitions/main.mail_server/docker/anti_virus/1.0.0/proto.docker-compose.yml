@@ -6,7 +6,6 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
-        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         MAIN_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}

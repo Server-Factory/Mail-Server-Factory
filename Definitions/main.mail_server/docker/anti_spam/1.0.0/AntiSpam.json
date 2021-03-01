@@ -18,6 +18,10 @@
             "value": "main.mail_server/docker/anti_spam:1.0.0@:{{DOCKER.DOCKER_HOME}}/Rspamd"
           },
           {
+            "type": "deploy",
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.DOCKER_HOME}}/Rspamd/Utils"
+          },
+          {
             "type": "stack",
             "value": "{{DOCKER.DOCKER_HOME}}/Rspamd"
           },
