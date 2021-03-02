@@ -17,7 +17,6 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
-      - {{PROXY.HOME}}:{{PROXY.HOME}}
       - {{SYSTEM.UTILS_HOME}}:{{SYSTEM.UTILS_HOME}}
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.HOME}}/Server/Dovecot/Maildir:/maildir

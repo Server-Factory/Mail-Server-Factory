@@ -20,7 +20,6 @@ services:
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
-      - {{PROXY.HOME}}:{{PROXY.HOME}}
       - {{SYSTEM.UTILS_HOME}}:{{SYSTEM.UTILS_HOME}}
       - {{SERVER.HOME}}/Server/Rspamd/Log:/var/log
       - {{SERVER.HOME}}/Server/Rspamd/Lib:/var/lib/rspamd
