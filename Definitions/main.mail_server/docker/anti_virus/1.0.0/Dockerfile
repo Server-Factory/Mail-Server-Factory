@@ -1,9 +1,13 @@
 FROM fedora:33
 
 ARG MAIN_PORT
+ARG UTILS_HOME
+ARG PROXY_HOME
 ARG FACTORY_SERVICE
 
 ENV MAIN_PORT "$MAIN_PORT"
+ENV UTILS_HOME "$UTILS_HOME"
+ENV PROXY_HOME "$PROXY_HOME"
 ENV FACTORY_SERVICE "$FACTORY_SERVICE"
 
 RUN dnf update -y && \
@@ -22,4 +26,4 @@ ADD Scripts/logrotate.sh /logrotate.sh
 
 EXPOSE $MAIN_PORT
 
-CMD sh start.sh "${MAIN_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && sh start.sh "${MAIN_PORT}"
