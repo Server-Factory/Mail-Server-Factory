@@ -6,7 +6,6 @@ services:
       context: .
       args:
         FACTORY_SERVICE: "true"
-        UTILS_HOME: {{SYSTEM.UTILS_HOME}}
         DB_NAME: {{SERVICE.DATABASE.NAME}}
         AV_NAME: {{SERVICE.ANTI_VIRUS.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
@@ -22,6 +21,7 @@ services:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
       - {{PROXY.HOME}}:{{PROXY.HOME}}
+      - {{SYSTEM.UTILS_HOME}}:{{SYSTEM.UTILS_HOME}}
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.HOME}}/Server/Postfix/Data:/var/lib/postfix
       - {{SERVER.HOME}}/Server/Postfix/Queue:/var/spool/postfix
