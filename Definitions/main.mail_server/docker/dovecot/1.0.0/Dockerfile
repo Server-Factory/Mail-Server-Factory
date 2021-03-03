@@ -16,12 +16,12 @@ ENV PORT_EXPOSED_IMAPS "$PORT_EXPOSED_IMAPS"
 
 COPY Utils "$UTILS_HOME"
 
-RUN sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
+    sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
     dnf update -y && \
     dnf clean all -y && \
-    dnf install findutils -y && \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    dnf install -y dovecot dovecot-pgsql dovecot-pigeonhole openssl telnet net-tools iputils && \
+    dnf install -y dovecot dovecot-pgsql dovecot-pigeonhole && \
     mkdir /etc/dovecot/sieve
 
 ADD Configuration /etc/dovecot
