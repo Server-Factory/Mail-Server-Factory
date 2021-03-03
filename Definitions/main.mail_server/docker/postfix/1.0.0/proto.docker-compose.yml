@@ -14,6 +14,8 @@ services:
         AV_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
         AV_PORT_MAIL_SEND: {{SERVICE.MAIL_SEND.PORTS.PORT_ANTI_VIRUS}}
         SERVICE_RECEIVE: {{SERVICE.MAIL_RECEIVE.NAME}}
+    environment:
+      proxy_host_ip: ${proxy_host_ip}
     container_name: {{SERVICE.MAIL_SEND.NAME}}
     hostname: {{SERVICE.MAIL_SEND.NAME}}.{{SERVER.DOMAIN}}
     restart: always

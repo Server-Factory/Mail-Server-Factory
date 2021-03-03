@@ -9,6 +9,8 @@ services:
         PROXY_HOME: {{PROXY.HOME}}
         UTILS_HOME: {{SERVER.UTILS_HOME}}
         MAIN_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
+    environment:
+      proxy_host_ip: ${proxy_host_ip}
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}
     restart: always

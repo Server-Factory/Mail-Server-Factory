@@ -14,6 +14,8 @@ services:
         WEBUI_PASS: {{SERVICE.ANTI_SPAM.WEBUI.PASSWORD}}
         MEM_DB: {{SERVICE.MEMORY_DATABASE.NAME}}
         MEM_DB_PORT: {{SERVICE.MEMORY_DATABASE.PORTS.PORT}}
+    environment:
+      proxy_host_ip: ${proxy_host_ip}
     container_name: {{SERVICE.ANTI_SPAM.NAME}}
     hostname: {{SERVICE.ANTI_SPAM.NAME}}.{{SERVER.DOMAIN}}
     restart: always
