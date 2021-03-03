@@ -20,7 +20,10 @@ ENV UTILS_HOME "$UTILS_HOME"
 ENV PROXY_HOME "$PROXY_HOME"
 ENV FACTORY_SERVICE "$FACTORY_SERVICE"
 
-RUN dnf update -y && \
+COPY Utils "$UTILS_HOME"
+
+RUN sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    dnf update -y && \
     dnf clean all -y && \
     dnf install -y findutils bind-utils && \
     dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
@@ -59,5 +62,4 @@ EXPOSE $PROXY_PORT
 EXPOSE $WORKER_PORT
 EXPOSE $WEBUI_PORT
 
-CMD sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
- sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"
+CMD sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"

@@ -9,12 +9,15 @@ ARG FACTORY_SERVICE
 
 ENV DB "$DB"
 ENV DB_PORT "$DB_PORT"
-ENV PORT_EXPOSED_IMAPS "$PORT_EXPOSED_IMAPS"
 ENV UTILS_HOME "$UTILS_HOME"
 ENV PROXY_HOME "$PROXY_HOME"
 ENV FACTORY_SERVICE "$FACTORY_SERVICE"
+ENV PORT_EXPOSED_IMAPS "$PORT_EXPOSED_IMAPS"
 
-RUN dnf update -y && \
+COPY Utils "$UTILS_HOME"
+
+RUN sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    dnf update -y && \
     dnf clean all -y && \
     dnf install findutils -y && \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
@@ -22,9 +25,9 @@ RUN dnf update -y && \
     mkdir /etc/dovecot/sieve
 
 ADD Configuration /etc/dovecot
-ADD Utils /usr/local/bin
 ADD Scripts/start.sh /start.sh
 ADD Scripts/logrotate.sh /logrotate.sh
+ADD Scripts/quota-warning.sh /usr/local/bin/quota-warning.sh
 ADD Sieve/.dovecot.sieve /etc/dovecot/sieve/.dovecot.sieve
 ADD Sieve/spamglobal.sieve /etc/dovecot/sieve/spamglobal.sieve
 
@@ -36,4 +39,4 @@ RUN sievec /etc/dovecot/sieve/.dovecot.sieve && \
 
 EXPOSE $PORT_EXPOSED_IMAPS
 
-CMD sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && sh start.sh "${DB}" "${DB_PORT}"
+CMD sh start.sh "${DB}" "${DB_PORT}"

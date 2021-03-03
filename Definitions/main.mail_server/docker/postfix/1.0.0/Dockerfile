@@ -20,7 +20,10 @@ ENV UTILS_HOME "$UTILS_HOME"
 ENV PROXY_HOME "$PROXY_HOME"
 ENV FACTORY_SERVICE "$FACTORY_SERVICE"
 
-RUN dnf update -y && \
+COPY Utils "$UTILS_HOME"
+
+RUN sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    dnf update -y && \
     dnf clean all -y && \
     dnf install findutils -y && \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
@@ -35,5 +38,4 @@ ADD Scripts/logrotate.sh /logrotate.sh
 
 EXPOSE 465
 
-CMD sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
-    sh start.sh "${DB_PORT}" "${AV_PORT}" "${DB_NAME}" "${AV_NAME}" "${SERVICE_RECEIVE}" "${AV_PORT_MAIL_SEND}"
+CMD sh start.sh "${DB_PORT}" "${AV_PORT}" "${DB_NAME}" "${AV_NAME}" "${SERVICE_RECEIVE}" "${AV_PORT_MAIL_SEND}"
