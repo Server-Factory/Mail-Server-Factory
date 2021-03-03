@@ -1,3 +1,4 @@
+# TODO: MSF-409: Migrate to Fedora 33, pull fedora image containin gmandatory dependencies already
 FROM centos:8
 
 ARG PROXY_PORT
