@@ -8,9 +8,8 @@ services:
         FACTORY_SERVICE: "true"
         PROXY_HOME: {{PROXY.HOME}}
         UTILS_HOME: {{SERVER.UTILS_HOME}}
+        proxy_host_ip: {{PROXY.HOST}}
         MAIN_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
-    environment:
-      proxy_host_ip: {{PROXY.HOST}}
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}
     restart: always

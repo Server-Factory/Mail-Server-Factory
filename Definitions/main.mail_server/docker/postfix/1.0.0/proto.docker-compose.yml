@@ -8,14 +8,13 @@ services:
         FACTORY_SERVICE: "true"
         PROXY_HOME: {{PROXY.HOME}}
         UTILS_HOME: {{SERVER.UTILS_HOME}}
+        proxy_host_ip: {{PROXY.HOST}}
         DB_NAME: {{SERVICE.DATABASE.NAME}}
         AV_NAME: {{SERVICE.ANTI_VIRUS.NAME}}
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
         AV_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
         AV_PORT_MAIL_SEND: {{SERVICE.MAIL_SEND.PORTS.PORT_ANTI_VIRUS}}
         SERVICE_RECEIVE: {{SERVICE.MAIL_RECEIVE.NAME}}
-    environment:
-      proxy_host_ip: {{PROXY.HOST}}
     container_name: {{SERVICE.MAIL_SEND.NAME}}
     hostname: {{SERVICE.MAIL_SEND.NAME}}.{{SERVER.DOMAIN}}
     restart: always
