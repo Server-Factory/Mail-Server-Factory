@@ -26,7 +26,7 @@ ENV proxy_host_ip "$proxy_host_ip"
 COPY Utils "$UTILS_HOME"
 
 RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
-    sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    sh "${UTILS_HOME}"/proxy_install_docker.sh "${PROXY_HOME}" && \
     dnf update -y && \
     dnf clean all -y && \
     dnf install -y bind-utils && \
