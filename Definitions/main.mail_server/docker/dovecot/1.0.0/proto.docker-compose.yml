@@ -12,7 +12,7 @@ services:
         DB_PORT: {{SERVICE.DATABASE.PORTS.PORT}}
         PORT_EXPOSED_IMAPS: {{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}
     environment:
-      proxy_host_ip: ${proxy_host_ip}
+      proxy_host_ip: {{PROXY.HOST}}
     container_name: {{SERVICE.MAIL_RECEIVE.NAME}}
     hostname: {{SERVICE.MAIL_RECEIVE.NAME}}.{{SERVER.DOMAIN}}
     restart: always
