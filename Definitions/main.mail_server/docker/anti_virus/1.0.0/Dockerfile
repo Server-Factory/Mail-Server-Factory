@@ -32,4 +32,4 @@ ADD Scripts/logrotate.sh /logrotate.sh
 
 EXPOSE $MAIN_PORT
 
-CMD sh start.sh "${MAIN_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && sh start.sh "${MAIN_PORT}"

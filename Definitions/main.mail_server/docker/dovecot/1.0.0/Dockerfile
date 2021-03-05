@@ -42,4 +42,4 @@ RUN sievec /etc/dovecot/sieve/.dovecot.sieve && \
 
 EXPOSE $PORT_EXPOSED_IMAPS
 
-CMD sh start.sh "${DB}" "${DB_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && sh start.sh "${DB}" "${DB_PORT}"

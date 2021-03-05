@@ -67,4 +67,5 @@ EXPOSE $PROXY_PORT
 EXPOSE $WORKER_PORT
 EXPOSE $WEBUI_PORT
 
-CMD sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && \
+    sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"

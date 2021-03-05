@@ -41,4 +41,5 @@ ADD Scripts/logrotate.sh /logrotate.sh
 
 EXPOSE 465
 
-CMD sh start.sh "${DB_PORT}" "${AV_PORT}" "${DB_NAME}" "${AV_NAME}" "${SERVICE_RECEIVE}" "${AV_PORT_MAIL_SEND}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && \
+    sh start.sh "${DB_PORT}" "${AV_PORT}" "${DB_NAME}" "${AV_NAME}" "${SERVICE_RECEIVE}" "${AV_PORT_MAIL_SEND}"
