@@ -21,6 +21,7 @@ services:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
       - {{SERVER.UTILS_HOME}}:{{SERVER.UTILS_HOME}}
+      - {{PROXY.HOME}}:{{PROXY.HOME}}/Parent
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.HOME}}/Server/Dovecot/Maildir:/maildir
       - {{SERVER.HOME}}/Server/Dovecot/VMail:/usr/local/vmail

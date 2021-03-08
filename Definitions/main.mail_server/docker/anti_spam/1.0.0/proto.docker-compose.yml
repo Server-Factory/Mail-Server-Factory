@@ -24,6 +24,7 @@ services:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
       - {{SERVER.UTILS_HOME}}:{{SERVER.UTILS_HOME}}
+      - {{PROXY.HOME}}:{{PROXY.HOME}}/Parent
       - {{SERVER.HOME}}/Server/Rspamd/Log:/var/log
       - {{SERVER.HOME}}/Server/Rspamd/Lib:/var/lib/rspamd
 

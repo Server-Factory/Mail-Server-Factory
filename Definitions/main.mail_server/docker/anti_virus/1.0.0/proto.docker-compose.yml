@@ -17,6 +17,7 @@ services:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
       - {{SERVER.UTILS_HOME}}:{{SERVER.UTILS_HOME}}
+      - {{PROXY.HOME}}:{{PROXY.HOME}}/Parent
       - {{SERVER.HOME}}/Server/ClamAV/Log:/var/log
       - {{SERVER.HOME}}/Server/Dovecot/VMail:/target/vmail
       - {{SERVER.HOME}}/Server/Dovecot/Maildir:/target/maildir

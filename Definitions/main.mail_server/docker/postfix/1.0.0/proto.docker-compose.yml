@@ -24,6 +24,7 @@ services:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
       - {{SERVER.UTILS_HOME}}:{{SERVER.UTILS_HOME}}
+      - {{PROXY.HOME}}:{{PROXY.HOME}}/Parent
       - {{SERVER.CERTIFICATION.CERTIFICATES}}:/certificates
       - {{SERVER.HOME}}/Server/Postfix/Data:/var/lib/postfix
       - {{SERVER.HOME}}/Server/Postfix/Queue:/var/spool/postfix
