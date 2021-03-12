@@ -69,6 +69,9 @@ Mail Server Factory will be downloaded and installed.
 [Examples](./Examples) directory contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
 Detailed explanations for every configuration variable will be provided in upcoming releases.
 
+To be able to try and run examples it is required to follow instructions
+from [Includes Readme](./Examples/Includes/README.md) file.
+
 To run Mail Server Factory simply execute the program and pass to it path to the configuration JSON file.
 For Instance:
 
