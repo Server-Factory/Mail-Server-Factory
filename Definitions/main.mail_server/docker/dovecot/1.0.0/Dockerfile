@@ -20,7 +20,7 @@ COPY Utils "$UTILS_HOME"
 
 RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
     sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
-    source /etc/profile && \
+    . /etc/profile && \
     dnf update -y && \
     dnf clean all -y && \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \

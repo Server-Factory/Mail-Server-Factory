@@ -27,7 +27,7 @@ COPY Utils "$UTILS_HOME"
 
 RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
     sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
-    source /etc/profile && \
+    . /etc/profile && \
     dnf update -y && \
     dnf clean all -y && \
     dnf install -y bind-utils && \
