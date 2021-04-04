@@ -1,6 +1,6 @@
 #!/bin/sh
 
-defaultFactoryPath="/usr/local/bin"
+defaultFactoryPath="$(dirname ~)/$(basename ~)"
 if [ -z "$1" ]
 then
 
@@ -27,7 +27,7 @@ if test -e "$installerScript"; then
 
   if "$installerScript" "mail" "$factoryPath"; then
 
-    sudo cp -f Core/Utils/factory.sh "$factoryPath" &&
+    cp -f Core/Utils/factory.sh "$factoryPath" &&
       cp -f mail_factory "$factoryPath"
   else
 
