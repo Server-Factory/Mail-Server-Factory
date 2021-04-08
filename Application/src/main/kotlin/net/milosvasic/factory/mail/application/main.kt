@@ -58,17 +58,25 @@ fun main(args: Array<String>) {
 
             val recipe = FileConfigurationRecipe(file)
             val builder = ServerFactoryBuilder().setRecipe(recipe)
+
             args.forEach { arg ->
 
-                val argumentInstallationLocation = Argument.INSTALLATION_LOCATION.get()
-                if (arg.startsWith(argumentInstallationLocation)) {
+                val argumentInstallationHome = Argument.INSTALLATION_HOME.get()
+                if (arg.startsWith(argumentInstallationHome)) {
 
-                    val installationLocation = arg.trim().replace(argumentInstallationLocation, "")
-                    if (installationLocation.isNotEmpty()) {
+                    val installationHome = arg.trim().replace(argumentInstallationHome, "")
+                    if (installationHome.isNotEmpty()) {
 
-                        builder.setInstallationLocation(installationLocation)
+                        builder.setInstallationHome(installationHome)
                     }
-                    log.i("Installation location: ${builder.getInstallationLocation()}")
+
+                    try {
+
+                        log.i("Installation location: ${builder.getInstallationLocation()}")
+                    } catch (e: SecurityException) {
+
+                        log.e(e)
+                    }
                 }
             }
             val factory = MailServerFactory(builder)
@@ -93,10 +101,10 @@ fun main(args: Array<String>) {
             val handler = DefaultInitializationHandler()
             try {
                 InitializationFlow()
-                        .width(factory)
-                        .handler(handler)
-                        .onFinish(callback)
-                        .run()
+                    .width(factory)
+                    .handler(handler)
+                    .onFinish(callback)
+                    .run()
 
             } catch (e: BusyException) {
 
