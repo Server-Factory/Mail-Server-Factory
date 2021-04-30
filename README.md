@@ -30,9 +30,9 @@ To be able to run Mail Server Factory the following system requirements must mee
 Mail Server Factory supports the following target operating systems:
 
 - CentOS Server 7 and 8
-- Fedora Server versions: 30 to 33
-- Fedora Workstation versions: 30 to 33
-- Ubuntu Desktop 20
+- Fedora Server versions: 30 to 34
+- Fedora Workstation versions: 30 to 34
+- Ubuntu Desktop 20 and 32
 
 *Note:* Many other operating systems will be supported in upcoming releases.
 
