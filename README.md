@@ -32,7 +32,7 @@ Mail Server Factory supports the following target operating systems:
 - CentOS Server 7 and 8
 - Fedora Server versions: 30 to 34
 - Fedora Workstation versions: 30 to 34
-- Ubuntu Desktop 20 and 32
+- Ubuntu Desktop 20 and 21
 
 *Note:* Many other operating systems will be supported in upcoming releases.
 
@@ -76,7 +76,7 @@ To run Mail Server Factory simply execute the program and pass to it path to the
 For Instance:
 
 ```bash
-mail_factory Examples/Centos_8.json 
+mail_factory Examples/Centos_8.json
 ```
 
 or (if you are using Java .jar):
