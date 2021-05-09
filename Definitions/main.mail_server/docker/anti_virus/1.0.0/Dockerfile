@@ -1,10 +1,26 @@
 FROM fedora:33
 
-RUN dnf update -y && \
+ARG MAIN_PORT
+ARG UTILS_HOME
+ARG PROXY_HOME
+ARG FACTORY_SERVICE
+ARG PROXY_HOST_FALLBACK
+
+ENV MAIN_PORT "$MAIN_PORT"
+ENV UTILS_HOME "$UTILS_HOME"
+ENV PROXY_HOME "$PROXY_HOME"
+ENV FACTORY_SERVICE "$FACTORY_SERVICE"
+ENV PROXY_HOST_FALLBACK "$PROXY_HOST_FALLBACK"
+
+COPY Utils "$UTILS_HOME"
+
+RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
+    sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    . /etc/profile && \
+    dnf update -y && \
     dnf clean all -y && \
-    dnf install findutils -y && \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    dnf install -y clamav clamav-update amavis perl-Digest-SHA1 perl-IO-stringy telnet net-tools iputils && \
+    dnf install -y clamav clamav-update amavis perl-Digest-SHA1 perl-IO-stringy && \
     rm -f /etc/amavisd/amavisd.conf && \
     mkdir /target
 
@@ -14,9 +30,6 @@ ADD Scripts/do_clam.sh /do_clam.sh
 ADD Scripts/start.sh /start.sh
 ADD Scripts/logrotate.sh /logrotate.sh
 
-ARG MAIN_PORT
-ENV MAIN_PORT "$MAIN_PORT"
+EXPOSE $MAIN_PORT
 
-EXPOSE $MAINPORT
-
-CMD sh start.sh "${MAIN_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && sh start.sh "${MAIN_PORT}"

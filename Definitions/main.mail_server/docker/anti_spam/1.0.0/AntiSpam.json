@@ -15,11 +15,15 @@
           },
           {
             "type": "deploy",
-            "value": "main.mail_server/docker/anti_spam:1.0.0@:{{DOCKER.DOCKER_HOME}}/Rspamd"
+            "value": "main.mail_server/docker/anti_spam:1.0.0@:{{DOCKER.HOME}}/Rspamd"
+          },
+          {
+            "type": "deploy",
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.HOME}}/Rspamd/Utils"
           },
           {
             "type": "stack",
-            "value": "{{DOCKER.DOCKER_HOME}}/Rspamd"
+            "value": "{{DOCKER.HOME}}/Rspamd"
           },
           {
             "type": "check",
@@ -27,11 +31,11 @@
           },
           {
             "type": "command",
-            "value": "ln {{DOCKER.DOCKER_HOME}}/Rspamd/antispam.service /etc/systemd/system/antispam.service"
+            "value": "ln {{DOCKER.HOME}}/Rspamd/antispam.service /etc/systemd/system/antispam.service"
           },
           {
             "type": "command",
-            "value": "sh {{SERVER.SERVER_HOME}}/Utils/setenforce.sh"
+            "value": "sh {{SERVER.UTILS_HOME}}/setenforce.sh"
           },
           {
             "type": "command",

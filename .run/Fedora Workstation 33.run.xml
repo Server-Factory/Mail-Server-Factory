@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Fedora Workstation 33" type="BashProRunConfiguration" folderName="Mail Server Factory">
-    <scriptContent>mail_factory.sh $PROJECT_DIR$/Examples/Fedora_Workstation_33.json</scriptContent>
+    <scriptContent>mail_factory $PROJECT_DIR$/Examples/Fedora_Workstation_33.json</scriptContent>
     <option name="sourceType" value="snippet" />
     <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
     <method v="2" />

@@ -1,3 +1,4 @@
+# TODO: MSF-409: Migrate to Fedora 33, pull fedora image containin gmandatory dependencies already
 FROM centos:8
 
 ARG PROXY_PORT
@@ -6,6 +7,10 @@ ARG WEBUI_PORT
 ARG WEBUI_PASS
 ARG MEM_DB
 ARG MEM_DB_PORT
+ARG UTILS_HOME
+ARG PROXY_HOME
+ARG FACTORY_SERVICE
+ARG PROXY_HOST_FALLBACK
 
 ENV PROXY_PORT "$PROXY_PORT"
 ENV WORKER_PORT "$WORKER_PORT"
@@ -13,14 +18,23 @@ ENV WEBUI_PORT "$WEBUI_PORT"
 ENV WEBUI_PASS "$WEBUI_PASS"
 ENV MEM_DB "$MEM_DB"
 ENV MEM_DB_PORT "$MEM_DB_PORT"
+ENV UTILS_HOME "$UTILS_HOME"
+ENV PROXY_HOME "$PROXY_HOME"
+ENV FACTORY_SERVICE "$FACTORY_SERVICE"
+ENV PROXY_HOST_FALLBACK "$PROXY_HOST_FALLBACK"
 
-RUN dnf update -y && \
+COPY Utils "$UTILS_HOME"
+
+RUN dnf install -y libnet curl wget telnet net-tools iputils openssl findutils && \
+    sh "${UTILS_HOME}"/proxy_install.sh "${PROXY_HOME}" && \
+    . /etc/profile && \
+    dnf update -y && \
     dnf clean all -y && \
-    dnf install -y findutils bind-utils && \
+    dnf install -y bind-utils && \
     dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     dnf install -y --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm && \
     dnf install -y python3 libpcap && \
-    dnf install -y git cmake make gcc-c++ boost ragel libnet curl telnet net-tools iputils wget && \
+    dnf install -y git cmake make gcc-c++ boost ragel && \
     dnf groupinstall -y "Development Tools" && \
     cd /opt; git clone http://luajit.org/git/luajit-2.0.git; cd luajit-2.0; make && make install; cd / && \
     rpm -Uvh http://repo.openfusion.net/centos7-x86_64/openfusion-release-0.7-1.of.el7.noarch.rpm && \
@@ -53,4 +67,5 @@ EXPOSE $PROXY_PORT
 EXPOSE $WORKER_PORT
 EXPOSE $WEBUI_PORT
 
-CMD sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"
+CMD sh "${UTILS_HOME}"/proxy_update_docker.sh "${PROXY_HOME}" && \
+    sh start.sh "${PROXY_PORT}" "${WORKER_PORT}" "${WEBUI_PORT}" "${WEBUI_PASS}" "${MEM_DB}" "${MEM_DB_PORT}"

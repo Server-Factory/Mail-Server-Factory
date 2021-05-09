@@ -7,6 +7,7 @@ import net.milosvasic.factory.application.Argument
 import net.milosvasic.factory.application.DefaultInitializationHandler
 import net.milosvasic.factory.application.server_factory.ServerFactoryBuilder
 import net.milosvasic.factory.common.busy.BusyException
+import net.milosvasic.factory.common.filesystem.FilePathBuilder
 import net.milosvasic.factory.configuration.recipe.FileConfigurationRecipe
 import net.milosvasic.factory.error.ERROR
 import net.milosvasic.factory.execution.flow.callback.FlowCallback
@@ -18,32 +19,49 @@ import net.milosvasic.logger.ConsoleLogger
 import net.milosvasic.logger.FilesystemLogger
 import java.io.File
 import java.io.IOException
+import java.nio.file.InvalidPathException
 
 fun main(args: Array<String>) {
 
     tag = BuildInfo.versionName
     val consoleLogger = ConsoleLogger()
-    val here = File(FILE_LOCATION_HERE)
-    val filesystemLogger = FilesystemLogger(here)
-    compositeLogger.addLoggers(consoleLogger, filesystemLogger)
+    val builder = ServerFactoryBuilder()
 
     try {
+
+        args.forEach { arg ->
+
+            val argumentInstallationHome = Argument.INSTALLATION_HOME.get()
+            if (arg.startsWith(argumentInstallationHome)) {
+
+                val installationHome = arg.trim().replace(argumentInstallationHome, "")
+                if (installationHome.isNotEmpty()) {
+
+                    builder.setInstallationHome(installationHome)
+                }
+
+                try {
+
+                    log.i("Installation location: ${builder.getInstallationLocation()}")
+                } catch (e: SecurityException) {
+
+                    log.e(e)
+                }
+            }
+        }
+
+        val installationLocation = builder.getInstallationLocation()
+
+        val logsHomePath = FilePathBuilder()
+            .addContext(installationLocation)
+            .build()
+
+        val logsHome = File(logsHomePath)
+
+        val filesystemLogger = FilesystemLogger(logsHome)
+        compositeLogger.addLoggers(consoleLogger, filesystemLogger)
 
         OSInit.run()
-    } catch (e: IllegalArgumentException) {
-
-        fail(e)
-    } catch (e: NullPointerException) {
-
-        fail(e)
-    } catch (e: SecurityException) {
-
-        fail(e)
-    } catch (e: IOException) {
-
-        fail(e)
-    }
-    try {
 
         Validator.Arguments.validateNotEmpty(*args)
         val file = File(args[0])
@@ -53,23 +71,13 @@ fun main(args: Array<String>) {
 
         filesystemLogger.setFilenameSuffix(lofFilenameSuffix)
 
+        log.i("Logs home directory: $logsHomePath")
+
         if (file.exists()) {
 
             val recipe = FileConfigurationRecipe(file)
-            val builder = ServerFactoryBuilder().setRecipe(recipe)
-            args.forEach { arg ->
+            builder.setRecipe(recipe)
 
-                val argumentInstallationLocation = Argument.INSTALLATION_LOCATION.get()
-                if (arg.startsWith(argumentInstallationLocation)) {
-
-                    val installationLocation = arg.trim().replace(argumentInstallationLocation, "")
-                    if (installationLocation.isNotEmpty()) {
-
-                        builder.setInstallationLocation(installationLocation)
-                    }
-                    log.i("Installation location: ${builder.getInstallationLocation()}")
-                }
-            }
             val factory = MailServerFactory(builder)
 
             val callback = object : FlowCallback {
@@ -90,17 +98,13 @@ fun main(args: Array<String>) {
             }
 
             val handler = DefaultInitializationHandler()
-            try {
-                InitializationFlow()
-                        .width(factory)
-                        .handler(handler)
-                        .onFinish(callback)
-                        .run()
 
-            } catch (e: BusyException) {
+            InitializationFlow()
+                .width(factory)
+                .handler(handler)
+                .onFinish(callback)
+                .run()
 
-                fail(e)
-            }
         } else {
 
             val msg = "Configuration file does not exist: ${file.absolutePath}"
@@ -108,6 +112,24 @@ fun main(args: Array<String>) {
             fail(error)
         }
     } catch (e: ArgumentsExpectedException) {
+
+        fail(e)
+    } catch (e: BusyException) {
+
+        fail(e)
+    } catch (e: IllegalArgumentException) {
+
+        fail(e)
+    } catch (e: NullPointerException) {
+
+        fail(e)
+    } catch (e: SecurityException) {
+
+        fail(e)
+    } catch (e: IOException) {
+
+        fail(e)
+    } catch (e: InvalidPathException) {
 
         fail(e)
     }

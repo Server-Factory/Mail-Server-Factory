@@ -30,11 +30,15 @@ To be able to run Mail Server Factory the following system requirements must mee
 Mail Server Factory supports the following target operating systems:
 
 - CentOS Server 7 and 8
-- Fedora Server versions: 30 to 33
-- Fedora Workstation versions: 30 to 33
-- Ubuntu Desktop 20
+- Fedora Server versions: 30 to 34
+- Fedora Workstation versions: 30 to 34
+- Ubuntu Desktop 20 and 21
 
 *Note:* Many other operating systems will be supported in upcoming releases.
+
+## SeLinux
+
+The current version of Mail Server Factory does not support SELinux enforcing.
 
 # Specifications
 
@@ -65,11 +69,14 @@ Mail Server Factory will be downloaded and installed.
 [Examples](./Examples) directory contains examples of JSON configuration(s) for Mail Server Factory deployment(s).
 Detailed explanations for every configuration variable will be provided in upcoming releases.
 
+To be able to try and run examples it is required to follow instructions
+from [Includes Readme](./Examples/Includes/README.md) file.
+
 To run Mail Server Factory simply execute the program and pass to it path to the configuration JSON file.
 For Instance:
 
 ```bash
-mail_factory Examples/Centos_8.json 
+mail_factory Examples/Centos_8.json
 ```
 
 or (if you are using Java .jar):

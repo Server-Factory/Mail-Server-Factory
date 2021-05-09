@@ -23,7 +23,11 @@
           },
           {
             "type": "deploy",
-            "value": "main.mail_server/docker/dovecot:1.0.0@:{{DOCKER.DOCKER_HOME}}/Dovecot"
+            "value": "main.mail_server/docker/dovecot:1.0.0@:{{DOCKER.HOME}}/Dovecot"
+          },
+          {
+            "type": "deploy",
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.HOME}}/Dovecot/Utils"
           },
           {
             "type": "tlsCertificate",
@@ -31,7 +35,7 @@
           },
           {
             "type": "stack",
-            "value": "{{DOCKER.DOCKER_HOME}}/Dovecot"
+            "value": "{{DOCKER.HOME}}/Dovecot"
           },
           {
             "type": "check",
@@ -41,14 +45,13 @@
             "type": "portCheck",
             "value": "{{SERVICE.MAIL_RECEIVE.PORTS.PORT_EXPOSED_IMAPS}}"
           },
-
           {
             "type": "command",
-            "value": "ln {{DOCKER.DOCKER_HOME}}/Dovecot/receivemail.service /etc/systemd/system/receivemail.service"
+            "value": "ln {{DOCKER.HOME}}/Dovecot/receivemail.service /etc/systemd/system/receivemail.service"
           },
           {
             "type": "command",
-            "value": "sh {{SERVER.SERVER_HOME}}/Utils/setenforce.sh"
+            "value": "sh {{SERVER.UTILS_HOME}}/setenforce.sh"
           },
           {
             "type": "command",

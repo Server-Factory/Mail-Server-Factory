@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Fedora Server 34: Init mDNS" type="BashProRunConfiguration" folderName="Mail Server Factory">
+    <option name="scriptParameters" value="10.211.55.28 fedora34server.local" />
+    <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/init_mdns_remote.sh" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>

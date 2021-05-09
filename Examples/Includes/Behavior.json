@@ -1,7 +1,8 @@
 {
   "variables": {
     "BEHAVIOR": {
-      "GET_IP": true
+      "GET_IP": true,
+      "DISABLE_IPTABLES_FOR_MDNS": true
     }
   }
 }

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-defaultFactoryPath="/usr/local/bin"
+defaultFactoryPath="$(dirname ~)/$(basename ~)/Mail-Server-Factory"
 if [ -z "$1" ]
 then
 
@@ -10,7 +10,19 @@ else
   factoryPath="$1"
 fi
 
-mail_factory_full_path="$defaultFactoryPath/mail_factory_path.sh"
+if ! test -e "$factoryPath"; then
+
+  if mkdir -p "$factoryPath"; then
+
+    echo "$factoryPath: has been created"
+  else
+
+    echo "$factoryPath: has not been created"
+    exit 1
+  fi
+fi
+
+mail_factory_full_path="$factoryPath/mail_factory_path.sh"
 if test -e "$mail_factory_full_path"; then
 
   rm -f "$mail_factory_full_path"
@@ -27,7 +39,7 @@ if test -e "$installerScript"; then
 
   if "$installerScript" "mail" "$factoryPath"; then
 
-    sudo cp -f Core/Utils/factory.sh "$factoryPath" &&
+    cp -f Core/Utils/factory.sh "$factoryPath" &&
       cp -f mail_factory "$factoryPath"
   else
 

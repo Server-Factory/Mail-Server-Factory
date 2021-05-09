@@ -1,0 +1,8 @@
+{
+  "proxy": {
+    "host": "cache.local",
+    "port": 3128,
+    "refreshFrequency": 900,
+    "certificate_endpoint": "http://{{PROXY.HOSTNAME}}:3129/proxyCA.pem"
+  }
+}

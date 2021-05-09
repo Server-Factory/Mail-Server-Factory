@@ -1,21 +1,27 @@
-version: "3.7"
+version: "3.9"
 
 services:
   {{SERVICE.ANTI_VIRUS.NAME}}:
     build:
       context: .
       args:
-        - MAINPORT={{SERVICE.ANTI_VIRUS.PORTS.PORT}}
+        FACTORY_SERVICE: "true"
+        PROXY_HOME: {{PROXY.HOME}}
+        UTILS_HOME: {{SERVER.UTILS_HOME}}
+        PROXY_HOST_FALLBACK: {{PROXY.HOST}}
+        MAIN_PORT: {{SERVICE.ANTI_VIRUS.PORTS.PORT}}
     container_name: {{SERVICE.ANTI_VIRUS.NAME}}
     hostname: {{SERVICE.ANTI_VIRUS.NAME}}.{{SERVER.DOMAIN}}
     restart: always
     networks:
       - {{SERVICE.NETWORK.NAME}}
     volumes:
-      - {{SERVER.SERVER_HOME}}/Server/ClamAV/Log:/var/log
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/VMail:/target/vmail
-      - {{SERVER.SERVER_HOME}}/Server/Dovecot/Maildir:/target/maildir
-      - {{SERVER.SERVER_HOME}}/Server/ClamAV/Definitions:/var/lib/clamav
+      - {{SERVER.UTILS_HOME}}:{{SERVER.UTILS_HOME}}
+      - {{PROXY.HOME}}:{{PROXY.HOME}}/Parent
+      - {{SERVER.HOME}}/Server/ClamAV/Log:/var/log
+      - {{SERVER.HOME}}/Server/Dovecot/VMail:/target/vmail
+      - {{SERVER.HOME}}/Server/Dovecot/Maildir:/target/maildir
+      - {{SERVER.HOME}}/Server/ClamAV/Definitions:/var/lib/clamav
 
 networks:
   {{SERVICE.NETWORK.NAME}}:

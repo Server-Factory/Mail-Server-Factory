@@ -23,11 +23,15 @@
           },
           {
             "type": "deploy",
-            "value": "main.mail_server/docker/postfix:1.0.0@:{{DOCKER.DOCKER_HOME}}/Postfix"
+            "value": "main.mail_server/docker/postfix:1.0.0@:{{DOCKER.HOME}}/Postfix"
+          },
+          {
+            "type": "deploy",
+            "value": "{{SYSTEM.HOME}}/Core/Utils:{{DOCKER.HOME}}/Postfix/Utils"
           },
           {
             "type": "database",
-            "value": "{{DOCKER.DOCKER_HOME}}/Postfix/Database"
+            "value": "{{DOCKER.HOME}}/Postfix/Database"
           },
           {
             "type": "tlsCertificate",
@@ -35,7 +39,7 @@
           },
           {
             "type": "stack",
-            "value": "{{DOCKER.DOCKER_HOME}}/Postfix"
+            "value": "{{DOCKER.HOME}}/Postfix"
           },
           {
             "type": "check",
@@ -47,11 +51,11 @@
           },
           {
             "type": "command",
-            "value": "ln {{DOCKER.DOCKER_HOME}}/Postfix/sendmail.service /etc/systemd/system/sendmail.service"
+            "value": "ln {{DOCKER.HOME}}/Postfix/sendmail.service /etc/systemd/system/sendmail.service"
           },
           {
             "type": "command",
-            "value": "sh {{SERVER.SERVER_HOME}}/Utils/setenforce.sh"
+            "value": "sh {{SERVER.UTILS_HOME}}/setenforce.sh"
           },
           {
             "type": "command",
