@@ -1,6 +1,7 @@
 package net.milosvasic.factory.mail.application
 
 import com.apple.eawt.Application
+import net.milosvasic.factory.log
 import net.milosvasic.factory.platform.OperatingSystem
 import net.milosvasic.factory.platform.Platform
 import java.io.IOException
@@ -16,6 +17,7 @@ object OSInit : Runnable {
     )
     override fun run() {
 
+        log.v("Starting: ${BuildInfo.versionName}, ${BuildInfo.version}")
         val hostOS = OperatingSystem.getHostOperatingSystem()
         val iconResourceName = "assets/Logo.png"
         val iconResource = hostOS::class.java.classLoader.getResourceAsStream(iconResourceName)
