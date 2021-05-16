@@ -4,5 +4,8 @@ import net.milosvasic.factory.log
 
 object OSInit : Runnable {
 
-    override fun run() = log.v("Starting")
+    override fun run() {
+
+        log.v("Starting: ${BuildInfo.versionName}, ${BuildInfo.version}")
+    }
 }
