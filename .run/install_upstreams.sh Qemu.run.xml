@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="install_upstreams.sh Qemu" type="BashProRunConfiguration" folderName="Software Toolkit">
+    <option name="scriptPath" value="$PROJECT_DIR$/Core/Utils/Qemu/Upstreamable/install_upstreams.sh" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/Core/Utils/Qemu" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>
