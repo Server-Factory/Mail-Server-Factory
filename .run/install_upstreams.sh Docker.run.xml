@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="install_upstreams.sh Docker" type="BashProRunConfiguration" folderName="Software Toolkit">
+    <option name="scriptPath" value="$PROJECT_DIR$/Definitions/main/docker/Upstreamable/install_upstreams.sh" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/Definitions/main/docker" />
+    <RunnerSettings bashdbVersion="Automatic" bashPathMapper="Automatic" RunnerId="pro.bashsupport.shDebugRunner" />
+    <method v="2" />
+  </configuration>
+</component>
