@@ -13,3 +13,6 @@
 [submodule "Definitions/main/software"]
 	path = Definitions/main/software
 	url = https://github.com/Server-Factory/Software-Definitions.git
+[submodule "Upstreamable"]
+	path = Upstreamable
+	url = git@github.com:red-elf/Upstreamable.git
