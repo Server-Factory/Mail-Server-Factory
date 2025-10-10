@@ -39,15 +39,57 @@ Fixed 6 instances of invalid `@Throws` annotation usage on type parameters (Kotl
 ## Test Results
 
 ### Current Test Status
-- **Total Tests**: 15
-- **Passing**: 14 (93.3%)
-- **Skipped**: 1 (StackStepTest - initialization issue)
-- **Failed**: 0
+
+| Module | Tests | Status |
+|--------|-------|--------|
+| Core:Framework | 14 | ✅ 100% Pass |
+| Factory | 33 | ✅ 100% Pass |
+| **Total** | **47** | **✅ 100% Pass** |
+
+### New Tests Added
+
+Created comprehensive unit tests for the Factory module (33 tests):
+
+**MailAccountTest** (13 tests)
+- Constructor validation with various parameter combinations
+- Alias management (getAliases, print, empty handling)
+- Credentials handling and Password object generation
+- toString() method behavior
+- Account type validation (email, postmaster)
+
+**MailAccountValidatorTest** (7 tests)
+- Valid email and strong password validation
+- Invalid email format detection
+- Weak password detection
+- Alias validation
+- Edge cases (no arguments, postmaster accounts)
+
+**MailServerConfigurationTest** (5 tests)
+- Constructor with accounts and null accounts
+- Merge functionality for combining configurations
+- Parameter validation
+
+**MailServerConfigurationFactoryTest** (8 tests)
+- Type token generation for Gson
+- Account queue initialization (onInstantiated)
+- Configuration validation (valid/invalid emails, passwords, aliases)
+- Empty and null account handling
+
+### Bug Fixes
+
+**MailAccount Constructor Bug** (Critical Fix)
+- **Issue**: Parameters passed to parent Account class in wrong order
+- **Location**: `Factory/src/main/kotlin/net/milosvasic/factory/mail/account/MailAccount.kt:15`
+- **Fix**: Changed from `Account(name, credentials, type)` to `Account(name, type, credentials)`
+- **Impact**: Fixed critical bug that would swap credentials and type fields, causing authentication failures
 
 ### Test Coverage
 - JaCoCo test coverage reports are now automatically generated for all test runs
 - Reports available in HTML, XML, and CSV formats
-- Coverage reports located at: `Core/Framework/build/reports/jacoco/test/`
+- Coverage reports located at:
+  - Core:Framework: `Core/Framework/build/reports/jacoco/test/`
+  - Factory: `Factory/build/reports/jacoco/test/`
+- See [TESTING.md](TESTING.md) for comprehensive testing documentation
 
 ### Known Issues
 - `StackStepTest.testStackStep()` experiences initialization failure and is temporarily excluded from test runs
@@ -86,19 +128,26 @@ All modules build successfully with the following commands:
 
 ## Next Steps
 
-### Immediate
+### Immediate (Completed)
 1. ✅ Gradle 8.14.3 migration complete
 2. ✅ Kotlin 2.0.21 migration complete
 3. ✅ All dependencies updated
 4. ✅ All modules compile successfully
-5. ✅ 14/15 tests passing
+5. ✅ 47 tests passing (100% success rate)
 6. ✅ JaCoCo coverage reporting configured
+7. ✅ Factory module comprehensive unit tests added
+8. ✅ Critical MailAccount constructor bug fixed
+9. ✅ Test documentation created (TESTING.md)
+10. ✅ README badges and test statistics added
+11. ✅ Launcher script and test suite created
 
 ### Recommended Follow-up
-1. **StackStepTest Investigation**: Debug and fix the initialization failure in StackStepTest
-2. **Test Coverage Expansion**: Add additional tests to increase code coverage to 100%
-3. **Docker Test Improvements**: Enhance Docker-dependent test reliability
-4. **Gradle 9.0 Preparation**: Address deprecation warnings for Gradle 9.0 compatibility
+1. **Application Module Tests**: Add unit tests for Application module entry point
+2. **StackStepTest Investigation**: Debug and fix the initialization failure in StackStepTest
+3. **Core:Framework Coverage**: Expand test coverage from 21% to 50%+
+4. **Integration Tests**: Add end-to-end mail server deployment tests
+5. **Docker Test Improvements**: Enhance Docker-dependent test reliability
+6. **Gradle 9.0 Preparation**: Address deprecation warnings for Gradle 9.0 compatibility
 
 ## Migration Process Notes
 

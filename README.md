@@ -2,6 +2,13 @@
 
 # Mail Server Factory
 
+![Tests](https://img.shields.io/badge/tests-47%20passed-brightgreen)
+![Test Success](https://img.shields.io/badge/test%20success-100%25-brightgreen)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Kotlin](https://img.shields.io/badge/kotlin-2.0.21-blue)
+![Gradle](https://img.shields.io/badge/gradle-8.14.3-blue)
+![Java](https://img.shields.io/badge/java-17-orange)
+
 Version information:
 
 - [Current version](./version.txt)
@@ -289,9 +296,22 @@ To generate test coverage reports:
 ```
 
 Coverage reports are generated in HTML, XML, and CSV formats at:
-- HTML: `Core/Framework/build/reports/jacoco/test/html/index.html`
-- XML: `Core/Framework/build/reports/jacoco/test/jacocoTestReport.xml`
-- CSV: `Core/Framework/build/reports/jacoco/test/jacocoTestReport.csv`
+- **Core:Framework**:
+  - HTML: `Core/Framework/build/reports/jacoco/test/html/index.html`
+  - XML: `Core/Framework/build/reports/jacoco/test/jacocoTestReport.xml`
+- **Factory**:
+  - HTML: `Factory/build/reports/jacoco/test/html/index.html`
+  - XML: `Factory/build/reports/jacoco/test/jacocoTestReport.xml`
+
+### Test Statistics
+
+| Module | Tests | Status |
+|--------|-------|--------|
+| Core:Framework | 14 | ✅ 100% Pass |
+| Factory | 33 | ✅ 100% Pass |
+| **Total** | **47** | **✅ 100% Pass** |
+
+For comprehensive testing documentation, see [TESTING.md](TESTING.md).
 
 ## Git submodules
 

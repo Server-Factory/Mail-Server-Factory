@@ -12,7 +12,7 @@ class MailAccount(
         type: String,
         private var aliases: MutableList<String>?
 
-) : Account(name, credentials, type) {
+) : Account(name, type, credentials) {
 
     fun getAliases(): MutableList<String> {
 
