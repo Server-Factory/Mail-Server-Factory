@@ -1,13 +1,316 @@
-#!/bin/sh
+#!/bin/bash
 
-script="factory_mail.sh"
-factoryPath="$(sh mail_factory_path.sh)"
+#
+# Mail Server Factory Launcher Script
+#
+# This script launches the Mail Server Factory application with proper
+# error handling and argument forwarding.
+#
+# Usage: mail_factory [options] <configuration-file>
+#
+# Environment Variables:
+#   MAIL_FACTORY_HOME   - Override default JAR location
+#   JAVA_HOME           - Java installation directory
+#   JAVA_OPTS           - Additional JVM options
+#
 
-if test -e "$factoryPath/$script"; then
+# Note: We don't use 'set -e' to allow proper error handling with exit codes
 
-  "$factoryPath/$script" "mail" "$1"
-else
+# Script metadata
+SCRIPT_VERSION="2.0.0"
+SCRIPT_NAME="$(basename "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-  echo "No $script found at: $factoryPath"
-  exit 1
-fi
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Default JAR locations (searched in order)
+declare -a JAR_LOCATIONS=(
+    "${MAIL_FACTORY_HOME}/Application.jar"
+    "${SCRIPT_DIR}/Application/build/libs/Application.jar"
+    "${SCRIPT_DIR}/build/libs/Application.jar"
+    "${SCRIPT_DIR}/Release/Application.jar"
+    "${SCRIPT_DIR}/Application.jar"
+    "/usr/local/lib/mail-factory/Application.jar"
+    "/opt/mail-factory/Application.jar"
+)
+
+# Functions
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $*" >&2
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $*" >&2
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $*"
+}
+
+print_info() {
+    echo "[INFO] $*"
+}
+
+show_version() {
+    echo "Mail Server Factory Launcher v${SCRIPT_VERSION}"
+    echo "Script: ${SCRIPT_NAME}"
+    echo "Location: ${SCRIPT_DIR}"
+}
+
+show_help() {
+    cat <<EOF
+Mail Server Factory Launcher v${SCRIPT_VERSION}
+
+USAGE:
+    ${SCRIPT_NAME} [options] <configuration-file>
+
+OPTIONS:
+    -h, --help              Show this help message
+    -v, --version           Show version information
+    --debug                 Enable debug output
+    --dry-run               Show command without executing
+    --jar <path>            Specify JAR file location explicitly
+    --installation-home=<path>  Set installation home directory
+
+ARGUMENTS:
+    <configuration-file>    Path to JSON configuration file
+
+ENVIRONMENT VARIABLES:
+    MAIL_FACTORY_HOME      Override default JAR location
+    JAVA_HOME              Java installation directory
+    JAVA_OPTS              Additional JVM options (e.g., "-Xmx2g -Xms512m")
+
+EXAMPLES:
+    # Basic usage
+    ${SCRIPT_NAME} Examples/Centos_8.json
+
+    # With custom installation home
+    ${SCRIPT_NAME} --installation-home=/custom/path config.json
+
+    # With custom JVM options
+    JAVA_OPTS="-Xmx4g" ${SCRIPT_NAME} config.json
+
+    # Dry run to see the command
+    ${SCRIPT_NAME} --dry-run Examples/Centos_8.json
+
+EXIT CODES:
+    0    Success
+    1    General error
+    2    Java not found
+    3    JAR file not found
+    4    Invalid arguments
+    5    Configuration file not found
+
+EOF
+}
+
+find_java() {
+    local java_cmd=""
+
+    # Check JAVA_HOME first
+    if [[ -n "${JAVA_HOME}" ]]; then
+        if [[ -x "${JAVA_HOME}/bin/java" ]]; then
+            java_cmd="${JAVA_HOME}/bin/java"
+        else
+            print_warning "JAVA_HOME is set but ${JAVA_HOME}/bin/java is not executable"
+        fi
+    fi
+
+    # Fall back to PATH
+    if [[ -z "${java_cmd}" ]]; then
+        java_cmd="$(command -v java 2>/dev/null || true)"
+    fi
+
+    if [[ -z "${java_cmd}" ]]; then
+        print_error "Java not found. Please install Java 17 or higher."
+        print_error "You can set JAVA_HOME environment variable to specify Java location."
+        return 2
+    fi
+
+    # Verify Java version
+    local java_version
+    java_version=$("${java_cmd}" -version 2>&1 | grep -i version | awk -F'"' '{print $2}' | awk -F'.' '{print $1}')
+
+    if [[ ${java_version} -lt 17 ]]; then
+        print_warning "Java version ${java_version} detected. Java 17 or higher is recommended."
+    fi
+
+    echo "${java_cmd}"
+    return 0
+}
+
+find_jar() {
+    local jar_path=""
+
+    # If JAR path explicitly provided, use it
+    if [[ -n "${EXPLICIT_JAR_PATH}" ]]; then
+        if [[ -f "${EXPLICIT_JAR_PATH}" ]]; then
+            echo "${EXPLICIT_JAR_PATH}"
+            return 0
+        else
+            print_error "Specified JAR file not found: ${EXPLICIT_JAR_PATH}"
+            return 3
+        fi
+    fi
+
+    # Search default locations
+    for location in "${JAR_LOCATIONS[@]}"; do
+        if [[ -f "${location}" ]]; then
+            jar_path="${location}"
+            break
+        fi
+    done
+
+    if [[ -z "${jar_path}" ]]; then
+        print_error "Application JAR file not found."
+        print_error "Searched locations:"
+        for location in "${JAR_LOCATIONS[@]}"; do
+            print_error "  - ${location}"
+        done
+        print_error ""
+        print_error "Please build the application first:"
+        print_error "  ./gradlew :Application:install"
+        return 3
+    fi
+
+    echo "${jar_path}"
+    return 0
+}
+
+validate_config_file() {
+    local config_file="$1"
+
+    if [[ -z "${config_file}" ]]; then
+        print_error "No configuration file specified."
+        echo ""
+        show_help
+        return 4
+    fi
+
+    if [[ ! -f "${config_file}" ]]; then
+        print_error "Configuration file not found: ${config_file}"
+        return 5
+    fi
+
+    # Validate it's a JSON file
+    if [[ ! "${config_file}" =~ \.json$ ]]; then
+        print_warning "Configuration file doesn't have .json extension: ${config_file}"
+    fi
+
+    return 0
+}
+
+# Parse command line arguments
+DEBUG=false
+DRY_RUN=false
+EXPLICIT_JAR_PATH=""
+APP_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        -v|--version)
+            show_version
+            exit 0
+            ;;
+        --debug)
+            DEBUG=true
+            shift
+            ;;
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        --jar)
+            EXPLICIT_JAR_PATH="$2"
+            shift 2
+            ;;
+        --installation-home=*)
+            APP_ARGS+=("$1")
+            shift
+            ;;
+        *)
+            APP_ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+# Main execution
+main() {
+    # Check for arguments first, before any other operations
+    if [[ ${#APP_ARGS[@]} -eq 0 ]]; then
+        print_error "No arguments provided."
+        echo ""
+        show_help
+        exit 4
+    fi
+
+    if [[ ${DEBUG} == true ]]; then
+        set -x
+        print_info "Debug mode enabled"
+    fi
+
+    # Find Java
+    local java_cmd
+    java_cmd=$(find_java) || exit $?
+
+    if [[ ${DEBUG} == true ]]; then
+        print_info "Java command: ${java_cmd}"
+        "${java_cmd}" -version 2>&1 | head -1
+    fi
+
+    # Find JAR
+    local jar_path
+    jar_path=$(find_jar) || exit $?
+
+    if [[ ${DEBUG} == true ]]; then
+        print_info "JAR path: ${jar_path}"
+        print_info "JAR size: $(du -h "${jar_path}" | cut -f1)"
+    fi
+
+    # Validate configuration file
+    # Find the config file (last non-option argument)
+    local config_file="${APP_ARGS[${#APP_ARGS[@]}-1]}"
+    if [[ ! "${config_file}" =~ ^-- ]]; then
+        validate_config_file "${config_file}" || exit $?
+    fi
+
+    # Build command
+    local -a cmd=("${java_cmd}")
+
+    # Add JVM options if provided
+    if [[ -n "${JAVA_OPTS}" ]]; then
+        # shellcheck disable=SC2206
+        cmd+=(${JAVA_OPTS})
+    fi
+
+    cmd+=(-jar "${jar_path}")
+    cmd+=("${APP_ARGS[@]}")
+
+    # Execute or dry run
+    if [[ ${DRY_RUN} == true ]]; then
+        print_info "Dry run mode - command that would be executed:"
+        echo "${cmd[*]}"
+        exit 0
+    fi
+
+    if [[ ${DEBUG} == true ]]; then
+        print_info "Executing command:"
+        echo "${cmd[*]}"
+        echo ""
+    fi
+
+    # Execute the application
+    exec "${cmd[@]}"
+}
+
+# Run main function
+main

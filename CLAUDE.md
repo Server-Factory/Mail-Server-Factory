@@ -91,6 +91,161 @@ java -jar Application/build/libs/Application.jar --installation-home=/custom/pat
 
 **Note**: Before running examples, create `Examples/Includes/_Docker.json` with your Docker Hub credentials (see `Examples/Includes/README.md`).
 
+## Launcher Script (`mail_factory`)
+
+The `mail_factory` launcher script is a bash wrapper that provides a production-ready interface to the Application JAR. It handles environment detection, JAR discovery, and argument forwarding with comprehensive error handling.
+
+### Launcher Architecture
+
+**Location**: `./mail_factory` (project root)
+
+**Key Responsibilities**:
+- Java runtime detection (via `JAVA_HOME` or `PATH`)
+- Java version validation (minimum Java 17)
+- Application JAR discovery (searches 7 standard locations)
+- Environment variable processing (`JAVA_OPTS`, `MAIL_FACTORY_HOME`)
+- Configuration file validation
+- Argument forwarding to the Java application
+- Exit code management (0, 1, 2, 3, 4, 5)
+
+### Launcher Options
+
+```bash
+mail_factory [options] <configuration-file>
+
+Options:
+  --help, -h              Show help message
+  --version, -v           Show version information
+  --debug                 Enable verbose debugging output
+  --dry-run               Show command without executing
+  --jar <path>            Override JAR location
+  --installation-home=X   Forward custom installation home to application
+```
+
+### JAR Search Order
+
+The launcher searches for `Application.jar` in these locations:
+
+1. `${MAIL_FACTORY_HOME}/Application.jar` (environment override)
+2. `${SCRIPT_DIR}/Application/build/libs/Application.jar` (development build)
+3. `${SCRIPT_DIR}/build/libs/Application.jar` (alternative build location)
+4. `${SCRIPT_DIR}/Release/Application.jar` (release package)
+5. `${SCRIPT_DIR}/Application.jar` (root directory)
+6. `/usr/local/lib/mail-factory/Application.jar` (system-wide install)
+7. `/opt/mail-factory/Application.jar` (alternative system location)
+
+### Exit Codes
+
+| Code | Meaning | When It Occurs |
+|------|---------|----------------|
+| 0 | Success | Normal execution or help/version display |
+| 1 | General error | Unexpected failures |
+| 2 | Java not found | Java not installed or not in PATH |
+| 3 | JAR not found | Application JAR missing from all search locations |
+| 4 | Invalid arguments | No configuration file provided |
+| 5 | Config not found | Specified configuration file doesn't exist |
+
+### Testing the Launcher
+
+**Test Suite Location**: `tests/launcher/test_launcher.sh`
+
+The launcher has a comprehensive test suite with 41 test cases covering:
+
+```bash
+# Run all launcher tests
+./tests/launcher/test_launcher.sh
+
+# Test output shows:
+# - Individual test results (✓ PASS / ✗ FAIL)
+# - Total tests run: 41
+# - Tests passed / failed summary
+```
+
+**Test Categories**:
+- **Help/Version Tests**: `--help` and `--version` flags
+- **Argument Validation**: Missing args, missing config file, invalid JAR
+- **Execution Modes**: Dry run, debug mode, normal execution
+- **Configuration Tests**: Explicit JAR, installation home, multiple args, relative/absolute paths
+- **Environment Tests**: `JAVA_OPTS`, `JAVA_HOME`, `MAIL_FACTORY_HOME`
+- **File Validation**: Config file existence, extension validation, JAR search locations
+
+**Test Infrastructure**:
+- Mock configuration files: `tests/launcher/test_tmp/config/test.json`
+- Mock JAR: `tests/launcher/mocks/mock-application.jar`
+- Isolated test environment (automatically cleaned up)
+- Color-coded output (green for pass, red for fail, blue for info)
+
+### Development Guidelines
+
+**When modifying the launcher**:
+
+1. **Always run the test suite** after changes:
+   ```bash
+   ./tests/launcher/test_launcher.sh
+   ```
+
+2. **Exit code handling**: The launcher deliberately avoids `set -e` to allow proper exit code management. Functions return specific exit codes that are captured and propagated.
+
+3. **Adding new options**:
+   - Update the argument parsing section (lines 213-244)
+   - Add to `show_help()` function (lines 64-109)
+   - Create corresponding test case in `tests/launcher/test_launcher.sh`
+   - Update documentation in README.md and CLAUDE.md
+
+4. **Error handling pattern**:
+   ```bash
+   # Functions return exit codes
+   function_name || exit $?
+
+   # Or capture for custom handling
+   result=$(function_name) || exit_code=$?
+   ```
+
+5. **Debugging launcher issues**:
+   ```bash
+   # Use debug mode to see internals
+   ./mail_factory --debug --dry-run config.json
+
+   # Or run with bash tracing
+   bash -x ./mail_factory config.json
+   ```
+
+### Adding New Test Cases
+
+To add a new launcher test:
+
+1. Create test function in `tests/launcher/test_launcher.sh`:
+   ```bash
+   test_my_new_feature() {
+       print_test_header "My new feature test"
+
+       local output
+       output=$("${LAUNCHER}" --my-flag test.json 2>&1)
+       local exit_code=$?
+
+       assert_exit_code 0 ${exit_code} "Feature returns exit code 0"
+       assert_output_contains "expected" "${output}" "Output contains expected"
+   }
+   ```
+
+2. Add function call to `main()` in the test script
+3. Update `tests/launcher/README.md` with test description
+4. Run full test suite to verify
+
+### Launcher vs Direct Java Invocation
+
+**Use the launcher when**:
+- Running in production environments
+- Need automatic JAR discovery
+- Want standardized error messages
+- Require environment variable support
+
+**Use direct Java when**:
+- Debugging application code (use IDE debugging)
+- Need specific JVM diagnostic flags
+- Testing JAR directly without wrapper logic
+- Automation scripts with explicit paths
+
 ## Key Architectural Patterns
 
 ### Initialization Flow

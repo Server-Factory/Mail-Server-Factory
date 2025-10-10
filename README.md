@@ -100,6 +100,124 @@ A detailed explanation of the script can be found [here](https://github.com/Serv
 *Note:* We strongly recommend the clean installation of the server operating system to be used with Mail Server Factory so
 there is no conflict of any kind with existing software or services.
 
+## Launcher Script
+
+The `mail_factory` launcher script is a comprehensive bash wrapper that simplifies running the Mail Server Factory application. It handles JAR location discovery, Java detection, argument forwarding, and provides robust error handling.
+
+### Features
+
+- **Automatic JAR Discovery**: Searches multiple standard locations for the Application JAR
+- **Java Detection**: Automatically finds Java (via `JAVA_HOME` or `PATH`) and validates version
+- **Environment Variable Support**: Honors `JAVA_OPTS`, `JAVA_HOME`, and `MAIL_FACTORY_HOME`
+- **Parameter Forwarding**: All command-line arguments are properly forwarded to the application
+- **Error Handling**: Clear error messages with specific exit codes for different failure scenarios
+- **Debug Mode**: Optional verbose output for troubleshooting
+- **Dry Run**: Preview the exact command that would be executed without running it
+
+### Usage
+
+Basic syntax:
+
+```bash
+mail_factory [options] <configuration-file>
+```
+
+### Command-Line Options
+
+| Option | Description |
+|--------|-------------|
+| `-h, --help` | Show help message with usage information |
+| `-v, --version` | Display launcher version information |
+| `--debug` | Enable debug output showing Java detection, JAR location, and command details |
+| `--dry-run` | Show the command that would be executed without actually running it |
+| `--jar <path>` | Explicitly specify the JAR file location |
+| `--installation-home=<path>` | Set custom installation home directory (forwarded to application) |
+
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `JAVA_HOME` | Java installation directory (e.g., `/usr/lib/jvm/java-17-openjdk`) |
+| `JAVA_OPTS` | Additional JVM options (e.g., `-Xmx4g -Xms512m` for memory settings) |
+| `MAIL_FACTORY_HOME` | Override the default JAR search location |
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General error |
+| `2` | Java not found or incompatible version |
+| `3` | JAR file not found in any search location |
+| `4` | Invalid arguments (no configuration file provided) |
+| `5` | Configuration file not found |
+
+### Examples
+
+**Basic usage:**
+```bash
+mail_factory Examples/Centos_8.json
+```
+
+**With custom JVM memory settings:**
+```bash
+JAVA_OPTS="-Xmx4g -Xms512m" mail_factory Examples/Centos_8.json
+```
+
+**With custom installation home:**
+```bash
+mail_factory --installation-home=/custom/path Examples/Centos_8.json
+```
+
+**Preview command without execution:**
+```bash
+mail_factory --dry-run Examples/Centos_8.json
+```
+
+**Debug mode for troubleshooting:**
+```bash
+mail_factory --debug Examples/Centos_8.json
+```
+
+**Using explicit JAR location:**
+```bash
+mail_factory --jar /path/to/custom/Application.jar Examples/Centos_8.json
+```
+
+### JAR Search Locations
+
+The launcher searches for `Application.jar` in the following locations (in order):
+
+1. `${MAIL_FACTORY_HOME}/Application.jar`
+2. `${SCRIPT_DIR}/Application/build/libs/Application.jar`
+3. `${SCRIPT_DIR}/build/libs/Application.jar`
+4. `${SCRIPT_DIR}/Release/Application.jar`
+5. `${SCRIPT_DIR}/Application.jar`
+6. `/usr/local/lib/mail-factory/Application.jar`
+7. `/opt/mail-factory/Application.jar`
+
+If the JAR is not found in any location, the launcher will display all searched paths and suggest building the application.
+
+### Testing the Launcher
+
+A comprehensive test suite is available at `tests/launcher/test_launcher.sh`:
+
+```bash
+# Run all launcher tests
+./tests/launcher/test_launcher.sh
+```
+
+The test suite validates:
+- Help and version flags
+- Argument validation and error handling
+- Dry run and debug modes
+- Environment variable support
+- JAR discovery and explicit JAR paths
+- Configuration file validation
+- Parameter forwarding
+
+See [tests/launcher/README.md](tests/launcher/README.md) for detailed testing documentation.
+
 ## Using installed mail server
 
 After the mail server is installed execute the following command on your server to see the list 
