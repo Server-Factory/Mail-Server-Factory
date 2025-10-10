@@ -8,14 +8,11 @@ Mail Server Factory is a Kotlin-based automation tool that deploys complete mail
 
 ## Build System
 
-The project uses Gradle with a multi-module structure. Written in Kotlin 1.5.0, targeting Java 11.
+The project uses Gradle with a multi-module structure. Written in Kotlin 2.0.21, targeting Java 17.
 
 ### Building and Testing
 
 ```bash
-# Initial setup (if gradlew is missing)
-gradle wrapper
-
 # Build the entire project
 ./gradlew assemble
 
@@ -24,9 +21,14 @@ gradle wrapper
 
 # Build and install the application JAR
 ./gradlew :Application:install
+
+# Generate test coverage reports
+./gradlew jacocoTestReport
 ```
 
 The built JAR is located at: `Application/build/libs/Application.jar`
+
+Test coverage reports are generated in: `Core/Framework/build/reports/jacoco/test/html/index.html`
 
 ### Running Single Tests
 
@@ -37,6 +39,12 @@ The built JAR is located at: `Application/build/libs/Application.jar`
 # Run a specific test method
 ./gradlew test --tests "ClassName.methodName"
 ```
+
+### Build Requirements
+
+- Gradle 8.14.3 (via wrapper)
+- Java 17 or higher
+- Docker (for running tests)
 
 ## Module Architecture
 

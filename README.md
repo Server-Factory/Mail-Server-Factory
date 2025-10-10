@@ -147,12 +147,10 @@ git clone --recurse-submodules git@github.com:Server-Factory/Mail-Server-Factory
 To build the project cd into the directory where you have cloned the code and execute:
 
 ```bash
-gradle wrapper
 ./gradlew assemble
 ```
 
-*Note:* To be able to execute [Gradle](https://gradle.org/) commands, [Gradle](https://gradle.org/) must be installed on
-your system.
+*Note:* The project uses Gradle 8.14.3 via the Gradle wrapper. Java 17 or higher is required.
 
 ## Running tests
 
@@ -163,6 +161,19 @@ To execute project tests cd into the directory where you have cloned the code an
 ```
 
 *Note:* To be able to pass tests [Docker](https://www.docker.com/) must be installed on your system.
+
+## Test Coverage
+
+To generate test coverage reports:
+
+```bash
+./gradlew jacocoTestReport
+```
+
+Coverage reports are generated in HTML, XML, and CSV formats at:
+- HTML: `Core/Framework/build/reports/jacoco/test/html/index.html`
+- XML: `Core/Framework/build/reports/jacoco/test/jacocoTestReport.xml`
+- CSV: `Core/Framework/build/reports/jacoco/test/jacocoTestReport.csv`
 
 ## Git submodules
 

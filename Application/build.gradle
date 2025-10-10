@@ -1,20 +1,7 @@
-buildscript {
-
-    repositories {
-
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-
-        classpath "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
 }
-
-apply plugin: 'kotlin'
-apply plugin: 'application'
 
 String clazz = "net.milosvasic.factory.mail.application.Launcher"
 
@@ -28,18 +15,31 @@ dependencies {
 
     implementation project(":Factory")
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+}
+
+java {
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 application {
 
-    mainClassName = clazz
+    mainClass = clazz
 }
 
 jar {
     manifest {
         attributes "Main-Class": clazz
     }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from {
 
@@ -51,6 +51,11 @@ jar {
 test {
 
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = false
+    }
 }
 
 sourceSets.main.java.srcDirs += 'src/main/kotlin'

@@ -1,19 +1,43 @@
-ext {
-
-    kotlinVersion = "1.5.0" as Object
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.0.21' apply false
 }
 
-buildscript {
+ext {
+    kotlinVersion = "2.0.21" as Object
+}
 
+// Apply JaCoCo to all subprojects for test coverage
+allprojects {
     repositories {
-
         google()
         mavenCentral()
     }
 }
 
-repositories {
+subprojects {
+    apply plugin: 'jacoco'
 
-    google()
-    mavenCentral()
+    jacoco {
+        toolVersion = "0.8.12"
+    }
+
+    tasks.withType(Test).configureEach {
+        jacoco {
+            enabled = true
+        }
+        finalizedBy jacocoTestReport
+    }
+
+    afterEvaluate {
+        if (tasks.findByName('test')) {
+            tasks.jacocoTestReport {
+                dependsOn test
+                reports {
+                    xml.required = true
+                    html.required = true
+                    csv.required = true
+                }
+            }
+        }
+    }
 }
