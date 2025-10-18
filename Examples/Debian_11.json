@@ -1,0 +1,15 @@
+{
+  "name": "Debian 11 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "debian11.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}

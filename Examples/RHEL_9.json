@@ -1,0 +1,15 @@
+{
+  "name": "Red Hat Enterprise Linux 9 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "rhel9.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}

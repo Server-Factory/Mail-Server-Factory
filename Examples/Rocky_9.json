@@ -1,0 +1,15 @@
+{
+  "name": "Rocky Linux 9 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "rocky9.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}

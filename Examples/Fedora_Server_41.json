@@ -1,0 +1,15 @@
+{
+  "name": "Fedora Server 41 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "fedora41.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}

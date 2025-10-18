@@ -120,3 +120,20 @@ gradle/*
 .gradle/*
 
 !gradle/wrapper/gradle-wrapper.properties
+
+# ISO files and VM images
+*.iso
+*.qcow2
+*.img
+*.vmdk
+*.vdi
+*.raw
+
+# VM and ISO directories
+isos/
+*.iso/
+qemu/
+*.qcow2/
+
+# Checksum files for ISOs (optional - comment out if you want to track them)
+isos/checksums/

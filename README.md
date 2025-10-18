@@ -27,7 +27,24 @@ operating system. Mail server stack that is deployed on the target operating sys
 on [Docker](https://www.docker.com/). Each stack component is loosely coupled which creates a solid base for further /
 future scalability.
 
-## Enterprise Features
+## 🚀 Latest Features
+
+### Automated OS Installation & Testing
+- **Unattended Installation**: Preseed/kickstart/cloud-init/autoyast configurations for all major distributions
+- **12 Distribution Support**: Ubuntu, Debian, RHEL, AlmaLinux, Rocky Linux, Fedora Server, openSUSE Leap
+- **QEMU Virtualization**: Complete virtual machine automation with `scripts/qemu_manager.sh`
+- **ISO Management**: Automated download and verification with `scripts/iso_manager.sh`
+- **Comprehensive Testing**: Full test suite with `scripts/test_all_distributions.sh`
+- **Network Configuration**: Automatic setup for .local hostname resolution
+- **Background Operation**: Non-interactive VM deployment and management
+
+### Comprehensive Testing Framework
+- **Mail Server Testing**: Complete SMTP/IMAP/POP3 functionality testing
+- **Cross-Distribution Testing**: Automated testing across all supported OS distributions
+- **Performance Testing**: Throughput and latency measurements
+- **Network Accessibility**: Hostname resolution and port availability testing
+
+### Enterprise Features
 
 Mail Server Factory now includes enterprise-grade security, performance, monitoring, and configuration management capabilities suitable for production deployment:
 
@@ -70,14 +87,37 @@ To be able to run Mail Server Factory the following system requirements must mee
 
 # Compatibility
 
-Mail Server Factory supports the following target operating systems:
+Mail Server Factory supports the following modern Linux server distributions:
 
-- CentOS Server 7 and 8
-- Fedora Server versions: 30 to 34
-- Fedora Workstation versions: 30 to 34
-- Ubuntu Desktop 20 and 21
+## Supported Distributions (Fully Tested)
 
-*Note:* Many other operating systems will be supported in upcoming releases.
+### Debian-based
+- **Ubuntu Server** 22.04 LTS (Jammy Jellyfish) - `Examples/Ubuntu_22.json`
+- **Ubuntu Server** 24.04 LTS (Noble Numbat) - `Examples/Ubuntu_24.json`
+- **Debian** 11 (Bullseye) - `Examples/Debian_11.json`
+- **Debian** 12 (Bookworm) - `Examples/Debian_12.json`
+
+### RHEL-based
+- **Red Hat Enterprise Linux** 9 - `Examples/RHEL_9.json`
+- **AlmaLinux** 9.5 - `Examples/AlmaLinux_9.json`
+- **Rocky Linux** 9.5 - `Examples/Rocky_9.json`
+- **Fedora Server** 38 - `Examples/Fedora_Server_38.json`
+- **Fedora Server** 39 - `Examples/Fedora_Server_39.json`
+- **Fedora Server** 40 - `Examples/Fedora_Server_40.json`
+- **Fedora Server** 41 - `Examples/Fedora_Server_41.json`
+
+### SUSE-based
+- **openSUSE Leap** 15.6 - `Examples/openSUSE_Leap_15.json`
+
+**Total: 12 distributions with comprehensive testing coverage**
+
+All distributions have been validated with:
+- ✅ Automated ISO verification
+- ✅ QEMU virtual machine testing
+- ✅ Full installation and configuration testing
+- ✅ Production-ready Docker deployment
+
+For detailed setup and testing instructions, see [docs/QEMU_SETUP.md](docs/QEMU_SETUP.md).
 
 ## SeLinux
 

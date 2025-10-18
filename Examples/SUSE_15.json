@@ -1,0 +1,15 @@
+{
+  "name": "SUSE Linux Enterprise Server 15 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "suse15.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}

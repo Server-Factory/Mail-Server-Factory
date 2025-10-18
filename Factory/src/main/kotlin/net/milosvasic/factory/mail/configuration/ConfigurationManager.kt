@@ -28,8 +28,8 @@ object ConfigurationManager {
     }
 
     // Configuration listener interface
-    interface ConfigurationListener {
-        fun onConfigurationChanged(namespace: String, newConfig: Config, oldConfig: Config?)
+    fun interface ConfigurationListener {
+        fun onConfigurationChanged(newConfig: Config, oldConfig: Config?)
     }
 
     // Current environment
@@ -295,7 +295,7 @@ object ConfigurationManager {
     private fun notifyConfigListeners(namespace: String, newConfig: Config?, oldConfig: Config?) {
         configListeners[namespace]?.forEach { listener ->
             try {
-                listener.onConfigurationChanged(namespace, newConfig ?: ConfigFactory.empty(), oldConfig)
+                listener.onConfigurationChanged(newConfig ?: ConfigFactory.empty(), oldConfig)
             } catch (e: Exception) {
                 EnterpriseLogger.error("Error notifying config listener", exception = e)
             }
