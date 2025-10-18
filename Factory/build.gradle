@@ -12,6 +12,12 @@ dependencies {
 
     api project(":Core:Framework")
 
+    // Performance and caching
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+
+    // Configuration management
+    implementation 'com.typesafe:config:1.4.3'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
 }
@@ -34,6 +40,12 @@ test {
         exceptionFormat "full"
         showStandardStreams = false
     }
+
+    // Performance optimizations for tests
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
+    systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
+    systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
 }
 
 sourceSets.main.java.srcDirs += 'src/main/kotlin'

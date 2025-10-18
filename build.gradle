@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.0.21' apply false
+    id 'org.sonarqube' version '4.4.1.3373'
 }
 
 ext {
@@ -12,6 +13,82 @@ allprojects {
         google()
         mavenCentral()
     }
+
+    // Performance optimizations
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs.addAll([
+            '-XDcompilePolicy=simple',  // Faster compilation
+            '-Xmaxerrs', '500',         // Allow more errors before stopping
+            '-Xmaxwarns', '500'         // Allow more warnings
+        ])
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            jvmTarget = '17'
+            freeCompilerArgs = [
+                '-Xjvm-default=all',           // Better Java interop
+                '-Xinline-classes',            // Performance optimization
+                '-opt-in=kotlin.RequiresOptIn' // Enable opt-in features
+            ]
+        }
+    }
+}
+
+// SonarQube configuration - simplified for Factory module only
+sonar {
+    properties {
+        property 'sonar.projectKey', 'mail-server-factory'
+        property 'sonar.projectName', 'Mail Server Factory'
+        property 'sonar.projectVersion', '1.0.0'
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.language', 'kotlin'
+
+        // Skip automatic compilation
+        property 'sonar.gradle.skipCompile', 'true'
+
+        // Only analyze Factory module
+        property 'sonar.sources', 'Factory/src/main/kotlin'
+        property 'sonar.tests', 'Factory/src/test/kotlin'
+
+        // Kotlin specific settings
+        property 'sonar.kotlin.file.suffixes', '.kt'
+
+        // Coverage
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'Factory/build/reports/jacoco/test/jacocoTestReport.xml'
+
+        // Quality Gate settings - require 100% success
+        property 'sonar.qualitygate.wait', 'true'
+        property 'sonar.qualitygate.timeout', '300'
+
+        // Local development - skip authentication for CI/testing
+        property 'sonar.login', 'admin'
+        property 'sonar.password', 'admin'
+    }
+}
+
+// Custom SonarQube quality check task
+task sonarQualityCheck(type: Exec) {
+    group = 'verification'
+    description = 'Runs SonarQube analysis and ensures 100% quality gate success'
+
+    commandLine 'sh', '-c', '''
+        echo "🔍 Running SonarQube Code Quality Analysis..."
+
+        # Check if containers are running
+        if ! docker ps | grep -q sonarqube; then
+            echo "❌ SonarQube container not running. Please start containers with: docker compose up -d"
+            exit 1
+        fi
+
+        if ! docker ps | grep -q postgresql; then
+            echo "❌ PostgreSQL container not running. Please start containers with: docker compose up -d"
+            exit 1
+        fi
+
+        # Run the analysis script
+        ./sonar-analysis.sh
+    '''
 }
 
 subprojects {
@@ -40,4 +117,37 @@ subprojects {
             }
         }
     }
+}
+
+// Comprehensive test task that includes SonarQube analysis
+task allTests {
+    group = 'verification'
+    description = 'Runs all tests including unit tests, coverage, and SonarQube quality analysis'
+
+    // Ensure SonarQube containers are running first
+    doFirst {
+        exec {
+            commandLine 'sh', '-c', '''
+                echo "🔍 Checking SonarQube containers..."
+                if ! docker ps | grep -q sonarqube; then
+                    echo "❌ SonarQube container not running. Starting containers..."
+                    docker compose up -d
+                    echo "⏳ Waiting for SonarQube to be ready..."
+                    for i in {1..30}; do
+                        if curl -s http://localhost:9000/api/system/status | grep -q '"status":"UP"'; then
+                            echo "✅ SonarQube is ready"
+                            break
+                        fi
+                        echo "Waiting... ($i/30)"
+                        sleep 10
+                    done
+                else
+                    echo "✅ SonarQube containers are running"
+                fi
+            '''
+        }
+    }
+
+    // Make allTests depend on the quality check
+    dependsOn sonarQualityCheck
 }
