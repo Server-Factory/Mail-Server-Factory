@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <general>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+    </mode>
+  </general>
+
+  <networking>
+    <interfaces config:type="list">
+      <interface>
+        <bootproto>dhcp</bootproto>
+        <device>eth0</device>
+        <startmode>auto</startmode>
+      </interface>
+    </interfaces>
+    <dns>
+      <hostname>opensuse15-mail-server</hostname>
+      <domain>local</domain>
+    </dns>
+  </networking>
+
+  <ntp-client>
+    <ntp_policy>auto</ntp_policy>
+  </ntp-client>
+
+  <users config:type="list">
+    <user>
+      <username>root</username>
+      <user_password>WhiteSnake8587</user_password>
+      <encrypted config:type="boolean">false</encrypted>
+    </user>
+    <user>
+      <username>mailtest</username>
+      <user_password>WhiteSnake8587</user_password>
+      <encrypted config:type="boolean">false</encrypted>
+      <home>/home/mailtest</home>
+      <gid>100</gid>
+      <uid>1000</uid>
+      <shell>/bin/bash</shell>
+    </user>
+  </users>
+
+  <partitioning config:type="list">
+    <drive>
+      <device>/dev/vda</device>
+      <initialize config:type="boolean">true</initialize>
+      <use>all</use>
+      <partitions config:type="list">
+        <partition>
+          <filesystem config:type="symbol">ext4</filesystem>
+          <mount>/boot</mount>
+          <size>500M</size>
+        </partition>
+        <partition>
+          <filesystem config:type="symbol">swap</filesystem>
+          <mount>swap</mount>
+          <size>2G</size>
+        </partition>
+        <partition>
+          <filesystem config:type="symbol">ext4</filesystem>
+          <mount>/</mount>
+          <size>max</size>
+        </partition>
+      </partitions>
+    </drive>
+  </partitioning>
+
+  <software>
+    <products config:type="list">
+      <product>Leap</product>
+    </products>
+    <patterns config:type="list">
+      <pattern>base</pattern>
+      <pattern>minimal_base</pattern>
+    </patterns>
+    <packages config:type="list">
+      <package>docker</package>
+      <package>docker-compose</package>
+      <package>openssh</package>
+      <package>net-tools</package>
+      <package>curl</package>
+      <package>wget</package>
+      <package>vim</package>
+    </packages>
+  </software>
+
+  <services-manager>
+    <default_target>multi-user</default_target>
+    <services>
+      <enable config:type="list">
+        <service>sshd</service>
+        <service>docker</service>
+      </enable>
+    </services>
+  </services-manager>
+
+  <scripts>
+    <post-scripts config:type="list">
+      <script>
+        <filename>post.sh</filename>
+        <interpreter>shell</interpreter>
+        <source><![CDATA[
+#!/bin/bash
+# Add mailtest to docker group
+usermod -aG docker mailtest
+
+# Configure sudo
+echo "mailtest ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/mailtest
+chmod 0440 /etc/sudoers.d/mailtest
+
+# Enable password auth for SSH
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Disable firewall for testing
+systemctl stop firewalld || true
+systemctl disable firewalld || true
+]]></source>
+      </script>
+    </post-scripts>
+  </scripts>
+</profile>

@@ -59,6 +59,7 @@ print_info() { echo -e "${BLUE}ℹ $1${NC}"; }
 # Format: "NAME|VERSION|URL|CHECKSUM_URL|CHECKSUM_TYPE"
 declare -a ISO_DEFINITIONS=(
     # Ubuntu
+    "ubuntu-20.04|20.04.6|https://releases.ubuntu.com/20.04.6/ubuntu-20.04.6-live-server-amd64.iso|https://releases.ubuntu.com/20.04.6/SHA256SUMS|sha256"
     "ubuntu-22.04|22.04.5|https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso|https://releases.ubuntu.com/22.04.5/SHA256SUMS|sha256"
     "ubuntu-24.04|24.04.3|https://releases.ubuntu.com/24.04.3/ubuntu-24.04.3-live-server-amd64.iso|https://releases.ubuntu.com/24.04.3/SHA256SUMS|sha256"
 

@@ -1,0 +1,38 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  network:
+    network:
+      version: 2
+      ethernets:
+        enp0s3:
+          dhcp4: true
+  storage:
+    layout:
+      name: lvm
+  identity:
+    hostname: ubuntu24-mail-server
+    username: mailtest
+    password: '$6$rounds=4096$saltsalt$3GjLb.xoOJUUBs6q1xPQB7bLPjh7f2FqPi8VhZqC9vK8LqP3N6kX8F9HVm2hPYqJ7xqL8mN9pQ1rS2tU3vW4x/'  # WhiteSnake8587
+  ssh:
+    install-server: true
+    allow-pw: true
+  packages:
+    - docker.io
+    - docker-compose
+    - openssh-server
+    - net-tools
+    - curl
+    - wget
+    - vim
+  user-data:
+    disable_root: false
+    package_upgrade: true
+  late-commands:
+    - curtin in-target --target=/target -- systemctl enable docker
+    - curtin in-target --target=/target -- systemctl enable ssh
+    - curtin in-target --target=/target -- usermod -aG docker mailtest
+    - curtin in-target --target=/target -- sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config

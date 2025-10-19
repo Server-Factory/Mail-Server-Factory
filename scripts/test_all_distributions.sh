@@ -18,9 +18,9 @@ RESULTS_FILE="${RESULTS_DIR}/test_results_${TIMESTAMP}.md"
 JSON_RESULTS="${RESULTS_DIR}/test_results_${TIMESTAMP}.json"
 
 # Mail Factory executable
-MAIL_FACTORY="${PROJECT_ROOT}/mail_factory"
+MAIL_FACTORY="${PROJECT_ROOT}/Application/build/libs/Application.jar"
 if [ ! -f "${MAIL_FACTORY}" ]; then
-    MAIL_FACTORY="${PROJECT_ROOT}/Application/build/libs/Application.jar"
+    MAIL_FACTORY="${PROJECT_ROOT}/mail_factory"
 fi
 
 # Colors

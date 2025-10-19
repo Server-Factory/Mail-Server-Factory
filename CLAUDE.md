@@ -8,7 +8,23 @@ Mail Server Factory is a Kotlin-based automation tool that deploys complete mail
 
 ## Build System
 
-The project uses Gradle with a multi-module structure. Written in Kotlin 2.0.21, targeting Java 17.
+The project uses Gradle 8.14.3 with a multi-module structure. Written in Kotlin 2.0.21, targeting Java 17.
+
+### Module Structure
+
+The root `build.gradle` configures all subprojects:
+- Applies Kotlin JVM plugin (2.0.21) to all modules
+- Configures JaCoCo test coverage reporting
+- Sets up SonarQube quality analysis
+- Optimizes compilation with performance flags
+- Targets JVM 17 with enhanced Java interop
+
+Main modules:
+- `Application` - Main executable JAR
+- `Factory` - Mail server implementation
+- `Core/Framework` - Generic server factory framework (submodule)
+- `Core/Logger` - Logging implementation (submodule)
+- `Logger` - Logger interface (submodule)
 
 ### Building and Testing
 
@@ -261,15 +277,60 @@ To add a new launcher test:
 
 ## Key Architectural Patterns
 
-### Initialization Flow
-The application follows an initialization-execution pattern:
-1. Parse configuration JSON
-2. Build ServerFactory via ServerFactoryBuilder
-3. Run InitializationFlow with initialization operations
-4. On success, execute factory.run() which performs the actual deployment
+### Factory Inheritance Pattern
+The Factory module extends Core Framework through inheritance:
+
+- `MailServerFactory` extends `ServerFactory` - Adds mail-specific deployment logic and overrides:
+  - `run()` - Logs mail accounts before deployment
+  - `getTerminationFlow()` - Returns mail account creation flow
+  - `getConfigurationFactory()` - Returns `MailServerConfigurationFactory`
+
+- `MailServerConfiguration` extends `Configuration` - Adds `accounts: LinkedBlockingQueue<MailAccount>` field
+
+- `MailAccount` extends `Account` - Adds email aliases and email validation
+
+This pattern allows mail-specific behavior while reusing generic server deployment logic.
+
+### Execution Flow (Detailed)
+
+**1. Application Entry** (`Application/src/main/kotlin/net/milosvasic/factory/mail/application/main.kt`):
+```
+main() → Parse CLI args → Setup logging → Initialize OSInit → Load config JSON
+```
+
+**2. Factory Initialization** (`InitializationFlow`):
+```
+InitializationFlow.run()
+  → Parse JSON with MailServerConfigurationFactory
+  → Validate mail accounts (email format, password strength)
+  → Merge configuration includes and variables
+  → Initialize SSH connection, Docker manager, Database manager
+  → Callback: onFinish(success=true)
+```
+
+**3. Deployment** (`MailServerFactory.run()`):
+```
+MailServerFactory.run()
+  → Log mail accounts to be created
+  → ServerFactory.run()
+    → InstallationFlow: Install software on remote server
+    → Docker initialization: Pull images, create networks
+    → DockerDeploymentFlow: Deploy mail stack containers
+    → DatabaseFlow: Initialize PostgreSQL database
+```
+
+**4. Termination Flow** (Mail Account Creation):
+```
+MailServerFactory.getTerminationFlow()
+  → MailFactory.getMailCreationFlow()
+    → Insert domains into PostgreSQL
+    → Insert user accounts with password hashes
+    → Insert email aliases
+    → Verify accounts: doveadm auth test (inside Docker container)
+```
 
 ### Installation Steps
-Installations are broken into discrete steps (in `component/installer/step/`):
+Installations are broken into discrete steps (in `Core/Framework/src/main/kotlin/net/milosvasic/factory/component/installer/step/`):
 - Certificate generation steps
 - Database initialization steps
 - Docker deployment steps
@@ -278,12 +339,48 @@ Installations are broken into discrete steps (in `component/installer/step/`):
 
 Each step implements the step pattern and is executed sequentially with proper error handling.
 
+### Variable Substitution System
+
+The configuration uses a powerful variable substitution system with path-based references:
+
+**Syntax**: `${CONTEXT1.CONTEXT2.KEY}`
+
+**Example**:
+```json
+{
+  "variables": {
+    "SERVICE": {
+      "DATABASE": {
+        "TABLE_USERS": "users"
+      }
+    }
+  }
+}
+```
+
+**Access in Code**:
+```kotlin
+val path = PathBuilder()
+    .addContext(Context.Service)
+    .addContext(Context.ServiceDatabase)
+    .setKey(Key.TableUsers)
+    .build()
+val tableName = Variable.get(path)  // Returns "users"
+```
+
+**Mail-specific contexts** (in `Factory/src/main/kotlin/net/milosvasic/factory/mail/configuration/`):
+- `MContext.ServiceMailReceive` - Dovecot service context
+- `MKey.DbDirectory`, `MKey.TableDomains`, `MKey.TableUsers`, `MKey.TableAliases`
+
+Variables can reference other variables and span multiple included configuration files.
+
 ### Remote Execution
 All commands execute on remote servers via SSH. The framework handles:
-- SSH connection pooling
+- SSH connection pooling via Core Framework `Connection` class
 - Command execution with output capture
 - File transfers (SCP)
-- Remote Docker operations
+- Remote Docker operations via `DockerServiceConnection`
+- Database operations inside Docker containers
 
 ## Git Submodules
 
@@ -306,11 +403,122 @@ Key submodules (from `.gitmodules`):
 
 ## Target Operating Systems
 
-Supports CentOS 7-8, Fedora Server/Workstation 30-34, Ubuntu Desktop 20-21. SELinux enforcing is not currently supported.
+The project supports 12 major Linux distributions with comprehensive automated testing:
+
+**Debian-based**: Ubuntu 22.04, 24.04 | Debian 11, 12
+**RHEL-based**: RHEL 9, AlmaLinux 9, Rocky Linux 9, Fedora Server 38-41
+**SUSE-based**: openSUSE Leap 15.6
+
+Each distribution has:
+- Automated installation configuration (preseed/kickstart/cloud-init/autoyast)
+- Dedicated JSON configuration file in `Examples/` directory
+- QEMU-based testing infrastructure
+- Full mail server stack deployment validation
+
+**Note**: SELinux enforcing mode is not currently supported.
 
 ## SSH Access
 
 The system requires SSH key-based authentication. Use `Core/Utils/init_ssh_access.sh` to configure passwordless SSH access to target servers.
+
+## QEMU/VM Testing Infrastructure
+
+The project includes comprehensive scripts for testing mail server deployment across all supported distributions using QEMU virtualization.
+
+### Testing Scripts
+
+**`scripts/iso_manager.sh`** - ISO management
+```bash
+# Download ISOs for all supported distributions
+./scripts/iso_manager.sh download
+
+# Verify ISO checksums
+./scripts/iso_manager.sh verify
+
+# List available ISOs
+./scripts/iso_manager.sh list
+```
+
+**`scripts/qemu_manager.sh`** - VM lifecycle management
+```bash
+# Create VM with distribution-specific settings
+./scripts/qemu_manager.sh create <distribution> [memory] [disk] [cpus]
+
+# Examples:
+./scripts/qemu_manager.sh create ubuntu-22 4096 20G 2
+./scripts/qemu_manager.sh create fedora-41 8192 40G 4
+./scripts/qemu_manager.sh create rocky-9 8192 40G 4
+
+# Start/stop/status/delete VMs
+./scripts/qemu_manager.sh start <distribution>
+./scripts/qemu_manager.sh stop <distribution>
+./scripts/qemu_manager.sh status <distribution>
+./scripts/qemu_manager.sh delete <distribution>
+```
+
+**`scripts/test_all_distributions.sh`** - Automated distribution testing
+```bash
+# Test all distributions
+./scripts/test_all_distributions.sh all
+
+# Test single distribution
+./scripts/test_all_distributions.sh single Ubuntu_22
+
+# Generate test report
+./scripts/test_all_distributions.sh report
+```
+
+### VM Directory Structure
+
+```
+vms/
+├── ubuntu-22/          # VM directory (per distribution)
+│   ├── disk.qcow2      # Virtual disk
+│   ├── vm.pid          # QEMU process ID
+│   └── serial.log      # Console output
+├── logs/               # VM creation logs
+└── isos/               # Downloaded ISO files
+```
+
+### Automated Installation Configurations
+
+Located in `preseeds/` directory:
+- **Ubuntu/Debian**: `preseed.cfg` - Debian preseed format
+- **Fedora/RHEL/AlmaLinux/Rocky**: `ks.cfg` - Kickstart format
+- **openSUSE**: `autoyast.xml` - AutoYaST format
+
+Each configuration provides:
+- Non-interactive installation
+- Automatic partitioning
+- Network configuration (hostname.local resolution)
+- SSH server installation
+- Docker installation
+- User account setup
+
+### Testing Workflow
+
+1. **Download ISOs**: `./scripts/iso_manager.sh download`
+2. **Create VMs**: Use `qemu_manager.sh create` for each distribution
+3. **Wait for Installation**: VMs auto-install (10-30 minutes per distribution)
+4. **Deploy Mail Server**: Run `./mail_factory Examples/<Distribution>.json`
+5. **Verify Services**: Check Docker containers with `docker ps -a`
+6. **Run Tests**: Execute distribution-specific validation tests
+7. **Generate Report**: `./scripts/test_all_distributions.sh report`
+
+### Resource Requirements
+
+- **Disk Space**: ~100GB (for ISOs and VM images)
+- **RAM**: 16GB recommended (for running multiple VMs)
+- **CPU**: Hardware virtualization support (Intel VT-x or AMD-V)
+
+### Test Results
+
+Test results are stored in `test_results/` directory:
+- Markdown reports: `test_results_<timestamp>.md`
+- JSON reports: `test_results_<timestamp>.json`
+- Individual distribution logs: `<distribution>_<timestamp>.log`
+
+See [TESTING.md](TESTING.md) for detailed testing documentation.
 
 ## Testing
 
@@ -393,6 +601,74 @@ fun testMethodName() {
 - **Impact**: Prevented credentials/type swap that would cause authentication failures
 - **File**: `Factory/src/main/kotlin/net/milosvasic/factory/mail/account/MailAccount.kt:15`
 
+## Enterprise Features
+
+The application includes enterprise-grade features for production deployment:
+
+### Configuration Management
+
+Located in `config/` directory:
+- `application.conf` - Base application configuration
+- `application-{environment}.conf` - Environment-specific overrides (development/staging/production)
+- `security.conf` - Security policies and encryption settings
+- `database.conf` - Database connection and pooling settings
+- `monitoring.conf` - Metrics and health check configuration
+- `performance.conf` - JVM tuning and caching settings
+
+**Environment Selection**:
+```bash
+# Set environment via environment variable
+export MAIL_FACTORY_ENV=production
+./mail_factory config.json
+
+# Or via custom config directory
+export MAIL_FACTORY_CONFIG_DIR=/etc/mail-factory/config
+```
+
+### Security Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/security/`)
+
+- **Encryption**: AES-256-GCM for sensitive data encryption
+- **Password Policies**: Configurable strength requirements (min length, uppercase, digits, special chars)
+- **Session Management**: Timeout controls, concurrent session limits
+- **TLS/SSL**: Enforced TLS 1.3/1.2 for all connections
+- **Audit Logging**: Security event tracking with retention policies
+
+### Performance Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/performance/`)
+
+- **Caching**: Caffeine-based multi-region caching with configurable TTL
+- **Thread Pools**: Configurable thread pool sizing for optimal concurrency
+- **JVM Tuning**: G1GC configuration and heap size management
+- **Connection Pooling**: Database connection pooling for high throughput
+
+### Monitoring Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/monitoring/`)
+
+- **Metrics Export**: Prometheus-compatible metrics endpoint (default port 9090)
+- **Health Checks**: Automated health monitoring for system, database, security, and performance
+- **Structured Logging**: JSON-formatted logs with correlation IDs (`Factory/src/main/kotlin/net/milosvasic/factory/mail/logging/`)
+- **Performance Monitoring**: Real-time JVM, database, and application metrics
+
+**Access metrics**:
+```bash
+curl http://localhost:9090/metrics
+```
+
+### SonarQube Integration
+
+The project includes SonarQube quality analysis:
+
+```bash
+# Start SonarQube containers
+docker compose up -d
+
+# Run quality analysis
+./gradlew sonarQualityCheck
+
+# Or run comprehensive tests including quality analysis
+./gradlew allTests
+```
+
+SonarQube dashboard: `http://localhost:9000` (credentials: admin/admin)
+
 ## Important Development Notes
 
 - The application uses OS-specific source sets: `src/os/macos/kotlin` for macOS, `src/os/default/kotlin` for other platforms
@@ -401,3 +677,6 @@ fun testMethodName() {
 - Clean server installations are strongly recommended to avoid conflicts
 - **Always run tests before committing**: `./gradlew test`
 - Test reports available at: `<module>/build/reports/tests/test/index.html`
+- **Mail accounts must have valid email format** and passwords meeting `MEDIUM` strength requirements
+- **Configuration variables are case-sensitive** and follow the `${CONTEXT.SUBCONTEXT.KEY}` pattern
+- **Git submodules must be initialized** after cloning: `git submodule update --init --recursive`

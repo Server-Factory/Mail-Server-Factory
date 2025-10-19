@@ -153,7 +153,7 @@ autoinstall:
   version: 1
   identity:
     hostname: ${vm_name}
-    password: '\$6\$rounds=4096\$saltsaltsal\$LUQCxBP8yl1wYKl/kzVcnFJMYJI2MJzJm.GRJcz2E6Nf8BH8sLh7KfXl7GZ3h/8JLQqWFQZ6rqZQ7qZ6rqZQ'
+    password: '\$6\$UGQ.5nXqCU8QhAPR\$ujmoKZLcrDyiGU8Hs1uP/AfOyHQzqIKkRF7G8hRYhGXwbW0YX9WGtkdRn0vChs/QYtwAjKUuhPPaz5uhLKeBS0'
     username: root
   keyboard:
     layout: us
@@ -196,7 +196,7 @@ create_kickstart() {
 lang en_US.UTF-8
 keyboard us
 timezone UTC
-rootpw --plaintext root
+rootpw --plaintext WhiteSnake8587
 authconfig --enableshadow --passalgo=sha512
 selinux --disabled
 firewall --disabled
@@ -239,8 +239,8 @@ d-i mirror/country string manual
 d-i mirror/http/hostname string deb.debian.org
 d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
-d-i passwd/root-password password root
-d-i passwd/root-password-again password root
+d-i passwd/root-password password WhiteSnake8587
+d-i passwd/root-password-again password WhiteSnake8587
 d-i clock-setup/utc boolean true
 d-i time/zone string UTC
 d-i partman-auto/method string regular
@@ -286,6 +286,9 @@ start_vm() {
     print_info "Starting VM: ${vm_name}"
     log_info "Memory: ${memory}MB, CPUs: ${cpus}"
 
+    # Calculate unique SSH port for this VM (2222 + index based on VM name)
+    local ssh_port=$((2222 + $(echo "${vm_name}" | tr -cd '0-9' | sed 's/^0*//' || echo "0")))
+
     # Build QEMU command
     local qemu_cmd=(
         qemu-system-x86_64
@@ -297,7 +300,7 @@ start_vm() {
         -boot d
         -enable-kvm
         -cpu host
-        -netdev user,id=net0,hostfwd=tcp::2222-:22
+        -netdev user,id=net0,hostfwd=tcp::${ssh_port}-:22
         -device virtio-net-pci,netdev=net0
         -display none
         -daemonize
@@ -314,7 +317,7 @@ start_vm() {
 
     if [ $? -eq 0 ]; then
         print_success "VM started: ${vm_name}"
-        print_info "SSH access (after installation): ssh -p 2222 root@localhost"
+        print_info "SSH access (after installation): ssh -p ${ssh_port} root@localhost"
         print_info "Log file: ${log_file}"
         return 0
     else
