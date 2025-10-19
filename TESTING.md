@@ -1,494 +1,256 @@
-# Testing Documentation
+# Mail Server Factory - Testing Documentation
 
-## Test Summary
+## Current Status
 
-Mail Server Factory has comprehensive test coverage across all modules with 100% test execution success.
+The Mail Server Factory project includes comprehensive testing capabilities for all supported distributions using QEMU virtualization. This document outlines the current testing status and procedures for validating the application across all supported operating systems.
 
-### Test Statistics
+## Supported Distributions
 
-| Module | Tests | Coverage | Status |
-|--------|-------|----------|--------|
-| Core:Framework | 14 | 85%+ | ✅ 100% Pass |
-| Factory | 33 | 85%+ | ✅ 100% Pass |
-| Application | 0 | N/A | ⏳ Pending |
-| Logger | 0 | N/A | N/A (submodule) |
-| **TOTAL** | **47** | **85%+** | **✅ 100% Pass** |
+Mail Server Factory supports the following 12 Linux distributions:
 
-### Test Execution Success Rate
+| Family | Distribution | Version | Status |
+|--------|--------------|---------|--------|
+| Debian | Ubuntu | 22.04 | ✅ Ready for Testing |
+| Debian | Ubuntu | 24.04 | ✅ Ready for Testing |
+| Debian | Debian | 11 | ✅ Ready for Testing |
+| Debian | Debian | 12 | ✅ Ready for Testing |
+| RHEL | RHEL | 9 | ✅ Ready for Testing |
+| RHEL | AlmaLinux | 9 | ✅ Ready for Testing |
+| RHEL | Rocky Linux | 9 | ✅ Ready for Testing |
+| RHEL | Fedora Server | 38 | ✅ Ready for Testing |
+| RHEL | Fedora Server | 39 | ✅ Ready for Testing |
+| RHEL | Fedora Server | 40 | ✅ Ready for Testing |
+| RHEL | Fedora Server | 41 | ✅ Ready for Testing |
+| SUSE | openSUSE Leap | 15.6 | ✅ Ready for Testing |
 
-🎯 **100%** - All 47 tests pass successfully
+## Prerequisites for Running Tests
 
-### Code Quality Analysis
+### System Requirements
+- Modern Linux system with hardware virtualization support (Intel VT-x or AMD-V)
+- At least 100GB free disk space (for ISOs and VM images)
+- At least 16GB RAM (recommended for running multiple VMs)
+- Internet connection for downloading ISOs
 
-| Quality Metric | Status | Details |
-|----------------|--------|---------|
-| **SonarQube Quality Gate** | ✅ **PASSED** | 100% success rate achieved |
-| **Code Smells** | ✅ **0** | Zero tolerance policy |
-| **Security Vulnerabilities** | ✅ **0** | Zero tolerance policy |
-| **Bugs** | ✅ **0** | Zero tolerance policy |
-| **Test Coverage** | 📊 **85%+** | Enterprise-grade coverage |
-| **Enterprise Security** | ✅ **ENABLED** | AES-256-GCM encryption, audit logging |
-| **Performance Monitoring** | ✅ **ENABLED** | Real-time metrics, health checks |
-| **Configuration Validation** | ✅ **ENABLED** | Schema validation, hot reloading |
+### Software Requirements
+1. **QEMU**: `sudo apt install qemu-system-x86 qemu-utils`
+2. **Java 17+**
+3. **Docker**
+4. **Git**
 
-**Quality Standards**: All code must pass SonarQube analysis with 100% quality gate success. No code smells, security vulnerabilities, or bugs are allowed.
+### Automated Setup Requirements
+- `./scripts/iso_manager.sh` - Download and verify ISOs
+- `./scripts/qemu_manager.sh` - Create and manage VMs
+- `./scripts/test_all_distributions.sh` - Execute tests across all distributions
 
-## Running Tests
+## Testing Process
 
-### Run Complete Test Suite (Recommended)
-
+### Phase 1: ISO Preparation
 ```bash
-./run-all-tests.sh
+# Download all ISOs for supported distributions
+./scripts/iso_manager.sh download
+
+# Verify all ISOs
+./scripts/iso_manager.sh verify
+
+# List available ISOs
+./scripts/iso_manager.sh list
 ```
 
-This script runs:
-- Unit tests for all modules
-- Code coverage generation
-- SonarQube quality analysis
-- Quality gate verification (100% success required)
-
-### Run All Tests (Unit Tests Only)
-
+### Phase 2: VM Creation
 ```bash
-./gradlew test
+# Create VMs for all supported distributions
+# Note: VM creation parameters vary based on distribution requirements
+
+# Ubuntu distributions
+./scripts/qemu_manager.sh create ubuntu-22 4096 20G 2
+./scripts/qemu_manager.sh create ubuntu-24 4096 20G 2
+
+# Debian distributions  
+./scripts/qemu_manager.sh create debian-11 4096 20G 2
+./scripts/qemu_manager.sh create debian-12 4096 20G 2
+
+# Fedora distributions
+./scripts/qemu_manager.sh create fedora-38 8192 40G 4
+./scripts/qemu_manager.sh create fedora-39 8192 40G 4
+./scripts/qemu_manager.sh create fedora-40 8192 40G 4
+./scripts/qemu_manager.sh create fedora-41 8192 40G 4
+
+# RHEL-based distributions
+./scripts/qemu_manager.sh create almalinux-9 8192 40G 4
+./scripts/qemu_manager.sh create rocky-9 8192 40G 4
+./scripts/qemu_manager.sh create rhel-9 8192 40G 4
+
+# SUSE distribution
+./scripts/qemu_manager.sh create opensuse-15 8192 40G 4
 ```
 
-### Run Comprehensive Tests
+### Phase 3: OS Installation and Configuration
+Each VM will be automatically configured based on the distribution type:
 
+- **Ubuntu**: Uses cloud-init with autoinstall for automated installation
+- **Debian**: Uses preseed configuration for automated installation
+- **Fedora/RHEL/AlmaLinux/Rocky**: Uses kickstart for automated installation
+- **openSUSE**: Uses AutoYaST configuration for automated installation
+
+### Phase 4: Mail Server Factory Installation
+After OS installation completes in each VM:
+
+1. Ensure Docker is installed and running in the VM
+2. Configure SSH access for the Mail Server Factory
+3. Run the Mail Server Factory with the appropriate configuration file
+
+### Phase 5: Automated Testing
 ```bash
-./gradlew allTests
+# Test all distributions
+./scripts/test_all_distributions.sh all
+
+# Test specific distribution
+./scripts/test_all_distributions.sh single Ubuntu_22
+
+# Generate test report
+./scripts/test_all_distributions.sh report
 ```
 
-This Gradle task runs unit tests, coverage, and SonarQube analysis.
+## Configuration Files
 
-### Run Tests for Specific Module
+Each distribution has a corresponding configuration file in the `Examples/` directory:
 
+- `Examples/Ubuntu_22.json` - Ubuntu 22.04 configuration
+- `Examples/Ubuntu_24.json` - Ubuntu 24.04 configuration
+- `Examples/Debian_11.json` - Debian 11 configuration
+- `Examples/Debian_12.json` - Debian 12 configuration
+- `Examples/RHEL_9.json` - RHEL 9 configuration
+- `Examples/AlmaLinux_9.json` - AlmaLinux 9 configuration
+- `Examples/Rocky_9.json` - Rocky Linux 9 configuration
+- `Examples/Fedora_Server_38.json` - Fedora Server 38 configuration
+- `Examples/Fedora_Server_39.json` - Fedora Server 39 configuration
+- `Examples/Fedora_Server_40.json` - Fedora Server 40 configuration
+- `Examples/Fedora_Server_41.json` - Fedora Server 41 configuration
+- `Examples/openSUSE_Leap_15.json` - openSUSE Leap 15.6 configuration
+
+## Expected Test Results
+
+### Mail Server Components
+After successful installation, the following components should be operational:
+
+- **PostgreSQL** - Main database server
+- **Dovecot** - IMAP/POP3 server
+- **Postfix** - SMTP server
+- **Rspamd** - Anti-spam service
+- **Redis** - In-memory database for Rspamd
+- **ClamAV** - Anti-virus service
+
+### Docker Containers
+The following Docker containers should be running:
+
+- `postmaster_receive` - IMAP/POP3 with SSL (port 993)
+- `postmaster_send` - SMTP with SSL (port 465)  
+- `postmaster_antispam` - Anti-spam service (ports 11332-11334)
+- `postmaster_antivirus` - Anti-virus service
+- `postmaster_mem_db` - Redis memory database (port 6379)
+- `postmaster_db` - PostgreSQL database (port 5432)
+
+## Logging and Reporting
+
+### Log Files Location
+- VM creation logs: `vms/logs/`
+- ISO download logs: `isos/iso_manager.log`
+- Test execution logs: `test_results/`
+- Individual test logs: `test_results/${distribution}_${timestamp}.log`
+
+### Test Reports
+- Markdown reports: `test_results/test_results_${timestamp}.md`
+- JSON reports: `test_results/test_results_${timestamp}.json`
+
+## Known Issues and Limitations
+
+1. **SELinux Enforcement**: The current version does not support SELinux enforcing mode
+2. **Resource Requirements**: Testing all distributions simultaneously requires significant system resources
+3. **Network Configuration**: Each VM requires proper network configuration for hostname resolution
+4. **Installation Time**: Full testing across all distributions can take 6-12 hours
+
+## Enterprise Features Testing
+
+The Mail Server Factory includes enterprise-grade features that are validated during testing:
+
+- **Security**: AES-256-GCM encryption, advanced authentication
+- **Performance**: Caching with Caffeine, JVM optimizations
+- **Monitoring**: Prometheus-compatible metrics, health checks
+- **Configuration Management**: Environment-specific configurations with hot reloading
+
+## Running the Complete Test Suite
+
+### Automated Script for Full Testing
 ```bash
-# Core Framework tests
-./gradlew :Core:Framework:test
+#!/bin/bash
+# Complete testing automation script
 
-# Factory module tests
-./gradlew :Factory:test
+# Ensure prerequisites
+echo "Checking prerequisites..."
+if ! command -v qemu-system-x86_64 &> /dev/null; then
+    echo "QEMU not installed. Please install: sudo apt install qemu-system-x86 qemu-utils"
+    exit 1
+fi
 
-# Application tests (when available)
-./gradlew :Application:test
+if ! command -v docker &> /dev/null; then
+    echo "Docker not installed"
+    exit 1
+fi
+
+# Download ISOs
+echo "Downloading ISOs..."
+./scripts/iso_manager.sh download
+
+# Create and test each distribution
+distributions=("ubuntu-22" "ubuntu-24" "debian-11" "debian-12" "fedora-41" "almalinux-9" "rocky-9")
+
+for dist in "${distributions[@]}"; do
+    echo "Testing distribution: $dist"
+    
+    # Create VM
+    echo "Creating VM for $dist..."
+    ./scripts/qemu_manager.sh create "$dist"
+    
+    # Start VM
+    echo "Starting VM for $dist..."
+    ./scripts/qemu_manager.sh start "$dist"
+    
+    # Wait for installation (adjust timing based on distribution)
+    case "$dist" in
+        "ubuntu-"*) sleep 600 ;;  # 10 minutes for Ubuntu
+        "debian-"*) sleep 900 ;;  # 15 minutes for Debian
+        "fedora-"*) sleep 1800 ;; # 30 minutes for Fedora
+        *) sleep 1200 ;;          # 20 minutes for others
+    esac
+    
+    # Run Mail Server Factory test
+    dist_for_config=$(echo "$dist" | sed 's/ubuntu-22/Ubuntu_22/' | sed 's/ubuntu-24/Ubuntu_24/' | sed 's/debian-11/Debian_11/' | sed 's/debian-12/Debian_12/' | sed 's/fedora-41/Fedora_Server_41/' | sed 's/almalinux-9/AlmaLinux_9/' | sed 's/rocky-9/Rocky_9/')
+    ./scripts/test_all_distributions.sh single "$dist_for_config"
+    
+    # Stop VM
+    ./scripts/qemu_manager.sh stop "$dist"
+done
+
+# Generate final report
+./scripts/test_all_distributions.sh report
+echo "Testing complete! See test_results/ for detailed reports."
 ```
 
-### Generate Test Coverage Reports
-
-```bash
-./gradlew test jacocoTestReport
-```
-
-Coverage reports are generated at:
-- **Core:Framework**: `Core/Framework/build/reports/jacoco/test/html/index.html`
-- **Factory**: `Factory/build/reports/jacoco/test/html/index.html`
-
-### Run Code Quality Analysis
-
-```bash
-# Run complete quality check (tests + SonarQube)
-./gradlew check
-
-# Run SonarQube analysis only
-./sonar-analysis.sh
-
-# Start SonarQube containers (if not running)
-docker compose up -d
-
-# View SonarQube dashboard
-open http://localhost:9000
-```
-
-**Note**: SonarQube analysis requires Docker containers to be running. The analysis includes:
-- Code quality metrics
-- Security vulnerability scanning
-- Code smell detection
-- Test coverage integration
-- Quality gate enforcement (100% pass rate required)
-
-### Run Tests with Detailed Output
-
-```bash
-./gradlew test --info
-```
-
-## Test Categories
-
-### Unit Tests
-
-#### Factory Module Tests
-
-**MailAccount Tests** (13 tests)
-- Constructor validation with parameters
-- Alias management (get, print, empty handling)
-- Credentials handling
-- toString() method
-- Account type validation (email, postmaster)
-
-**MailAccountValidator Tests** (7 tests)
-- Valid email and password validation
-- Invalid email format detection
-- Weak password detection
-- Alias validation
-- Multiple accounts validation
-- Edge cases (no arguments, postmaster accounts)
-
-**MailServerConfiguration Tests** (5 tests)
-- Constructor with various parameter combinations
-- Merge functionality for combining configurations
-- Null handling for accounts
-- All parameters validation
-
-**MailServerConfigurationFactory Tests** (8 tests)
-- Type token generation
-- Account queue initialization
-- Configuration validation (valid/invalid emails, passwords, aliases)
-- Empty and null account handling
-
-#### Core:Framework Tests (14 tests)
-
-**Installation Step Tests**
-- `CheckStepTest`: Verification step execution
-- `DeployStepTest`: Deployment step execution
-- `SkipConditionStepFlowTest`, `SkipConditionCheckStepTest`: Conditional execution
-- `ConditionStepFlowTest`: Condition-based flow control
-- `InstallationStepFlowTest`: Multi-step installation flows
-
-**Flow Tests**
-- `FlowConnectTest`, `FlowConnectTestWithFailure`: Flow connection and error handling
-- `FlowConnectObtainedFlowsTest`: Flow composition
-- `CommandFlowTest`: Command execution flows
-- `InitializationFlowTest`, `InitializationFlowTestWithHandler`: Initialization sequences
-
-**Other Tests**
-- `InstallerTest`: Package installer functionality
-- `FilePathBuilderTest`: Path construction utilities
-
-## Enterprise Testing Features
-
-### Security Testing
-- **Encryption Validation**: Tests for AES-256-GCM encryption/decryption
-- **Password Policy Testing**: Validation of enterprise password requirements
-- **Session Security Testing**: Concurrent session control and timeout validation
-- **Audit Logging Testing**: Security event logging and retention verification
-- **TLS Configuration Testing**: Certificate validation and protocol enforcement
-
-### Performance Testing
-- **Caching Performance**: Caffeine cache hit/miss ratio validation
-- **Thread Pool Testing**: Concurrent execution and resource management
-- **Memory Management**: JVM heap usage and garbage collection testing
-- **Database Connection Pooling**: Connection lifecycle and pooling efficiency
-- **Async Operation Testing**: Non-blocking I/O and concurrent processing
-
-### Monitoring Testing
-- **Metrics Collection**: Prometheus-compatible metrics validation
-- **Health Check Testing**: Automated health verification for all components
-- **Alert System Testing**: Configurable alert generation and escalation
-- **Log Aggregation Testing**: Structured logging with correlation IDs
-
-### Configuration Testing
-- **Environment Configuration**: Multi-environment config loading and validation
-- **Hot Reloading Testing**: Runtime configuration updates without restart
-- **Schema Validation**: Configuration file validation with detailed error reporting
-- **File Watching**: Real-time configuration file change detection
-
-### Enterprise Test Execution
-
-#### Run Enterprise Security Tests
-```bash
-# Test security components
-./gradlew :Factory:test --tests "*Security*"
-
-# Test encryption functionality
-./gradlew :Factory:test --tests "*Encrypt*"
-
-# Test audit logging
-./gradlew :Factory:test --tests "*Audit*"
-```
-
-#### Run Performance Tests
-```bash
-# Test caching performance
-./gradlew :Factory:test --tests "*Cache*"
-
-# Test thread pool performance
-./gradlew :Factory:test --tests "*Thread*"
-
-# Test memory management
-./gradlew :Factory:test --tests "*Memory*"
-```
-
-#### Run Monitoring Tests
-```bash
-# Test metrics collection
-./gradlew :Factory:test --tests "*Metrics*"
-
-# Test health checks
-./gradlew :Factory:test --tests "*Health*"
-
-# Test alerting
-./gradlew :Factory:test --tests "*Alert*"
-```
-
-#### Run Configuration Tests
-```bash
-# Test configuration loading
-./gradlew :Factory:test --tests "*Config*"
-
-# Test environment configurations
-./gradlew :Factory:test --tests "*Environment*"
-
-# Test hot reloading
-./gradlew :Factory:test --tests "*Reload*"
-```
-
-### Enterprise Test Reports
-
-#### Security Test Reports
-- **Encryption Test Results**: AES-256-GCM validation status
-- **Password Policy Compliance**: Enterprise password requirement verification
-- **Session Security Audit**: Concurrent session and timeout testing results
-- **Audit Log Analysis**: Security event logging effectiveness
-
-#### Performance Test Reports
-- **Caching Efficiency**: Hit/miss ratios and cache performance metrics
-- **Thread Pool Utilization**: Resource usage and throughput analysis
-- **Memory Optimization**: Heap usage patterns and GC performance
-- **Database Performance**: Connection pooling and query optimization results
-
-#### Monitoring Test Reports
-- **Metrics Accuracy**: Prometheus metrics validation and completeness
-- **Health Check Reliability**: Component health verification results
-- **Alert Effectiveness**: Alert generation and false positive analysis
-- **Log Quality**: Structured logging validation and correlation analysis
-
-#### Configuration Test Reports
-- **Environment Validation**: Multi-environment configuration testing
-- **Reload Performance**: Hot reloading speed and reliability metrics
-- **Schema Compliance**: Configuration file validation results
-- **File Watching**: Configuration change detection accuracy
-
-## Test Reports
-
-### HTML Reports
-
-After running tests, view detailed HTML reports at:
-
-```
-Core/Framework/build/reports/tests/test/index.html
-Factory/build/reports/tests/test/index.html
-```
-
-### Coverage Reports
-
-JaCoCo generates comprehensive coverage reports in multiple formats:
-
-- **HTML**: Interactive browsable coverage report
-- **XML**: For CI/CD integration
-- **CSV**: For data analysis
-
-## Known Issues
-
-### StackStepTest
-
-- **Status**: Temporarily excluded from test runs
-- **Issue**: Initialization failure (exit code 5)
-- **Impact**: Does not affect production builds
-- **Next Steps**: Requires Docker configuration investigation
-
-## Test Best Practices
-
-### Writing New Tests
-
-1. **Use descriptive test names**: Follow the pattern `test<Functionality><Scenario>()`
-2. **Use @DisplayName annotations**: Provide clear, human-readable test descriptions
-3. **Follow AAA pattern**: Arrange, Act, Assert
-4. **Test edge cases**: Include null handling, empty collections, boundary conditions
-5. **Use appropriate assertions**: JUnit 5 provides comprehensive assertion methods
-
-### Example Test Structure
-
-```kotlin
-@Test
-@DisplayName("Description of what this test validates")
-fun testMethodName() {
-    // Given - Setup test data and preconditions
-    val input = createTestData()
-
-    // When - Execute the functionality being tested
-    val result = methodUnderTest(input)
-
-    // Then - Verify the expected outcome
-    assertEquals(expectedValue, result)
-    assertNotNull(result)
-}
-```
-
-### Test Organization
-
-Tests are organized by module and package structure:
-
-```
-Factory/src/test/kotlin/
-  └── net/milosvasic/factory/mail/
-      ├── account/
-      │   ├── MailAccountTest.kt
-      │   └── MailAccountValidatorTest.kt
-      └── configuration/
-          ├── MailServerConfigurationTest.kt
-          └── MailServerConfigurationFactoryTest.kt
-
-Core/Framework/src/test/kotlin/
-  └── net/milosvasic/factory/test/
-      ├── CheckStepTest.kt
-      ├── DeployStepTest.kt
-      └── ...
-```
-
-## Continuous Integration
-
-Tests should be run:
-- Before every commit
-- In CI/CD pipeline (on every pull request)
-- Before releases
-- After dependency updates
-
-### CI Configuration Example
-
-```yaml
-# GitHub Actions example - Complete Test Suite
-- name: Run Complete Test Suite
-  run: ./run-all-tests.sh
-
-- name: Upload Coverage
-  uses: codecov/codecov-action@v3
-  with:
-    files: ./Core/Framework/build/reports/jacoco/test/jacocoTestReport.xml,./Factory/build/reports/jacoco/test/jacocoTestReport.xml
-
-# Alternative: Manual step-by-step approach
-- name: Run Tests
-  run: ./gradlew test jacocoTestReport
-
-- name: Run Code Quality Analysis
-  run: |
-    docker compose up -d
-    sleep 30
-    ./sonar-analysis.sh
-
-- name: SonarQube Quality Gate Check
-  run: ./gradlew sonarQualityCheck
-```
-
-## Future Test Expansion
-
-### Planned Tests
-
-1. **Application Module Tests**
-   - Main entry point testing
-   - OS initialization tests
-   - Command-line argument parsing
-
-2. **Integration Tests**
-   - End-to-end mail server deployment
-   - SSH connection testing
-   - Docker integration tests
-   - Database integration tests
-
-3. **Performance Tests**
-   - Large-scale account creation
-   - Configuration parsing performance
-   - SSH command execution benchmarks
-
-4. **Security Tests**
-   - Password strength validation
-   - SSH key authentication
-   - Configuration injection prevention
-
-## Test Coverage Goals
-
-### Current Coverage
-
-- **Core:Framework**: 21% (baseline from existing code)
-- **Factory**: Comprehensive unit test coverage for all public APIs
-
-### Coverage Goals
-
-- **Current**: 85%+ overall coverage achieved
-- **Enterprise Security**: 100% coverage for security components
-- **Performance Engine**: 100% coverage for performance optimizations
-- **Monitoring System**: 100% coverage for monitoring components
-- **Configuration Management**: 100% coverage for config management
-
-### Code Quality Standards
-
-All code must adhere to the following quality standards enforced by SonarQube:
-
-1. **Zero Code Smells**: No code quality issues allowed
-2. **Zero Security Vulnerabilities**: All security issues must be fixed
-3. **Zero Bugs**: All potential bugs must be addressed
-4. **Quality Gate Success**: 100% pass rate required
-5. **Test Coverage**: Minimum 80% overall coverage target
-
-**Quality Enforcement**: The `./gradlew check` command runs both unit tests and SonarQube analysis, ensuring 100% compliance with quality standards.
-
-### Coverage Improvement Strategy
-
-1. ✅ **Phase 1**: Add unit tests for Factory module (COMPLETED)
-2. ✅ **Phase 2**: Enterprise security testing (COMPLETED)
-3. ✅ **Phase 3**: Performance testing implementation (COMPLETED)
-4. ✅ **Phase 4**: Monitoring system testing (COMPLETED)
-5. ✅ **Phase 5**: Configuration management testing (COMPLETED)
-6. ⏳ **Phase 6**: Add unit tests for Application module (PENDING)
-7. ⏳ **Phase 7**: Add integration tests for enterprise features
-8. ⏳ **Phase 8**: Add end-to-end automation tests
-
-## Troubleshooting Tests
-
-### Tests Fail to Run
-
-```bash
-# Clean and rebuild
-./gradlew clean build
-
-# Check Docker is running (required for some tests)
-docker ps
-```
-
-### Coverage Reports Not Generated
-
-```bash
-# Ensure JaCoCo is configured
-./gradlew tasks --all | grep jacoco
-
-# Generate reports explicitly
-./gradlew jacocoTestReport
-```
-
-### Test Dependencies Issues
-
-```bash
-# Refresh dependencies
-./gradlew build --refresh-dependencies
-```
-
-## Bug Fixes Made During Test Development
-
-### MailAccount Constructor Bug
-
-**Issue**: The MailAccount class was passing parameters to its parent Account class in the wrong order.
-
-**Fix**: Changed `Account(name, credentials, type)` to `Account(name, type, credentials)` to match the parent constructor signature.
-
-**Impact**: This bug would have caused credentials and type to be swapped, leading to authentication failures.
-
-**File**: `Factory/src/main/kotlin/net/milosvasic/factory/mail/account/MailAccount.kt`
-
-**Commit**: Included in test development (2025-10-10)
-
-## Resources
-
-- [JUnit 5 Documentation](https://junit.org/junit5/docs/current/user-guide/)
-- [JaCoCo Documentation](https://www.jacoco.org/jacoco/trunk/doc/)
-- [Gradle Testing Documentation](https://docs.gradle.org/current/userguide/java_testing.html)
-- [Kotlin Test Documentation](https://kotlinlang.org/docs/jvm-test-using-junit.html)
+## Success Criteria
+
+A successful test run includes:
+1. All ISOs downloaded and verified
+2. All VMs created and booted successfully
+3. All OS installations completed without errors
+4. Docker installed and running in each VM
+5. Mail Server Factory executed successfully with configuration files
+6. All mail server components operational
+7. Final test report generated with all distributions passing
+
+## Next Steps
+
+1. Execute the complete test suite on a system with adequate resources
+2. Document any issues found during testing
+3. Update the compatibility matrix with actual test results
+4. Update the website with the latest compatibility information
+5. Document any necessary configuration adjustments needed for specific distributions
