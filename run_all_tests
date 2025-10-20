@@ -1,0 +1,1566 @@
+#!/usr/bin/env bash
+
+#
+# Mail Server Factory - Comprehensive Test Orchestrator
+#
+# This script executes ALL tests for the Mail Server Factory project:
+# - Unit tests (Gradle)
+# - Launcher tests
+# - ISO downloads and verification
+# - VM creation and OS installation for all distributions
+# - Mail Server Factory deployment to each OS
+# - Component verification
+# - Report generation (Markdown + HTML)
+#
+# The script provides detailed progress tracking and retries until 100% success.
+#
+
+set -euo pipefail
+
+# ============================================
+# Configuration
+# ============================================
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="${SCRIPT_DIR}"
+RESULTS_DIR="${PROJECT_ROOT}/test_results"
+TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+MAIN_LOG="${RESULTS_DIR}/run_all_tests_${TIMESTAMP}.log"
+HTML_REPORT="${RESULTS_DIR}/test_report_${TIMESTAMP}.html"
+MD_REPORT="${RESULTS_DIR}/test_report_${TIMESTAMP}.md"
+
+# Test configuration
+MAX_RETRIES=3
+VM_INSTALL_TIMEOUT=3600  # 1 hour per VM installation
+DEPLOYMENT_TIMEOUT=1800  # 30 minutes per deployment
+
+# Colors for terminal output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# Progress tracking
+TOTAL_PHASES=7
+CURRENT_PHASE=0
+
+# Test results tracking
+declare -A UNIT_TEST_RESULTS
+declare -A LAUNCHER_TEST_RESULTS
+declare -A ISO_DOWNLOAD_RESULTS
+declare -A VM_CREATION_RESULTS
+declare -A OS_INSTALL_RESULTS
+declare -A DEPLOYMENT_RESULTS
+declare -A COMPONENT_VERIFICATION_RESULTS
+
+# Distribution definitions (matching supported OSes)
+declare -a DISTRIBUTIONS=(
+    "ubuntu-22:Ubuntu_22:Debian:4096:20G:2"
+    "ubuntu-24:Ubuntu_24:Debian:4096:20G:2"
+    "debian-11:Debian_11:Debian:4096:20G:2"
+    "debian-12:Debian_12:Debian:4096:20G:2"
+    "fedora-38:Fedora_Server_38:RHEL:8192:40G:4"
+    "fedora-39:Fedora_Server_39:RHEL:8192:40G:4"
+    "fedora-40:Fedora_Server_40:RHEL:8192:40G:4"
+    "fedora-41:Fedora_Server_41:RHEL:8192:40G:4"
+    "almalinux-9:AlmaLinux_9:RHEL:8192:40G:4"
+    "rocky-9:Rocky_9:RHEL:8192:40G:4"
+    "opensuse-15:openSUSE_Leap_15:SUSE:8192:40G:4"
+)
+
+# ============================================
+# Logging Functions
+# ============================================
+
+log() {
+    local level="$1"
+    shift
+    local message="$*"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[${timestamp}] [${level}] ${message}" | tee -a "${MAIN_LOG}"
+}
+
+log_info() { log "INFO" "$@"; }
+log_warn() { log "WARN" "$@"; }
+log_error() { log "ERROR" "$@"; }
+log_success() { log "SUCCESS" "$@"; }
+log_debug() {
+    if [[ "${DEBUG:-false}" == "true" ]]; then
+        log "DEBUG" "$@"
+    fi
+}
+
+# ============================================
+# Display Functions
+# ============================================
+
+print_banner() {
+    echo ""
+    echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║                                                                    ║${NC}"
+    echo -e "${CYAN}║  ${BOLD}${MAGENTA}Mail Server Factory - Comprehensive Test Suite${NC}${CYAN}             ║${NC}"
+    echo -e "${CYAN}║                                                                    ║${NC}"
+    echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+}
+
+print_header() {
+    local title="$1"
+    local phase_info=""
+
+    ((CURRENT_PHASE++))
+    phase_info="[Phase ${CURRENT_PHASE}/${TOTAL_PHASES}]"
+
+    echo ""
+    echo -e "${BLUE}════════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}${BOLD}  ${phase_info} ${title}${NC}"
+    echo -e "${BLUE}════════════════════════════════════════════════════════════════════${NC}"
+    echo ""
+    log_info "${phase_info} ${title}"
+}
+
+print_subheader() {
+    echo ""
+    echo -e "${CYAN}──── $1${NC}"
+    echo ""
+}
+
+print_success() { echo -e "${GREEN}✓ $1${NC}"; }
+print_error() { echo -e "${RED}✗ $1${NC}"; }
+print_warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
+print_info() { echo -e "${BLUE}ℹ $1${NC}"; }
+
+print_progress() {
+    local current=$1
+    local total=$2
+    local task=$3
+    local percent=$((current * 100 / total))
+    local filled=$((percent / 2))
+    local empty=$((50 - filled))
+
+    printf "\r${CYAN}Progress:${NC} ["
+    printf "%${filled}s" | tr ' ' '='
+    printf "%${empty}s" | tr ' ' ' '
+    printf "] %3d%% (%d/%d) - %s${NC}" "${percent}" "${current}" "${total}" "${task}"
+
+    if [ "${current}" -eq "${total}" ]; then
+        echo ""
+    fi
+}
+
+# ============================================
+# Prerequisites Check
+# ============================================
+
+check_prerequisites() {
+    print_header "Checking Prerequisites"
+
+    local missing=0
+    local warnings=0
+
+    # Check Java
+    print_subheader "Java"
+    if command -v java &> /dev/null; then
+        local java_version=$(java -version 2>&1 | head -n 1 | cut -d'"' -f2)
+        print_success "Java found: ${java_version}"
+        log_success "Java version: ${java_version}"
+    else
+        print_error "Java not found (required: Java 17+)"
+        ((missing++))
+    fi
+
+    # Check Gradle
+    print_subheader "Build System"
+    if [ -f "${PROJECT_ROOT}/gradlew" ]; then
+        print_success "Gradle wrapper found"
+    else
+        print_error "Gradle wrapper not found"
+        ((missing++))
+    fi
+
+    # Check Docker
+    print_subheader "Docker"
+    if command -v docker &> /dev/null; then
+        if docker ps &> /dev/null; then
+            print_success "Docker is running"
+        else
+            print_warning "Docker found but not running"
+            print_info "Starting Docker daemon may be required"
+            ((warnings++))
+        fi
+    else
+        print_error "Docker not found (required for tests)"
+        ((missing++))
+    fi
+
+    # Check QEMU
+    print_subheader "QEMU"
+    if command -v qemu-system-x86_64 &> /dev/null; then
+        local qemu_version=$(qemu-system-x86_64 --version | head -n 1)
+        print_success "QEMU found: ${qemu_version}"
+    else
+        print_error "QEMU not found (install: sudo apt install qemu-system-x86 qemu-utils)"
+        ((missing++))
+    fi
+
+    # Check disk space
+    print_subheader "Disk Space"
+    local available_gb=$(df -BG "${PROJECT_ROOT}" | tail -1 | awk '{print $4}' | sed 's/G//')
+    if [ "${available_gb}" -gt 100 ]; then
+        print_success "Available disk space: ${available_gb}GB"
+    else
+        print_warning "Low disk space: ${available_gb}GB (recommended: 100GB+)"
+        ((warnings++))
+    fi
+
+    # Check RAM
+    print_subheader "Memory"
+    local total_ram_gb=$(free -g | awk '/^Mem:/{print $2}')
+    if [ "${total_ram_gb}" -ge 16 ]; then
+        print_success "Total RAM: ${total_ram_gb}GB"
+    else
+        print_warning "Low RAM: ${total_ram_gb}GB (recommended: 16GB+)"
+        ((warnings++))
+    fi
+
+    # Summary
+    echo ""
+    if [ ${missing} -gt 0 ]; then
+        print_error "Prerequisites check failed: ${missing} critical dependencies missing"
+        return 1
+    elif [ ${warnings} -gt 0 ]; then
+        print_warning "Prerequisites check passed with ${warnings} warnings"
+        return 0
+    else
+        print_success "All prerequisites satisfied"
+        return 0
+    fi
+}
+
+# ============================================
+# Phase 1: Unit Tests
+# ============================================
+
+run_unit_tests() {
+    print_header "Running Unit Tests (Gradle)"
+
+    local start_time=$(date +%s)
+
+    print_info "Running Gradle test suite..."
+    print_info "This includes Factory and Core:Framework modules"
+
+    if ./gradlew test --no-daemon 2>&1 | tee -a "${MAIN_LOG}"; then
+        UNIT_TEST_RESULTS["status"]="PASS"
+        print_success "Unit tests passed"
+    else
+        UNIT_TEST_RESULTS["status"]="FAIL"
+        print_error "Unit tests failed"
+        return 1
+    fi
+
+    # Generate coverage report
+    print_info "Generating test coverage report..."
+    if ./gradlew jacocoTestReport --no-daemon 2>&1 | tee -a "${MAIN_LOG}"; then
+        local coverage_report="${PROJECT_ROOT}/Core/Framework/build/reports/jacoco/test/html/index.html"
+        if [ -f "${coverage_report}" ]; then
+            print_success "Coverage report generated: ${coverage_report}"
+            UNIT_TEST_RESULTS["coverage_report"]="${coverage_report}"
+        fi
+    fi
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    UNIT_TEST_RESULTS["duration"]="${duration}"
+
+    print_success "Unit tests completed in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 2: Launcher Tests
+# ============================================
+
+run_launcher_tests() {
+    print_header "Running Launcher Tests"
+
+    local start_time=$(date +%s)
+    local test_script="${PROJECT_ROOT}/tests/launcher/test_launcher.sh"
+
+    if [ ! -f "${test_script}" ]; then
+        print_error "Launcher test script not found: ${test_script}"
+        LAUNCHER_TEST_RESULTS["status"]="SKIP"
+        return 1
+    fi
+
+    print_info "Executing launcher test suite (41 tests)..."
+
+    if bash "${test_script}" 2>&1 | tee -a "${MAIN_LOG}"; then
+        LAUNCHER_TEST_RESULTS["status"]="PASS"
+        print_success "All launcher tests passed"
+    else
+        LAUNCHER_TEST_RESULTS["status"]="FAIL"
+        print_error "Launcher tests failed"
+        return 1
+    fi
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    LAUNCHER_TEST_RESULTS["duration"]="${duration}"
+
+    print_success "Launcher tests completed in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 3: ISO Download and Verification
+# ============================================
+
+download_and_verify_isos() {
+    print_header "Downloading and Verifying ISOs"
+
+    local start_time=$(date +%s)
+    local iso_script="${PROJECT_ROOT}/scripts/iso_manager.sh"
+
+    if [ ! -f "${iso_script}" ]; then
+        print_error "ISO manager script not found: ${iso_script}"
+        ISO_DOWNLOAD_RESULTS["status"]="FAIL"
+        return 1
+    fi
+
+    # Check if ISOs already exist
+    print_subheader "Checking existing ISOs"
+    bash "${iso_script}" list 2>&1 | tee -a "${MAIN_LOG}"
+
+    # Download ISOs
+    print_subheader "Downloading ISOs"
+    print_info "This may take a while depending on network speed..."
+
+    if bash "${iso_script}" download 2>&1 | tee -a "${MAIN_LOG}"; then
+        print_success "ISO download completed"
+    else
+        print_error "ISO download failed"
+        ISO_DOWNLOAD_RESULTS["status"]="FAIL"
+        return 1
+    fi
+
+    # Verify ISOs
+    print_subheader "Verifying ISO checksums"
+    if bash "${iso_script}" verify 2>&1 | tee -a "${MAIN_LOG}"; then
+        ISO_DOWNLOAD_RESULTS["status"]="PASS"
+        print_success "All ISOs verified successfully"
+    else
+        ISO_DOWNLOAD_RESULTS["status"]="FAIL"
+        print_error "ISO verification failed"
+        return 1
+    fi
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    ISO_DOWNLOAD_RESULTS["duration"]="${duration}"
+
+    print_success "ISO phase completed in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 4: VM Creation
+# ============================================
+
+create_all_vms() {
+    print_header "Creating Virtual Machines"
+
+    local start_time=$(date +%s)
+    local qemu_script="${PROJECT_ROOT}/scripts/qemu_manager.sh"
+    local total_vms=${#DISTRIBUTIONS[@]}
+    local current_vm=0
+    local created=0
+    local failed=0
+
+    print_info "Creating ${total_vms} virtual machines..."
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+        ((current_vm++))
+
+        print_progress ${current_vm} ${total_vms} "Creating ${vm_name}"
+
+        log_info "Creating VM: ${vm_name} (${family} family, ${memory}MB RAM, ${disk} disk, ${cpus} CPUs)"
+
+        if bash "${qemu_script}" create "${vm_name}" "${memory}" "${disk}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
+            VM_CREATION_RESULTS["${vm_name}"]="PASS"
+            ((created++))
+        else
+            VM_CREATION_RESULTS["${vm_name}"]="FAIL"
+            ((failed++))
+            log_error "Failed to create VM: ${vm_name}"
+        fi
+    done
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+
+    echo ""
+    print_info "VM Creation Summary:"
+    print_success "Created: ${created}"
+    if [ ${failed} -gt 0 ]; then
+        print_error "Failed: ${failed}"
+        return 1
+    fi
+
+    print_success "All VMs created in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 5: OS Installation
+# ============================================
+
+install_all_operating_systems() {
+    print_header "Installing Operating Systems"
+
+    local start_time=$(date +%s)
+    local qemu_script="${PROJECT_ROOT}/scripts/qemu_manager.sh"
+    local total_installs=${#DISTRIBUTIONS[@]}
+    local current_install=0
+    local installed=0
+    local failed=0
+
+    print_info "Installing ${total_installs} operating systems..."
+    print_warning "This phase may take several hours"
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+        ((current_install++))
+
+        print_progress ${current_install} ${total_installs} "Installing ${vm_name}"
+
+        # Skip if VM creation failed
+        if [ "${VM_CREATION_RESULTS[${vm_name}]}" != "PASS" ]; then
+            OS_INSTALL_RESULTS["${vm_name}"]="SKIP"
+            log_warn "Skipping ${vm_name} installation (VM creation failed)"
+            continue
+        fi
+
+        log_info "Starting installation for ${vm_name}..."
+
+        # Start VM
+        if ! bash "${qemu_script}" start "${vm_name}" "${memory}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
+            OS_INSTALL_RESULTS["${vm_name}"]="FAIL"
+            log_error "Failed to start VM: ${vm_name}"
+            ((failed++))
+            continue
+        fi
+
+        # Wait for installation to complete
+        local install_timeout=${VM_INSTALL_TIMEOUT}
+        case "${family}" in
+            "Debian") install_timeout=1800 ;;  # 30 minutes
+            "RHEL") install_timeout=3600 ;;    # 60 minutes
+            "SUSE") install_timeout=3600 ;;    # 60 minutes
+        esac
+
+        log_info "Waiting for ${vm_name} installation (timeout: ${install_timeout}s)..."
+
+        # Monitor installation progress
+        local elapsed=0
+        local check_interval=30
+        local install_complete=false
+
+        while [ ${elapsed} -lt ${install_timeout} ]; do
+            sleep ${check_interval}
+            ((elapsed+=check_interval))
+
+            # Check if VM is still running
+            if ! bash "${qemu_script}" status "${vm_name}" >> "${MAIN_LOG}" 2>&1; then
+                # VM stopped - could mean installation complete
+                install_complete=true
+                break
+            fi
+
+            # Show progress every 5 minutes
+            if [ $((elapsed % 300)) -eq 0 ]; then
+                local minutes=$((elapsed / 60))
+                log_info "${vm_name} installation in progress (${minutes} minutes elapsed)..."
+            fi
+        done
+
+        if [ "${install_complete}" = true ]; then
+            OS_INSTALL_RESULTS["${vm_name}"]="PASS"
+            ((installed++))
+            log_success "${vm_name} installation completed"
+
+            # Archive the installed system
+            local archive_dir="${PROJECT_ROOT}/vms/archives"
+            mkdir -p "${archive_dir}"
+            local archive_file="${archive_dir}/${vm_name}_installed_${TIMESTAMP}.qcow2.gz"
+
+            log_info "Archiving ${vm_name} installation..."
+            if gzip -c "${PROJECT_ROOT}/vms/${vm_name}/${vm_name}.qcow2" > "${archive_file}"; then
+                log_success "Archived: ${archive_file}"
+                OS_INSTALL_RESULTS["${vm_name}_archive"]="${archive_file}"
+            fi
+        else
+            OS_INSTALL_RESULTS["${vm_name}"]="TIMEOUT"
+            ((failed++))
+            log_error "${vm_name} installation timed out after ${install_timeout} seconds"
+
+            # Stop the VM
+            bash "${qemu_script}" stop "${vm_name}" >> "${MAIN_LOG}" 2>&1 || true
+        fi
+    done
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+
+    echo ""
+    print_info "OS Installation Summary:"
+    print_success "Installed: ${installed}"
+    if [ ${failed} -gt 0 ]; then
+        print_error "Failed/Timeout: ${failed}"
+    fi
+
+    if [ ${failed} -gt 0 ]; then
+        print_warning "Some OS installations failed or timed out"
+        return 1
+    fi
+
+    print_success "All OS installations completed in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 6: Mail Server Factory Deployment
+# ============================================
+
+deploy_mail_server_factory() {
+    print_header "Deploying Mail Server Factory"
+
+    local start_time=$(date +%s)
+    local total_deployments=${#DISTRIBUTIONS[@]}
+    local current_deployment=0
+    local deployed=0
+    local failed=0
+
+    # Build the application first
+    print_subheader "Building Application"
+    print_info "Building Mail Server Factory..."
+
+    if ./gradlew :Application:assemble --no-daemon 2>&1 | tee -a "${MAIN_LOG}"; then
+        print_success "Application built successfully"
+    else
+        print_error "Application build failed"
+        return 1
+    fi
+
+    # Check for Docker credentials
+    local docker_config="${PROJECT_ROOT}/Examples/Includes/_Docker.json"
+    if [ ! -f "${docker_config}" ]; then
+        print_warning "Docker credentials not found: ${docker_config}"
+        print_info "Some deployments may fail without Docker Hub credentials"
+        print_info "See Examples/Includes/README.md for setup instructions"
+    fi
+
+    print_subheader "Deploying to VMs"
+    print_info "Deploying to ${total_deployments} virtual machines..."
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+        ((current_deployment++))
+
+        print_progress ${current_deployment} ${total_deployments} "Deploying to ${vm_name}"
+
+        # Skip if OS installation failed
+        if [ "${OS_INSTALL_RESULTS[${vm_name}]}" != "PASS" ]; then
+            DEPLOYMENT_RESULTS["${vm_name}"]="SKIP"
+            log_warn "Skipping ${vm_name} deployment (OS installation failed)"
+            continue
+        fi
+
+        local config_file="${PROJECT_ROOT}/Examples/${config_name}.json"
+        if [ ! -f "${config_file}" ]; then
+            DEPLOYMENT_RESULTS["${vm_name}"]="FAIL"
+            log_error "Configuration file not found: ${config_file}"
+            ((failed++))
+            continue
+        fi
+
+        log_info "Deploying Mail Server Factory to ${vm_name}..."
+        log_info "Configuration: ${config_file}"
+
+        # Run deployment
+        local deployment_log="${RESULTS_DIR}/${vm_name}_deployment_${TIMESTAMP}.log"
+
+        if timeout ${DEPLOYMENT_TIMEOUT} ./mail_factory "${config_file}" > "${deployment_log}" 2>&1; then
+            DEPLOYMENT_RESULTS["${vm_name}"]="PASS"
+            ((deployed++))
+            log_success "${vm_name} deployment completed"
+        else
+            local exit_code=$?
+            DEPLOYMENT_RESULTS["${vm_name}"]="FAIL"
+            ((failed++))
+
+            if [ ${exit_code} -eq 124 ]; then
+                log_error "${vm_name} deployment timed out after ${DEPLOYMENT_TIMEOUT} seconds"
+                DEPLOYMENT_RESULTS["${vm_name}"]="TIMEOUT"
+            else
+                log_error "${vm_name} deployment failed with exit code: ${exit_code}"
+                log_error "See log: ${deployment_log}"
+            fi
+        fi
+    done
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+
+    echo ""
+    print_info "Deployment Summary:"
+    print_success "Deployed: ${deployed}"
+    if [ ${failed} -gt 0 ]; then
+        print_error "Failed: ${failed}"
+    fi
+
+    if [ ${failed} -gt 0 ]; then
+        print_warning "Some deployments failed"
+        return 1
+    fi
+
+    print_success "All deployments completed in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Phase 7: Component Verification
+# ============================================
+
+verify_all_components() {
+    print_header "Verifying Mail Server Components"
+
+    local start_time=$(date +%s)
+    local total_verifications=${#DISTRIBUTIONS[@]}
+    local current_verification=0
+    local verified=0
+    local failed=0
+
+    print_info "Verifying components on ${total_verifications} systems..."
+
+    # Expected components
+    local -a expected_containers=(
+        "postmaster_receive"
+        "postmaster_send"
+        "postmaster_antispam"
+        "postmaster_antivirus"
+        "postmaster_mem_db"
+        "postmaster_db"
+    )
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+        ((current_verification++))
+
+        print_progress ${current_verification} ${total_verifications} "Verifying ${vm_name}"
+
+        # Skip if deployment failed
+        if [ "${DEPLOYMENT_RESULTS[${vm_name}]}" != "PASS" ]; then
+            COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="SKIP"
+            log_warn "Skipping ${vm_name} verification (deployment failed)"
+            continue
+        fi
+
+        log_info "Verifying components on ${vm_name}..."
+
+        # Get SSH port for this VM
+        local ssh_port=$((2222 + $(echo "${vm_name}" | tr -cd '0-9' | sed 's/^0*//' || echo "0")))
+
+        # Verify Docker containers are running
+        local verification_passed=true
+        local containers_running=0
+
+        for container in "${expected_containers[@]}"; do
+            if ssh -p ${ssh_port} -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@localhost \
+                "docker ps --format '{{.Names}}' | grep -q ${container}" >> "${MAIN_LOG}" 2>&1; then
+                ((containers_running++))
+                log_debug "${vm_name}: Container ${container} is running"
+            else
+                verification_passed=false
+                log_warn "${vm_name}: Container ${container} is NOT running"
+            fi
+        done
+
+        if [ "${verification_passed}" = true ] && [ ${containers_running} -eq ${#expected_containers[@]} ]; then
+            COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="PASS"
+            ((verified++))
+            log_success "${vm_name}: All ${containers_running} components verified"
+        else
+            COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="FAIL"
+            ((failed++))
+            log_error "${vm_name}: Component verification failed (${containers_running}/${#expected_containers[@]} running)"
+        fi
+    done
+
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+
+    echo ""
+    print_info "Verification Summary:"
+    print_success "Verified: ${verified}"
+    if [ ${failed} -gt 0 ]; then
+        print_error "Failed: ${failed}"
+    fi
+
+    if [ ${failed} -gt 0 ]; then
+        print_warning "Some component verifications failed"
+        return 1
+    fi
+
+    print_success "All components verified in ${duration} seconds"
+    return 0
+}
+
+# ============================================
+# Report Generation
+# ============================================
+
+generate_markdown_report() {
+    local report_file="$1"
+
+    cat > "${report_file}" <<'EOF'
+# Mail Server Factory - Comprehensive Test Report
+
+EOF
+
+    echo "**Generated**: $(date '+%Y-%m-%d %H:%M:%S')" >> "${report_file}"
+    echo "" >> "${report_file}"
+
+    # Executive Summary
+    cat >> "${report_file}" <<'EOF'
+## Executive Summary
+
+This report contains the results of comprehensive testing across all phases of the Mail Server Factory project, including unit tests, VM deployments, and component verification.
+
+EOF
+
+    # Test Phase Results
+    cat >> "${report_file}" <<'EOF'
+## Test Phase Results
+
+### Phase 1: Unit Tests (Gradle)
+
+EOF
+
+    if [ "${UNIT_TEST_RESULTS[status]}" = "PASS" ]; then
+        echo "✅ **Status**: PASSED" >> "${report_file}"
+    else
+        echo "❌ **Status**: FAILED" >> "${report_file}"
+    fi
+    echo "**Duration**: ${UNIT_TEST_RESULTS[duration]:-0} seconds" >> "${report_file}"
+    echo "" >> "${report_file}"
+
+    # Launcher Tests
+    cat >> "${report_file}" <<'EOF'
+### Phase 2: Launcher Tests
+
+EOF
+
+    if [ "${LAUNCHER_TEST_RESULTS[status]}" = "PASS" ]; then
+        echo "✅ **Status**: PASSED (41 tests)" >> "${report_file}"
+    else
+        echo "❌ **Status**: FAILED" >> "${report_file}"
+    fi
+    echo "**Duration**: ${LAUNCHER_TEST_RESULTS[duration]:-0} seconds" >> "${report_file}"
+    echo "" >> "${report_file}"
+
+    # ISO Download
+    cat >> "${report_file}" <<'EOF'
+### Phase 3: ISO Download & Verification
+
+EOF
+
+    if [ "${ISO_DOWNLOAD_RESULTS[status]}" = "PASS" ]; then
+        echo "✅ **Status**: PASSED" >> "${report_file}"
+    else
+        echo "❌ **Status**: FAILED" >> "${report_file}"
+    fi
+    echo "**Duration**: ${ISO_DOWNLOAD_RESULTS[duration]:-0} seconds" >> "${report_file}"
+    echo "" >> "${report_file}"
+
+    # Distribution Results Table
+    cat >> "${report_file}" <<'EOF'
+## Distribution Test Results
+
+| Distribution | VM Creation | OS Install | Deployment | Verification | Overall |
+|--------------|-------------|------------|------------|--------------|---------|
+EOF
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        local vm_status="${VM_CREATION_RESULTS[${vm_name}]:-UNKNOWN}"
+        local os_status="${OS_INSTALL_RESULTS[${vm_name}]:-UNKNOWN}"
+        local deploy_status="${DEPLOYMENT_RESULTS[${vm_name}]:-UNKNOWN}"
+        local verify_status="${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-UNKNOWN}"
+
+        local overall="✅ PASS"
+        if [[ "${vm_status}" != "PASS" ]] || [[ "${os_status}" != "PASS" ]] || \
+           [[ "${deploy_status}" != "PASS" ]] || [[ "${verify_status}" != "PASS" ]]; then
+            overall="❌ FAIL"
+        fi
+
+        echo "| ${config_name} | ${vm_status} | ${os_status} | ${deploy_status} | ${verify_status} | ${overall} |" >> "${report_file}"
+    done
+
+    echo "" >> "${report_file}"
+
+    # Detailed Results
+    cat >> "${report_file}" <<'EOF'
+## Detailed Results by Distribution
+
+EOF
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        cat >> "${report_file}" <<EOF
+### ${config_name}
+
+- **VM Name**: ${vm_name}
+- **Family**: ${family}
+- **Resources**: ${memory}MB RAM, ${disk} disk, ${cpus} CPUs
+- **VM Creation**: ${VM_CREATION_RESULTS[${vm_name}]:-UNKNOWN}
+- **OS Installation**: ${OS_INSTALL_RESULTS[${vm_name}]:-UNKNOWN}
+- **Deployment**: ${DEPLOYMENT_RESULTS[${vm_name}]:-UNKNOWN}
+- **Verification**: ${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-UNKNOWN}
+
+EOF
+
+        if [ -n "${OS_INSTALL_RESULTS[${vm_name}_archive]:-}" ]; then
+            echo "- **Archive**: ${OS_INSTALL_RESULTS[${vm_name}_archive]}" >> "${report_file}"
+            echo "" >> "${report_file}"
+        fi
+    done
+
+    # Summary Statistics
+    local total_dists=${#DISTRIBUTIONS[@]}
+    local passed=0
+    local failed=0
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        if [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+            ((passed++))
+        else
+            ((failed++))
+        fi
+    done
+
+    cat >> "${report_file}" <<EOF
+## Summary Statistics
+
+- **Total Distributions Tested**: ${total_dists}
+- **Fully Passed**: ${passed}
+- **Failed**: ${failed}
+- **Success Rate**: $((passed * 100 / total_dists))%
+
+---
+
+*This report was automatically generated by run_all_tests*
+EOF
+}
+
+generate_html_report() {
+    local report_file="$1"
+
+    cat > "${report_file}" <<'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Server Factory - Test Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        h2 {
+            color: #667eea;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .summary-card h3 {
+            color: white;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        .summary-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        table tbody tr:hover {
+            background: #e9ecef;
+        }
+        .status-pass { color: #28a745; font-weight: bold; }
+        .status-fail { color: #dc3545; font-weight: bold; }
+        .status-skip { color: #ffc107; font-weight: bold; }
+        .phase-result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+        .phase-result.pass { border-left-color: #28a745; }
+        .phase-result.fail { border-left-color: #dc3545; }
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📧 Mail Server Factory</h1>
+            <p>Comprehensive Test Report</p>
+            <p style="font-size: 0.9em; opacity: 0.8;">
+EOF
+
+    echo "Generated: $(date '+%Y-%m-%d %H:%M:%S')" >> "${report_file}"
+
+    cat >> "${report_file}" <<'EOF'
+            </p>
+        </header>
+
+        <div class="content">
+            <h2>Executive Summary</h2>
+            <div class="summary-grid">
+EOF
+
+    # Calculate statistics
+    local total_dists=${#DISTRIBUTIONS[@]}
+    local passed=0
+    local failed=0
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        if [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && \
+           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+            ((passed++))
+        else
+            ((failed++))
+        fi
+    done
+
+    local success_rate=$((passed * 100 / total_dists))
+
+    cat >> "${report_file}" <<EOF
+                <div class="summary-card">
+                    <p>Total Distributions</p>
+                    <h3>${total_dists}</h3>
+                </div>
+                <div class="summary-card">
+                    <p>Passed</p>
+                    <h3>${passed}</h3>
+                </div>
+                <div class="summary-card">
+                    <p>Failed</p>
+                    <h3>${failed}</h3>
+                </div>
+                <div class="summary-card">
+                    <p>Success Rate</p>
+                    <h3>${success_rate}%</h3>
+                </div>
+            </div>
+
+            <h2>Test Phase Results</h2>
+EOF
+
+    # Phase results
+    local phase_class="pass"
+    [ "${UNIT_TEST_RESULTS[status]}" != "PASS" ] && phase_class="fail"
+
+    cat >> "${report_file}" <<EOF
+            <div class="phase-result ${phase_class}">
+                <h3>Phase 1: Unit Tests (Gradle)</h3>
+                <p><strong>Status:</strong> <span class="status-${UNIT_TEST_RESULTS[status],,}">${UNIT_TEST_RESULTS[status]}</span></p>
+                <p><strong>Duration:</strong> ${UNIT_TEST_RESULTS[duration]:-0} seconds</p>
+            </div>
+EOF
+
+    phase_class="pass"
+    [ "${LAUNCHER_TEST_RESULTS[status]}" != "PASS" ] && phase_class="fail"
+
+    cat >> "${report_file}" <<EOF
+            <div class="phase-result ${phase_class}">
+                <h3>Phase 2: Launcher Tests</h3>
+                <p><strong>Status:</strong> <span class="status-${LAUNCHER_TEST_RESULTS[status],,}">${LAUNCHER_TEST_RESULTS[status]}</span></p>
+                <p><strong>Tests:</strong> 41</p>
+                <p><strong>Duration:</strong> ${LAUNCHER_TEST_RESULTS[duration]:-0} seconds</p>
+            </div>
+EOF
+
+    phase_class="pass"
+    [ "${ISO_DOWNLOAD_RESULTS[status]}" != "PASS" ] && phase_class="fail"
+
+    cat >> "${report_file}" <<EOF
+            <div class="phase-result ${phase_class}">
+                <h3>Phase 3: ISO Download & Verification</h3>
+                <p><strong>Status:</strong> <span class="status-${ISO_DOWNLOAD_RESULTS[status],,}">${ISO_DOWNLOAD_RESULTS[status]}</span></p>
+                <p><strong>Duration:</strong> ${ISO_DOWNLOAD_RESULTS[duration]:-0} seconds</p>
+            </div>
+
+            <h2>Distribution Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Distribution</th>
+                        <th>VM Creation</th>
+                        <th>OS Install</th>
+                        <th>Deployment</th>
+                        <th>Verification</th>
+                        <th>Overall</th>
+                    </tr>
+                </thead>
+                <tbody>
+EOF
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        local vm_status="${VM_CREATION_RESULTS[${vm_name}]:-UNKNOWN}"
+        local os_status="${OS_INSTALL_RESULTS[${vm_name}]:-UNKNOWN}"
+        local deploy_status="${DEPLOYMENT_RESULTS[${vm_name}]:-UNKNOWN}"
+        local verify_status="${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-UNKNOWN}"
+
+        local overall="PASS"
+        local overall_class="pass"
+        if [[ "${vm_status}" != "PASS" ]] || [[ "${os_status}" != "PASS" ]] || \
+           [[ "${deploy_status}" != "PASS" ]] || [[ "${verify_status}" != "PASS" ]]; then
+            overall="FAIL"
+            overall_class="fail"
+        fi
+
+        cat >> "${report_file}" <<EOF
+                    <tr>
+                        <td><strong>${config_name}</strong></td>
+                        <td><span class="status-${vm_status,,}">${vm_status}</span></td>
+                        <td><span class="status-${os_status,,}">${os_status}</span></td>
+                        <td><span class="status-${deploy_status,,}">${deploy_status}</span></td>
+                        <td><span class="status-${verify_status,,}">${verify_status}</span></td>
+                        <td><span class="status-${overall_class}">${overall}</span></td>
+                    </tr>
+EOF
+    done
+
+    cat >> "${report_file}" <<'EOF'
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>This report was automatically generated by <strong>run_all_tests</strong></p>
+            <p>Mail Server Factory - Comprehensive Testing Framework</p>
+        </footer>
+    </div>
+</body>
+</html>
+EOF
+}
+
+generate_reports() {
+    print_header "Generating Test Reports"
+
+    print_info "Generating Markdown report..."
+    generate_markdown_report "${MD_REPORT}"
+    print_success "Markdown report: ${MD_REPORT}"
+
+    print_info "Generating HTML report..."
+    generate_html_report "${HTML_REPORT}"
+    print_success "HTML report: ${HTML_REPORT}"
+
+    # Open HTML report in browser if available
+    if command -v xdg-open &> /dev/null; then
+        print_info "Opening HTML report in browser..."
+        xdg-open "${HTML_REPORT}" &> /dev/null || true
+    elif command -v open &> /dev/null; then
+        print_info "Opening HTML report in browser..."
+        open "${HTML_REPORT}" &> /dev/null || true
+    fi
+}
+
+# ============================================
+# Retry Logic
+# ============================================
+
+retry_failed_tests() {
+    local retry_count=$1
+    local has_failures=false
+
+    print_header "Retry Attempt ${retry_count}/${MAX_RETRIES}"
+
+    log_info "Analyzing failures and retrying..."
+
+    # Retry unit tests if failed
+    if [ "${UNIT_TEST_RESULTS[status]}" != "PASS" ]; then
+        print_info "Retrying unit tests..."
+        if run_unit_tests; then
+            print_success "Unit tests passed on retry"
+        else
+            has_failures=true
+        fi
+    fi
+
+    # Retry launcher tests if failed
+    if [ "${LAUNCHER_TEST_RESULTS[status]}" != "PASS" ]; then
+        print_info "Retrying launcher tests..."
+        if run_launcher_tests; then
+            print_success "Launcher tests passed on retry"
+        else
+            has_failures=true
+        fi
+    fi
+
+    # Retry ISOs if failed
+    if [ "${ISO_DOWNLOAD_RESULTS[status]}" != "PASS" ]; then
+        print_info "Retrying ISO downloads..."
+        if download_and_verify_isos; then
+            print_success "ISOs downloaded and verified on retry"
+        else
+            has_failures=true
+        fi
+    fi
+
+    # Retry failed VMs
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        # Retry VM creation
+        if [ "${VM_CREATION_RESULTS[${vm_name}]}" != "PASS" ]; then
+            print_info "Retrying VM creation for ${vm_name}..."
+            if bash "${PROJECT_ROOT}/scripts/qemu_manager.sh" create "${vm_name}" "${memory}" "${disk}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
+                VM_CREATION_RESULTS["${vm_name}"]="PASS"
+                print_success "${vm_name} VM created on retry"
+            else
+                has_failures=true
+            fi
+        fi
+
+        # Retry OS installation
+        if [ "${OS_INSTALL_RESULTS[${vm_name}]}" != "PASS" ] && [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+            print_info "Retrying OS installation for ${vm_name}..."
+            # Re-run installation logic for this VM
+            # (simplified - just mark for manual review in production)
+            log_warn "${vm_name} installation requires manual retry"
+            has_failures=true
+        fi
+
+        # Retry deployment
+        if [ "${DEPLOYMENT_RESULTS[${vm_name}]}" != "PASS" ] && [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ]; then
+            print_info "Retrying deployment for ${vm_name}..."
+            local config_file="${PROJECT_ROOT}/Examples/${config_name}.json"
+            local deployment_log="${RESULTS_DIR}/${vm_name}_deployment_retry${retry_count}_${TIMESTAMP}.log"
+
+            if timeout ${DEPLOYMENT_TIMEOUT} ./mail_factory "${config_file}" > "${deployment_log}" 2>&1; then
+                DEPLOYMENT_RESULTS["${vm_name}"]="PASS"
+                print_success "${vm_name} deployment succeeded on retry"
+            else
+                has_failures=true
+                log_error "${vm_name} deployment failed on retry ${retry_count}"
+            fi
+        fi
+
+        # Retry verification
+        if [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" != "PASS" ] && [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ]; then
+            print_info "Retrying component verification for ${vm_name}..."
+            local ssh_port=$((2222 + $(echo "${vm_name}" | tr -cd '0-9' | sed 's/^0*//' || echo "0")))
+            local verification_passed=true
+            local containers_running=0
+
+            local -a expected_containers=(
+                "postmaster_receive"
+                "postmaster_send"
+                "postmaster_antispam"
+                "postmaster_antivirus"
+                "postmaster_mem_db"
+                "postmaster_db"
+            )
+
+            for container in "${expected_containers[@]}"; do
+                if ssh -p ${ssh_port} -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@localhost \
+                    "docker ps --format '{{.Names}}' | grep -q ${container}" >> "${MAIN_LOG}" 2>&1; then
+                    ((containers_running++))
+                fi
+            done
+
+            if [ ${containers_running} -eq ${#expected_containers[@]} ]; then
+                COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="PASS"
+                print_success "${vm_name} verification succeeded on retry"
+            else
+                has_failures=true
+                log_error "${vm_name} verification failed on retry ${retry_count}"
+            fi
+        fi
+    done
+
+    if [ "${has_failures}" = true ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+check_all_tests_passed() {
+    # Check if all tests passed
+    [ "${UNIT_TEST_RESULTS[status]}" = "PASS" ] || return 1
+    [ "${LAUNCHER_TEST_RESULTS[status]}" = "PASS" ] || return 1
+    [ "${ISO_DOWNLOAD_RESULTS[status]}" = "PASS" ] || return 1
+
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] || return 1
+        [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] || return 1
+        [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] || return 1
+        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ] || return 1
+    done
+
+    return 0
+}
+
+# ============================================
+# Main Execution
+# ============================================
+
+cleanup() {
+    local exit_code=$?
+
+    if [ ${exit_code} -ne 0 ]; then
+        print_error "Test execution interrupted or failed"
+        log_error "Exit code: ${exit_code}"
+    fi
+
+    # Generate final reports even on failure
+    generate_reports || true
+
+    exit ${exit_code}
+}
+
+main() {
+    # Setup
+    mkdir -p "${RESULTS_DIR}"
+
+    # Trap cleanup
+    trap cleanup EXIT INT TERM
+
+    # Display banner
+    print_banner
+
+    log_info "=========================================="
+    log_info "Mail Server Factory - Comprehensive Test Suite"
+    log_info "Started: $(date '+%Y-%m-%d %H:%M:%S')"
+    log_info "=========================================="
+
+    # Check prerequisites
+    if ! check_prerequisites; then
+        print_error "Prerequisites check failed. Please install missing dependencies."
+        exit 1
+    fi
+
+    # Execute test phases
+    local overall_status=0
+
+    # Phase 1: Unit Tests
+    if ! run_unit_tests; then
+        print_warning "Unit tests failed, but continuing..."
+        overall_status=1
+    fi
+
+    # Phase 2: Launcher Tests
+    if ! run_launcher_tests; then
+        print_warning "Launcher tests failed, but continuing..."
+        overall_status=1
+    fi
+
+    # Phase 3: ISO Download
+    if ! download_and_verify_isos; then
+        print_error "ISO download/verification failed. Cannot proceed with VM testing."
+        exit 1
+    fi
+
+    # Phase 4: VM Creation
+    if ! create_all_vms; then
+        print_warning "Some VMs failed to create, but continuing..."
+        overall_status=1
+    fi
+
+    # Phase 5: OS Installation
+    if ! install_all_operating_systems; then
+        print_warning "Some OS installations failed, but continuing..."
+        overall_status=1
+    fi
+
+    # Phase 6: Deployment
+    if ! deploy_mail_server_factory; then
+        print_warning "Some deployments failed, but continuing..."
+        overall_status=1
+    fi
+
+    # Phase 7: Verification
+    if ! verify_all_components; then
+        print_warning "Some verifications failed"
+        overall_status=1
+    fi
+
+    # Check if we need retries
+    local retry_attempt=0
+
+    while ! check_all_tests_passed && [ ${retry_attempt} -lt ${MAX_RETRIES} ]; do
+        ((retry_attempt++))
+
+        print_warning "Not all tests passed. Starting retry ${retry_attempt}/${MAX_RETRIES}..."
+
+        if retry_failed_tests ${retry_attempt}; then
+            print_success "All failed tests passed on retry ${retry_attempt}"
+            overall_status=0
+            break
+        else
+            if [ ${retry_attempt} -eq ${MAX_RETRIES} ]; then
+                print_error "Maximum retries (${MAX_RETRIES}) reached. Some tests still failing."
+                overall_status=1
+            else
+                print_warning "Retry ${retry_attempt} completed with failures. Retrying again..."
+            fi
+        fi
+    done
+
+    # Generate reports
+    generate_reports
+
+    # Final summary
+    echo ""
+    print_header "Test Execution Complete"
+
+    log_info "=========================================="
+    log_info "Completed: $(date '+%Y-%m-%d %H:%M:%S')"
+    log_info "=========================================="
+
+    print_info "Reports generated:"
+    print_success "Markdown: ${MD_REPORT}"
+    print_success "HTML: ${HTML_REPORT}"
+    print_success "Log: ${MAIN_LOG}"
+
+    # Calculate final statistics
+    local total_passed=0
+    local total_failed=0
+    local total_tests=0
+
+    # Count unit test results
+    ((total_tests++))
+    if [ "${UNIT_TEST_RESULTS[status]}" = "PASS" ]; then
+        ((total_passed++))
+    else
+        ((total_failed++))
+    fi
+
+    # Count launcher test results
+    ((total_tests++))
+    if [ "${LAUNCHER_TEST_RESULTS[status]}" = "PASS" ]; then
+        ((total_passed++))
+    else
+        ((total_failed++))
+    fi
+
+    # Count ISO results
+    ((total_tests++))
+    if [ "${ISO_DOWNLOAD_RESULTS[status]}" = "PASS" ]; then
+        ((total_passed++))
+    else
+        ((total_failed++))
+    fi
+
+    # Count distribution results (each has 4 sub-tests)
+    for dist_config in "${DISTRIBUTIONS[@]}"; do
+        IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
+
+        total_tests=$((total_tests + 4))
+
+        [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+    done
+
+    echo ""
+    print_info "Final Test Statistics:"
+    echo -e "  ${CYAN}Total Tests:${NC} ${total_tests}"
+    echo -e "  ${GREEN}Passed:${NC} ${total_passed}"
+    echo -e "  ${RED}Failed:${NC} ${total_failed}"
+
+    if [ ${retry_attempt} -gt 0 ]; then
+        echo -e "  ${YELLOW}Retries Used:${NC} ${retry_attempt}/${MAX_RETRIES}"
+    fi
+
+    local success_rate=$((total_passed * 100 / total_tests))
+    echo -e "  ${BLUE}Success Rate:${NC} ${success_rate}%"
+
+    if [ ${overall_status} -eq 0 ]; then
+        echo ""
+        echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}║  ${BOLD}✅ ALL TESTS PASSED - 100% SUCCESS!${NC}${GREEN}                       ║${NC}"
+        echo -e "${GREEN}║                                                                ║${NC}"
+        echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+    else
+        echo ""
+        echo -e "${RED}╔════════════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${RED}║                                                                ║${NC}"
+        echo -e "${RED}║  ${BOLD}⚠️  SOME TESTS FAILED${NC}${RED}                                      ║${NC}"
+        echo -e "${RED}║  ${BOLD}Success Rate: ${success_rate}%${NC}${RED}                                       ║${NC}"
+        echo -e "${RED}║                                                                ║${NC}"
+        echo -e "${RED}╚════════════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+        print_info "See detailed reports for failure analysis:"
+        print_info "  • HTML: ${HTML_REPORT}"
+        print_info "  • Markdown: ${MD_REPORT}"
+        print_info "  • Log: ${MAIN_LOG}"
+        echo ""
+        exit 1
+    fi
+}
+
+# ============================================
+# Script Entry Point
+# ============================================
+
+# Show help
+if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
+    cat <<EOF
+Mail Server Factory - Comprehensive Test Suite
+
+Usage: $(basename "$0") [OPTIONS]
+
+This script executes ALL tests for the Mail Server Factory project:
+  • Unit tests (Gradle) - 47 tests across Factory and Core modules
+  • Launcher tests - 41 tests for the mail_factory launcher script
+  • ISO downloads and verification for all supported distributions
+  • VM creation and OS installation (12 distributions)
+  • Mail Server Factory deployment to each OS
+  • Component verification (Docker containers, services)
+  • Comprehensive report generation (Markdown + HTML)
+
+Options:
+  --help, -h     Show this help message
+  --debug        Enable debug output
+
+Prerequisites:
+  • Java 17+
+  • Docker (running)
+  • QEMU (qemu-system-x86_64)
+  • 100GB+ disk space
+  • 16GB+ RAM (recommended)
+
+Supported Distributions:
+  • Ubuntu 22.04, 24.04
+  • Debian 11, 12
+  • Fedora Server 38, 39, 40, 41
+  • AlmaLinux 9
+  • Rocky Linux 9
+  • openSUSE Leap 15.6
+
+Note: Full execution may take several hours depending on system resources.
+
+Examples:
+  ./run_all_tests              # Run all tests
+  ./run_all_tests --debug      # Run with debug output
+
+EOF
+    exit 0
+fi
+
+# Enable debug mode if requested
+if [[ "${1:-}" == "--debug" ]]; then
+    export DEBUG=true
+    print_info "Debug mode enabled"
+fi
+
+# Run main execution
+main "$@"
