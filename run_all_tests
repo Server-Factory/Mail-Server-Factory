@@ -439,7 +439,7 @@ install_all_operating_systems() {
         print_progress ${current_install} ${total_installs} "Installing ${vm_name}"
 
         # Skip if VM creation failed
-        if [ "${VM_CREATION_RESULTS[${vm_name}]}" != "PASS" ]; then
+        if [ "${VM_CREATION_RESULTS[${vm_name}]:-}" != "PASS" ]; then
             OS_INSTALL_RESULTS["${vm_name}"]="SKIP"
             log_warn "Skipping ${vm_name} installation (VM creation failed)"
             continue
@@ -574,7 +574,7 @@ deploy_mail_server_factory() {
         print_progress ${current_deployment} ${total_deployments} "Deploying to ${vm_name}"
 
         # Skip if OS installation failed
-        if [ "${OS_INSTALL_RESULTS[${vm_name}]}" != "PASS" ]; then
+        if [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" != "PASS" ]; then
             DEPLOYMENT_RESULTS["${vm_name}"]="SKIP"
             log_warn "Skipping ${vm_name} deployment (OS installation failed)"
             continue
@@ -664,7 +664,7 @@ verify_all_components() {
         print_progress ${current_verification} ${total_verifications} "Verifying ${vm_name}"
 
         # Skip if deployment failed
-        if [ "${DEPLOYMENT_RESULTS[${vm_name}]}" != "PASS" ]; then
+        if [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" != "PASS" ]; then
             COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="SKIP"
             log_warn "Skipping ${vm_name} verification (deployment failed)"
             continue
@@ -837,7 +837,7 @@ EOF
 EOF
 
         if [ -n "${OS_INSTALL_RESULTS[${vm_name}_archive]:-}" ]; then
-            echo "- **Archive**: ${OS_INSTALL_RESULTS[${vm_name}_archive]}" >> "${report_file}"
+            echo "- **Archive**: ${OS_INSTALL_RESULTS[${vm_name}_archive]:-}" >> "${report_file}"
             echo "" >> "${report_file}"
         fi
     done
@@ -850,10 +850,10 @@ EOF
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
 
-        if [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+        if [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ]; then
             ((passed++))
         else
             ((failed++))
@@ -1019,10 +1019,10 @@ EOF
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
 
-        if [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && \
-           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+        if [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && \
+           [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ]; then
             ((passed++))
         else
             ((failed++))
@@ -1213,7 +1213,7 @@ retry_failed_tests() {
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
 
         # Retry VM creation
-        if [ "${VM_CREATION_RESULTS[${vm_name}]}" != "PASS" ]; then
+        if [ "${VM_CREATION_RESULTS[${vm_name}]:-}" != "PASS" ]; then
             print_info "Retrying VM creation for ${vm_name}..."
             if bash "${PROJECT_ROOT}/scripts/qemu_manager.sh" create "${vm_name}" "${memory}" "${disk}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
                 VM_CREATION_RESULTS["${vm_name}"]="PASS"
@@ -1224,7 +1224,7 @@ retry_failed_tests() {
         fi
 
         # Retry OS installation
-        if [ "${OS_INSTALL_RESULTS[${vm_name}]}" != "PASS" ] && [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ]; then
+        if [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" != "PASS" ] && [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ]; then
             print_info "Retrying OS installation for ${vm_name}..."
             # Re-run installation logic for this VM
             # (simplified - just mark for manual review in production)
@@ -1233,7 +1233,7 @@ retry_failed_tests() {
         fi
 
         # Retry deployment
-        if [ "${DEPLOYMENT_RESULTS[${vm_name}]}" != "PASS" ] && [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ]; then
+        if [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" != "PASS" ] && [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ]; then
             print_info "Retrying deployment for ${vm_name}..."
             local config_file="${PROJECT_ROOT}/Examples/${config_name}.json"
             local deployment_log="${RESULTS_DIR}/${vm_name}_deployment_retry${retry_count}_${TIMESTAMP}.log"
@@ -1248,7 +1248,7 @@ retry_failed_tests() {
         fi
 
         # Retry verification
-        if [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" != "PASS" ] && [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ]; then
+        if [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" != "PASS" ] && [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ]; then
             print_info "Retrying component verification for ${vm_name}..."
             local ssh_port=$((2222 + $(echo "${vm_name}" | tr -cd '0-9' | sed 's/^0*//' || echo "0")))
             local verification_passed=true
@@ -1296,10 +1296,10 @@ check_all_tests_passed() {
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
 
-        [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] || return 1
-        [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] || return 1
-        [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] || return 1
-        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ] || return 1
+        [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] || return 1
+        [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] || return 1
+        [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] || return 1
+        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ] || return 1
     done
 
     return 0
@@ -1462,10 +1462,10 @@ main() {
 
         total_tests=$((total_tests + 4))
 
-        [ "${VM_CREATION_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${OS_INSTALL_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${DEPLOYMENT_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
     done
 
     echo ""
