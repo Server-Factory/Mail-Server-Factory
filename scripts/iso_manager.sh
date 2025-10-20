@@ -64,8 +64,8 @@ declare -a ISO_DEFINITIONS=(
     "ubuntu-24.04|24.04.3|https://releases.ubuntu.com/24.04.3/ubuntu-24.04.3-live-server-amd64.iso|https://releases.ubuntu.com/24.04.3/SHA256SUMS|sha256"
 
     # Debian
-    "debian-11|11.12.0|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.12.0-amd64-netinst.iso|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS|sha256"
-    "debian-12|12.9.0|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.9.0-amd64-netinst.iso|https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS|sha256"
+    "debian-11|11.11.0|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso|https://cdimage.debian.org/cdimage/archive/11.11.0/amd64/iso-cd/SHA256SUMS|sha256"
+    "debian-12|12.12.0|https://cdimage.debian.org/cdimage/archive/12.12.0/amd64/iso-cd/debian-12.12.0-amd64-netinst.iso|https://cdimage.debian.org/cdimage/archive/12.12.0/amd64/iso-cd/SHA256SUMS|sha256"
 
     # Fedora Server
     "fedora-server-38|38|https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-dvd-x86_64-38-1.6.iso|https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-38-1.6-x86_64-CHECKSUM|sha256"
@@ -275,6 +275,13 @@ download_all() {
     echo -e "${RED}Failed: ${fail_count}${NC}"
 
     log_info "Download complete. Success: ${success_count}, Failed: ${fail_count}"
+
+    # Return success only if all downloads succeeded
+    if [ ${fail_count} -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 verify_all() {
@@ -312,6 +319,13 @@ verify_all() {
     print_header "Verification Summary"
     echo -e "${GREEN}Verified: ${verified}${NC}"
     echo -e "${RED}Failed: ${failed}${NC}"
+
+    # Return success only if no verifications failed
+    if [ ${failed} -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 list_isos() {
