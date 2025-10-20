@@ -75,14 +75,14 @@ check_iso_status() {
             # Simple size check - if file is > 50MB and appears complete
             if [[ "${current_size}" == *"G"* ]] || [[ "${size_bytes}" -gt 52428800 ]]; then
                 printf "%-50s %-12s %-12s ${GREEN}%-10s${NC}\n" "${iso}" "${expected_size}" "${current_size}" "Complete"
-                ((downloaded++))
+                downloaded=$((downloaded + 1))
             else
                 printf "%-50s %-12s %-12s ${YELLOW}%-10s${NC}\n" "${iso}" "${expected_size}" "${current_size}" "Downloading"
-                ((in_progress++))
+                in_progress=$((in_progress + 1))
             fi
         else
             printf "%-50s %-12s %-12s ${RED}%-10s${NC}\n" "${iso}" "${expected_size}" "N/A" "Missing"
-            ((missing++))
+            missing=$((missing + 1))
         fi
     done
 

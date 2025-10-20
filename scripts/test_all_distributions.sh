@@ -105,7 +105,7 @@ check_prerequisites() {
     if [ ! -f "${MAIL_FACTORY}" ] && [ ! -f "${PROJECT_ROOT}/Application/build/libs/Application.jar" ]; then
         print_error "Mail Factory not found. Please build the project first."
         print_info "Run: ./gradlew assemble"
-        ((missing++))
+        missing=$((missing + 1))
     else
         print_success "Mail Factory found"
     fi
@@ -225,12 +225,12 @@ EOF
     local config_valid=0
 
     for dist in "${DISTRIBUTIONS[@]}"; do
-        ((total++))
+        total=$((total + 1))
         case "${TEST_RESULTS[${dist}]:-UNKNOWN}" in
-            PASS) ((passed++)) ;;
-            FAIL) ((failed++)) ;;
-            SKIP|TIMEOUT) ((skipped++)) ;;
-            CONFIG_VALID) ((config_valid++)) ;;
+            PASS) passed=$((passed + 1)) ;;
+            FAIL) failed=$((failed + 1)) ;;
+            SKIP|TIMEOUT) skipped=$((skipped + 1)) ;;
+            CONFIG_VALID) config_valid=$((config_valid + 1)) ;;
         esac
     done
 

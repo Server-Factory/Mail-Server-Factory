@@ -92,9 +92,9 @@ list_all_processes() {
             local status=$?
 
             if [ $status -eq 0 ]; then
-                ((running_count++))
+                running_count=$((running_count + 1))
             elif [ $status -eq 2 ]; then
-                ((finished_count++))
+                finished_count=$((finished_count + 1))
             fi
 
             if [ "$SHOW_LOGS" = "true" ]; then

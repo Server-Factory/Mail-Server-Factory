@@ -261,9 +261,9 @@ download_all() {
         IFS='|' read -r name version url checksum_url checksum_type <<< "${definition}"
 
         if process_iso "${name}" "${version}" "${url}" "${checksum_url}" "${checksum_type}"; then
-            ((success_count++))
+            success_count=$((success_count + 1))
         else
-            ((fail_count++))
+            fail_count=$((fail_count + 1))
         fi
 
         echo ""
@@ -308,9 +308,9 @@ verify_all() {
             fi
 
             if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
-                ((verified++))
+                verified=$((verified + 1))
             else
-                ((failed++))
+                failed=$((failed + 1))
             fi
         fi
     done

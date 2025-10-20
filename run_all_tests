@@ -112,7 +112,7 @@ print_header() {
     local title="$1"
     local phase_info=""
 
-    ((CURRENT_PHASE++))
+    CURRENT_PHASE=$((CURRENT_PHASE + 1))
     phase_info="[Phase ${CURRENT_PHASE}/${TOTAL_PHASES}]"
 
     echo ""
@@ -170,7 +170,7 @@ check_prerequisites() {
         log_success "Java version: ${java_version}"
     else
         print_error "Java not found (required: Java 17+)"
-        ((missing++))
+        missing=$((missing + 1))
     fi
 
     # Check Gradle
@@ -179,7 +179,7 @@ check_prerequisites() {
         print_success "Gradle wrapper found"
     else
         print_error "Gradle wrapper not found"
-        ((missing++))
+        missing=$((missing + 1))
     fi
 
     # Check Docker
@@ -190,11 +190,11 @@ check_prerequisites() {
         else
             print_warning "Docker found but not running"
             print_info "Starting Docker daemon may be required"
-            ((warnings++))
+            warnings=$((warnings + 1))
         fi
     else
         print_error "Docker not found (required for tests)"
-        ((missing++))
+        missing=$((missing + 1))
     fi
 
     # Check QEMU
@@ -204,7 +204,7 @@ check_prerequisites() {
         print_success "QEMU found: ${qemu_version}"
     else
         print_error "QEMU not found (install: sudo apt install qemu-system-x86 qemu-utils)"
-        ((missing++))
+        missing=$((missing + 1))
     fi
 
     # Check disk space
@@ -214,7 +214,7 @@ check_prerequisites() {
         print_success "Available disk space: ${available_gb}GB"
     else
         print_warning "Low disk space: ${available_gb}GB (recommended: 100GB+)"
-        ((warnings++))
+        warnings=$((warnings + 1))
     fi
 
     # Check RAM
@@ -224,7 +224,7 @@ check_prerequisites() {
         print_success "Total RAM: ${total_ram_gb}GB"
     else
         print_warning "Low RAM: ${total_ram_gb}GB (recommended: 16GB+)"
-        ((warnings++))
+        warnings=$((warnings + 1))
     fi
 
     # Summary
@@ -384,7 +384,7 @@ create_all_vms() {
 
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
-        ((current_vm++))
+        current_vm=$((current_vm + 1))
 
         print_progress ${current_vm} ${total_vms} "Creating ${vm_name}"
 
@@ -392,10 +392,10 @@ create_all_vms() {
 
         if bash "${qemu_script}" create "${vm_name}" "${memory}" "${disk}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
             VM_CREATION_RESULTS["${vm_name}"]="PASS"
-            ((created++))
+            created=$((created + 1))
         else
             VM_CREATION_RESULTS["${vm_name}"]="FAIL"
-            ((failed++))
+            failed=$((failed + 1))
             log_error "Failed to create VM: ${vm_name}"
         fi
     done
@@ -434,7 +434,7 @@ install_all_operating_systems() {
 
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
-        ((current_install++))
+        current_install=$((current_install + 1))
 
         print_progress ${current_install} ${total_installs} "Installing ${vm_name}"
 
@@ -451,7 +451,7 @@ install_all_operating_systems() {
         if ! bash "${qemu_script}" start "${vm_name}" "${memory}" "${cpus}" >> "${MAIN_LOG}" 2>&1; then
             OS_INSTALL_RESULTS["${vm_name}"]="FAIL"
             log_error "Failed to start VM: ${vm_name}"
-            ((failed++))
+            failed=$((failed + 1))
             continue
         fi
 
@@ -490,7 +490,7 @@ install_all_operating_systems() {
 
         if [ "${install_complete}" = true ]; then
             OS_INSTALL_RESULTS["${vm_name}"]="PASS"
-            ((installed++))
+            installed=$((installed + 1))
             log_success "${vm_name} installation completed"
 
             # Archive the installed system
@@ -505,7 +505,7 @@ install_all_operating_systems() {
             fi
         else
             OS_INSTALL_RESULTS["${vm_name}"]="TIMEOUT"
-            ((failed++))
+            failed=$((failed + 1))
             log_error "${vm_name} installation timed out after ${install_timeout} seconds"
 
             # Stop the VM
@@ -569,7 +569,7 @@ deploy_mail_server_factory() {
 
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
-        ((current_deployment++))
+        current_deployment=$((current_deployment + 1))
 
         print_progress ${current_deployment} ${total_deployments} "Deploying to ${vm_name}"
 
@@ -584,7 +584,7 @@ deploy_mail_server_factory() {
         if [ ! -f "${config_file}" ]; then
             DEPLOYMENT_RESULTS["${vm_name}"]="FAIL"
             log_error "Configuration file not found: ${config_file}"
-            ((failed++))
+            failed=$((failed + 1))
             continue
         fi
 
@@ -596,12 +596,12 @@ deploy_mail_server_factory() {
 
         if timeout ${DEPLOYMENT_TIMEOUT} ./mail_factory "${config_file}" > "${deployment_log}" 2>&1; then
             DEPLOYMENT_RESULTS["${vm_name}"]="PASS"
-            ((deployed++))
+            deployed=$((deployed + 1))
             log_success "${vm_name} deployment completed"
         else
             local exit_code=$?
             DEPLOYMENT_RESULTS["${vm_name}"]="FAIL"
-            ((failed++))
+            failed=$((failed + 1))
 
             if [ ${exit_code} -eq 124 ]; then
                 log_error "${vm_name} deployment timed out after ${DEPLOYMENT_TIMEOUT} seconds"
@@ -659,7 +659,7 @@ verify_all_components() {
 
     for dist_config in "${DISTRIBUTIONS[@]}"; do
         IFS=':' read -r vm_name config_name family memory disk cpus <<< "${dist_config}"
-        ((current_verification++))
+        current_verification=$((current_verification + 1))
 
         print_progress ${current_verification} ${total_verifications} "Verifying ${vm_name}"
 
@@ -682,7 +682,7 @@ verify_all_components() {
         for container in "${expected_containers[@]}"; do
             if ssh -p ${ssh_port} -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@localhost \
                 "docker ps --format '{{.Names}}' | grep -q ${container}" >> "${MAIN_LOG}" 2>&1; then
-                ((containers_running++))
+                containers_running=$((containers_running + 1))
                 log_debug "${vm_name}: Container ${container} is running"
             else
                 verification_passed=false
@@ -692,11 +692,11 @@ verify_all_components() {
 
         if [ "${verification_passed}" = true ] && [ ${containers_running} -eq ${#expected_containers[@]} ]; then
             COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="PASS"
-            ((verified++))
+            verified=$((verified + 1))
             log_success "${vm_name}: All ${containers_running} components verified"
         else
             COMPONENT_VERIFICATION_RESULTS["${vm_name}"]="FAIL"
-            ((failed++))
+            failed=$((failed + 1))
             log_error "${vm_name}: Component verification failed (${containers_running}/${#expected_containers[@]} running)"
         fi
     done
@@ -854,9 +854,9 @@ EOF
            [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && \
            [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && \
            [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ]; then
-            ((passed++))
+            passed=$((passed + 1))
         else
-            ((failed++))
+            failed=$((failed + 1))
         fi
     done
 
@@ -1023,9 +1023,9 @@ EOF
            [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && \
            [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && \
            [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ]; then
-            ((passed++))
+            passed=$((passed + 1))
         else
-            ((failed++))
+            failed=$((failed + 1))
         fi
     done
 
@@ -1266,7 +1266,7 @@ retry_failed_tests() {
             for container in "${expected_containers[@]}"; do
                 if ssh -p ${ssh_port} -o StrictHostKeyChecking=no -o ConnectTimeout=10 root@localhost \
                     "docker ps --format '{{.Names}}' | grep -q ${container}" >> "${MAIN_LOG}" 2>&1; then
-                    ((containers_running++))
+                    containers_running=$((containers_running + 1))
                 fi
             done
 
@@ -1393,7 +1393,7 @@ main() {
     local retry_attempt=0
 
     while ! check_all_tests_passed && [ ${retry_attempt} -lt ${MAX_RETRIES} ]; do
-        ((retry_attempt++))
+        retry_attempt=$((retry_attempt + 1))
 
         print_warning "Not all tests passed. Starting retry ${retry_attempt}/${MAX_RETRIES}..."
 
@@ -1433,27 +1433,27 @@ main() {
     local total_tests=0
 
     # Count unit test results
-    ((total_tests++))
+    total_tests=$((total_tests + 1))
     if [ "${UNIT_TEST_RESULTS[status]}" = "PASS" ]; then
-        ((total_passed++))
+        total_passed=$((total_passed + 1))
     else
-        ((total_failed++))
+        total_failed=$((total_failed + 1))
     fi
 
     # Count launcher test results
-    ((total_tests++))
+    total_tests=$((total_tests + 1))
     if [ "${LAUNCHER_TEST_RESULTS[status]}" = "PASS" ]; then
-        ((total_passed++))
+        total_passed=$((total_passed + 1))
     else
-        ((total_failed++))
+        total_failed=$((total_failed + 1))
     fi
 
     # Count ISO results
-    ((total_tests++))
+    total_tests=$((total_tests + 1))
     if [ "${ISO_DOWNLOAD_RESULTS[status]}" = "PASS" ]; then
-        ((total_passed++))
+        total_passed=$((total_passed + 1))
     else
-        ((total_failed++))
+        total_failed=$((total_failed + 1))
     fi
 
     # Count distribution results (each has 4 sub-tests)
@@ -1462,10 +1462,10 @@ main() {
 
         total_tests=$((total_tests + 4))
 
-        [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
-        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ] && ((total_passed++)) || ((total_failed++))
+        [ "${VM_CREATION_RESULTS[${vm_name}]:-}" = "PASS" ] && total_passed=$((total_passed + 1)) || total_failed=$((total_failed + 1))
+        [ "${OS_INSTALL_RESULTS[${vm_name}]:-}" = "PASS" ] && total_passed=$((total_passed + 1)) || total_failed=$((total_failed + 1))
+        [ "${DEPLOYMENT_RESULTS[${vm_name}]:-}" = "PASS" ] && total_passed=$((total_passed + 1)) || total_failed=$((total_failed + 1))
+        [ "${COMPONENT_VERIFICATION_RESULTS[${vm_name}]:-}" = "PASS" ] && total_passed=$((total_passed + 1)) || total_failed=$((total_failed + 1))
     done
 
     echo ""

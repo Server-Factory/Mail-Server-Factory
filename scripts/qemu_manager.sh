@@ -87,7 +87,7 @@ check_dependencies() {
     for cmd in qemu-system-x86_64 qemu-img; do
         if ! command -v "$cmd" &> /dev/null; then
             print_error "Required command not found: $cmd"
-            ((missing++))
+            missing=$((missing + 1))
         fi
     done
 
