@@ -97,20 +97,77 @@ download_file() {
     local url="$1"
     local output="$2"
     local description="${3:-file}"
+    local max_retries=${4:-5}
+    local timeout=${5:-300}
+    local retry_delay=${6:-30}
 
     print_info "Downloading ${description}..."
     log_info "Downloading from: ${url}"
+    log_info "Retry settings: max_retries=${max_retries}, timeout=${timeout}s, retry_delay=${retry_delay}s"
 
-    if command -v wget &> /dev/null; then
-        wget -c -O "${output}" "${url}" 2>&1 | tee -a "${LOG_FILE}"
-    elif command -v curl &> /dev/null; then
-        curl -C - -L -o "${output}" "${url}" 2>&1 | tee -a "${LOG_FILE}"
+    local retry_count=0
+    local success=false
+
+    while [ ${retry_count} -lt ${max_retries} ] && [ "${success}" = "false" ]; do
+        if [ ${retry_count} -gt 0 ]; then
+            print_warning "Retry ${retry_count}/${max_retries} for ${description} (waiting ${retry_delay}s)..."
+            log_warn "Retry ${retry_count}/${max_retries} for ${description}"
+            sleep ${retry_delay}
+        fi
+
+        if command -v wget &> /dev/null; then
+            if timeout ${timeout} wget -c --timeout=${timeout} --tries=3 -O "${output}" "${url}" 2>&1 | tee -a "${LOG_FILE}"; then
+                success=true
+                print_success "Download completed successfully for ${description}"
+                log_success "Download completed: ${url}"
+            else
+                local exit_code=${PIPESTATUS[0]}
+                if [ ${exit_code} -eq 124 ]; then
+                    print_warning "Download timeout for ${description} (${timeout}s)"
+                    log_warn "Download timeout: ${url}"
+                else
+                    print_warning "Download failed for ${description} (exit code: ${exit_code})"
+                    log_warn "Download failed: ${url} (exit code: ${exit_code})"
+                fi
+                retry_count=$((retry_count + 1))
+            fi
+        elif command -v curl &> /dev/null; then
+            if timeout ${timeout} curl -f -C - --connect-timeout ${timeout} --max-time ${timeout} -L -o "${output}" "${url}" 2>&1 | tee -a "${LOG_FILE}"; then
+                success=true
+                print_success "Download completed successfully for ${description}"
+                log_success "Download completed: ${url}"
+            else
+                local exit_code=${PIPESTATUS[0]}
+                if [ ${exit_code} -eq 124 ]; then
+                    print_warning "Download timeout for ${description} (${timeout}s)"
+                    log_warn "Download timeout: ${url}"
+                else
+                    print_warning "Download failed for ${description} (exit code: ${exit_code})"
+                    log_warn "Download failed: ${url} (exit code: ${exit_code})"
+                fi
+                retry_count=$((retry_count + 1))
+            fi
+        else
+            print_error "Neither wget nor curl found. Please install one of them."
+            return 1
+        fi
+
+        # Increase retry delay for subsequent retries (exponential backoff)
+        if [ ${retry_count} -gt 0 ]; then
+            retry_delay=$((retry_delay * 2))
+            if [ ${retry_delay} -gt 300 ]; then
+                retry_delay=300
+            fi
+        fi
+    done
+
+    if [ "${success}" = "true" ]; then
+        return 0
     else
-        print_error "Neither wget nor curl found. Please install one of them."
+        print_error "Failed to download ${description} after ${max_retries} attempts"
+        log_error "Download failed after ${max_retries} attempts: ${url}"
         return 1
     fi
-
-    return $?
 }
 
 extract_checksum() {
@@ -204,7 +261,7 @@ process_iso() {
 
     # Download checksum file
     if [ ! -f "${checksum_path}" ] || [ "$FORCE_DOWNLOAD" = "true" ]; then
-        download_file "${checksum_url}" "${checksum_path}" "checksum file"
+        download_file "${checksum_url}" "${checksum_path}" "checksum file" 3 120 15
         if [ $? -ne 0 ]; then
             print_error "Failed to download checksum file"
             return 1
@@ -228,7 +285,7 @@ process_iso() {
     fi
 
     # Download ISO
-    download_file "${iso_url}" "${iso_path}" "${name} ISO"
+    download_file "${iso_url}" "${iso_path}" "${name} ISO" 5 600 30
     if [ $? -ne 0 ]; then
         print_error "Failed to download ISO"
         return 1
@@ -304,7 +361,7 @@ verify_all() {
 
             if [ ! -f "${checksum_path}" ]; then
                 print_warning "Checksum file missing, downloading..."
-                download_file "${checksum_url}" "${checksum_path}" "checksum file"
+                download_file "${checksum_url}" "${checksum_path}" "checksum file" 3 120 15
             fi
 
             if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then

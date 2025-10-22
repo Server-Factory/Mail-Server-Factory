@@ -1361,8 +1361,8 @@ main() {
 
     # Phase 3: ISO Download
     if ! download_and_verify_isos; then
-        print_error "ISO download/verification failed. Cannot proceed with VM testing."
-        exit 1
+        print_warning "ISO download/verification failed or incomplete. Continuing with available ISOs..."
+        print_info "Some VM tests may be skipped if ISOs are missing"
     fi
 
     # Phase 4: VM Creation
