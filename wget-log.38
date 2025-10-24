@@ -1,0 +1,6 @@
+--2025-10-24 15:47:35--  https://repo.almalinux.org/almalinux/9.5/isos/x86_64/AlmaLinux-9.5-x86_64-dvd.iso
+Resolving repo.almalinux.org (repo.almalinux.org)... 151.101.67.52, 151.101.3.52, 151.101.195.52, ...
+Connecting to repo.almalinux.org (repo.almalinux.org)|151.101.67.52|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2025-10-24 15:47:35 ERROR 404: Not Found.
+

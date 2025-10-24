@@ -1,0 +1,28 @@
+{
+  "connection": {
+    "type": "DOCKER",
+    "host": "unix:///var/run/docker.sock",
+    "port": 0,
+    "containerConfig": {
+      "containerType": "DOCKER",
+      "containerName": "mail-server",
+      "dockerHost": "unix:///var/run/docker.sock",
+      "network": "mail-network",
+      "volumes": [
+        "/opt/mailserver/data:/var/mail",
+        "/opt/mailserver/config:/etc/postfix"
+      ],
+      "environmentVariables": {
+        "MAIL_DOMAIN": "example.com",
+        "ENABLE_SPAMASSASSIN": "1"
+      }
+    }
+  },
+  "description": "Docker container execution for mail server",
+  "use_cases": [
+    "Containerized deployments",
+    "Docker Compose stacks",
+    "Local development",
+    "Microservices architecture"
+  ]
+}

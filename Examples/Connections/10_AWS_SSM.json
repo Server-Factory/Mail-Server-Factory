@@ -1,0 +1,29 @@
+{
+  "connection": {
+    "type": "AWS_SSM",
+    "host": "i-1234567890abcdef0",
+    "port": 0,
+    "cloudConfig": {
+      "provider": "AWS",
+      "region": "us-east-1",
+      "instanceId": "i-1234567890abcdef0",
+      "profile": "mail-production",
+      "properties": {
+        "sessionDocument": "AWS-StartSSHSession"
+      }
+    }
+  },
+  "description": "AWS Systems Manager Session Manager connection",
+  "use_cases": [
+    "EC2 instances",
+    "No open SSH ports required",
+    "IAM-based authentication",
+    "Session logging to S3/CloudWatch"
+  ],
+  "advantages": [
+    "No bastion hosts needed",
+    "Centralized access control",
+    "Audit trail in CloudTrail",
+    "No public IP required"
+  ]
+}

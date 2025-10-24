@@ -1,0 +1,21 @@
+{
+  "connection": {
+    "type": "KUBERNETES",
+    "host": "k8s-cluster.example.com",
+    "port": 443,
+    "containerConfig": {
+      "containerType": "KUBERNETES",
+      "namespace": "mail-production",
+      "podSelector": "app=mail-server,tier=backend",
+      "containerInPod": "postfix",
+      "kubeconfig": "/home/user/.kube/config"
+    }
+  },
+  "description": "Kubernetes pod execution for mail server",
+  "use_cases": [
+    "Cloud-native deployments",
+    "Scalable architectures",
+    "High availability",
+    "Auto-scaling mail services"
+  ]
+}

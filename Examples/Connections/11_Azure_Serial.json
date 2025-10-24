@@ -1,0 +1,27 @@
+{
+  "connection": {
+    "type": "AZURE_SERIAL",
+    "host": "mail-vm",
+    "port": 0,
+    "cloudConfig": {
+      "provider": "AZURE",
+      "subscriptionId": "12345678-1234-1234-1234-123456789012",
+      "resourceGroup": "mail-production-rg",
+      "vmName": "mail-vm",
+      "tenantId": "87654321-4321-4321-4321-210987654321"
+    }
+  },
+  "description": "Azure VM Serial Console connection",
+  "use_cases": [
+    "Emergency VM access",
+    "Network troubleshooting",
+    "Boot diagnostics",
+    "Recovery scenarios"
+  ],
+  "advantages": [
+    "Works without network",
+    "Boot-level access",
+    "Troubleshooting tool",
+    "Last resort access"
+  ]
+}

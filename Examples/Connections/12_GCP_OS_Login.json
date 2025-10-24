@@ -1,0 +1,29 @@
+{
+  "connection": {
+    "type": "GCP_OS_LOGIN",
+    "host": "mail-instance",
+    "port": 22,
+    "cloudConfig": {
+      "provider": "GCP",
+      "project": "mail-production-project",
+      "zone": "us-central1-a",
+      "instanceId": "mail-instance",
+      "properties": {
+        "serviceAccount": "mail-admin@mail-production-project.iam.gserviceaccount.com"
+      }
+    }
+  },
+  "description": "Google Cloud Platform OS Login connection",
+  "use_cases": [
+    "GCE instances",
+    "IAM-based SSH access",
+    "Centralized key management",
+    "2FA support"
+  ],
+  "advantages": [
+    "No manual key distribution",
+    "Automatic key rotation",
+    "Audit logging",
+    "2-factor authentication"
+  ]
+}

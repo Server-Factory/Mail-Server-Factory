@@ -1,0 +1,36 @@
+{
+  "connection": {
+    "type": "SSH_CERTIFICATE",
+    "host": "mail.example.com",
+    "port": 22,
+    "credentials": {
+      "username": "mailserver",
+      "keyPath": "/home/user/.ssh/id_rsa",
+      "certificatePath": "/home/user/.ssh/id_rsa-cert.pub",
+      "comment": "SSH certificate authentication (enterprise-grade)"
+    },
+    "options": {
+      "timeout": 120,
+      "retries": 3
+    }
+  },
+  "description": "SSH connection with certificate-based authentication",
+  "use_cases": [
+    "Enterprise environments",
+    "Centralized authentication",
+    "Certificate Authority (CA) managed access",
+    "Time-limited access"
+  ],
+  "setup": {
+    "generate_ca": "ssh-keygen -t rsa -b 4096 -f ca_key",
+    "generate_user_key": "ssh-keygen -t rsa -b 4096 -f user_key",
+    "sign_certificate": "ssh-keygen -s ca_key -I mailserver_admin -n mailserver -V +52w user_key.pub",
+    "configure_server": "Add 'TrustedUserCAKeys /etc/ssh/ca_key.pub' to /etc/ssh/sshd_config"
+  },
+  "advantages": [
+    "Expiration dates built-in",
+    "Central revocation",
+    "Principal-based access",
+    "Audit trail"
+  ]
+}

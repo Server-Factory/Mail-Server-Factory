@@ -1,0 +1,33 @@
+{
+  "connection": {
+    "type": "SSH_AGENT",
+    "host": "mail.example.com",
+    "port": 22,
+    "credentials": {
+      "username": "mailserver",
+      "agentSocket": "${SSH_AUTH_SOCK}",
+      "comment": "Uses SSH agent for key management"
+    },
+    "options": {
+      "timeout": 120,
+      "retries": 3
+    }
+  },
+  "description": "SSH connection with agent forwarding",
+  "use_cases": [
+    "Multi-hop connections",
+    "Centralized key management",
+    "No private key exposure"
+  ],
+  "setup": {
+    "start_agent": "eval $(ssh-agent -s)",
+    "add_key": "ssh-add ~/.ssh/mailserver_key",
+    "list_keys": "ssh-add -l",
+    "environment": "SSH_AUTH_SOCK is automatically set by ssh-agent"
+  },
+  "advantages": [
+    "Keys never leave your machine",
+    "Single key unlocking for multiple servers",
+    "Agent forwarding for jump hosts"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "connection": {
+    "type": "LOCAL",
+    "host": "localhost",
+    "port": 0,
+    "options": {
+      "properties": {
+        "workingDirectory": "/opt/mail-server-factory"
+      }
+    }
+  },
+  "description": "Local command execution (no remote connection)",
+  "use_cases": [
+    "Local development",
+    "Testing",
+    "CI/CD on deployment target",
+    "Single-machine setups"
+  ],
+  "advantages": [
+    "No network overhead",
+    "Immediate execution",
+    "Simple configuration",
+    "Perfect for testing"
+  ]
+}

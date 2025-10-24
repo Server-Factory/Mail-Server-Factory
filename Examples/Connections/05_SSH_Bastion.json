@@ -1,0 +1,38 @@
+{
+  "connection": {
+    "type": "SSH_BASTION",
+    "host": "mail-internal.local",
+    "port": 22,
+    "credentials": {
+      "username": "mailserver",
+      "password": "encrypted:AES256:IV:salt:targetpass"
+    },
+    "bastionConfig": {
+      "type": "SSH",
+      "host": "bastion.example.com",
+      "port": 22,
+      "credentials": {
+        "username": "bastion-user",
+        "keyPath": "/home/user/.ssh/bastion_key"
+      }
+    },
+    "options": {
+      "timeout": 120,
+      "retries": 3
+    }
+  },
+  "description": "SSH connection through bastion/jump host",
+  "use_cases": [
+    "Private network access",
+    "Security-hardened environments",
+    "DMZ deployments",
+    "Internal servers"
+  ],
+  "architecture": "Client → Bastion Host → Target Server",
+  "advantages": [
+    "Single point of entry",
+    "Enhanced security",
+    "No direct exposure of internal servers",
+    "Audit logging at bastion"
+  ]
+}

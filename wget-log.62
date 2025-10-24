@@ -1,0 +1,6 @@
+--2025-10-24 18:14:13--  https://download.rockylinux.org/pub/rocky/9.5/isos/x86_64/Rocky-9.5-x86_64-dvd.iso
+Resolving download.rockylinux.org (download.rockylinux.org)... 199.232.198.132, 199.232.194.132, 2a04:4e42:4d::644, ...
+Connecting to download.rockylinux.org (download.rockylinux.org)|199.232.198.132|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2025-10-24 18:14:13 ERROR 404: Not Found.
+

@@ -1,0 +1,25 @@
+{
+  "connection": {
+    "type": "ANSIBLE",
+    "host": "mail-servers",
+    "port": 22,
+    "credentials": {
+      "username": "ansible",
+      "keyPath": "/home/user/.ssh/ansible_key"
+    },
+    "options": {
+      "properties": {
+        "inventoryPath": "/etc/ansible/hosts",
+        "playbookDir": "/opt/ansible/playbooks",
+        "extraVars": "env=production mail_domain=example.com"
+      }
+    }
+  },
+  "description": "Ansible playbook execution for mail server automation",
+  "use_cases": [
+    "Multi-server deployments",
+    "Configuration management",
+    "Idempotent operations",
+    "Infrastructure as Code"
+  ]
+}
