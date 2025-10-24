@@ -34,3 +34,6 @@ gradle-app.setting
 
 # Docker credentials (user-specific)
 Examples/Includes/_Docker.json
+
+wget-log.*
+
