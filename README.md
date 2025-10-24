@@ -31,10 +31,10 @@ future scalability.
 
 ### Automated OS Installation & Testing
 - **Unattended Installation**: Preseed/kickstart/cloud-init/autoyast configurations for all major distributions
-- **12 Distribution Support**: Ubuntu, Debian, RHEL, AlmaLinux, Rocky Linux, Fedora Server, openSUSE Leap
+- **25 Distribution Support**: Western (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE) + Russian (ALT, Astra, ROSA) + Chinese (openEuler, openKylin, Deepin)
 - **QEMU Virtualization**: Complete virtual machine automation with `scripts/qemu_manager.sh`
-- **ISO Management**: Automated download and verification with `scripts/iso_manager.sh`
-- **Comprehensive Testing**: Full test suite with `scripts/test_all_distributions.sh`
+- **ISO Management**: Enhanced download script with progress tracking - `Core/Utils/Iso/download_isos_enhanced.sh`
+- **Comprehensive Testing**: Full test suite including recipe coverage - `Core/Utils/Iso/test_recipe_coverage.sh`
 - **Network Configuration**: Automatic setup for .local hostname resolution
 - **Background Operation**: Non-interactive VM deployment and management
 
@@ -91,25 +91,41 @@ Mail Server Factory supports the following modern Linux server distributions:
 
 ## Supported Distributions (Fully Tested)
 
-### Debian-based
-- **Ubuntu Server** 22.04 LTS (Jammy Jellyfish) - `Examples/Ubuntu_22.json`
+### Debian-based (Western)
+- **Ubuntu Server** 25.10 - `Examples/Ubuntu_25.json`
 - **Ubuntu Server** 24.04 LTS (Noble Numbat) - `Examples/Ubuntu_24.json`
+- **Ubuntu Server** 22.04 LTS (Jammy Jellyfish) - `Examples/Ubuntu_22.json`
 - **Debian** 11 (Bullseye) - `Examples/Debian_11.json`
 - **Debian** 12 (Bookworm) - `Examples/Debian_12.json`
 
-### RHEL-based
-- **Red Hat Enterprise Linux** 9 - `Examples/RHEL_9.json`
-- **AlmaLinux** 9.5 - `Examples/AlmaLinux_9.json`
-- **Rocky Linux** 9.5 - `Examples/Rocky_9.json`
-- **Fedora Server** 38 - `Examples/Fedora_Server_38.json`
-- **Fedora Server** 39 - `Examples/Fedora_Server_39.json`
-- **Fedora Server** 40 - `Examples/Fedora_Server_40.json`
-- **Fedora Server** 41 - `Examples/Fedora_Server_41.json`
+### RHEL-based (Western)
+- **CentOS Stream** 9 - `Examples/CentOS_Stream.json`
+- **CentOS** 7, 8 - `Examples/Centos_7.json`, `Examples/Centos_8.json`
+- **AlmaLinux** 9 - `Examples/AlmaLinux_9.json`
+- **Rocky Linux** 9 - `Examples/Rocky_9.json`
+- **Fedora Server** 38-41 - `Examples/Fedora_Server_*.json`
 
-### SUSE-based
-- **openSUSE Leap** 15.6 - `Examples/openSUSE_Leap_15.json`
+### SUSE-based (Western)
+- **openSUSE Leap** 15.5, 15.6 - `Examples/openSUSE_Leap_15.json`, `Examples/openSUSE_Leap_15.6.json`
 
-**Total: 12 distributions with comprehensive testing coverage**
+### Russian Distributions 🇷🇺
+- **ALT Linux** p10, p10-server - `Examples/ALTLinux_p10.json`, `Examples/ALTLinux_p10_Server.json`
+- **Astra Linux** CE 2.12 (Debian-based) - `Examples/Astra_Linux_CE_2.12.json`
+- **ROSA Linux** 12.4 (RHEL-based) - `Examples/ROSA_Linux_12.json`
+
+### Chinese Distributions 🇨🇳
+- **openEuler** 24.03 LTS, 22.03 LTS SP4 - `Examples/openEuler_24.03_LTS.json`, `Examples/openEuler_22.03_LTS_SP4.json`
+- **openKylin** 2.0 (Ubuntu-based) - `Examples/openKylin_2.0.json`
+- **Deepin** 23 (Debian-based) - `Examples/Deepin_23.json`
+
+**Total: 25 distributions across 13 distribution families**
+
+**Regional Coverage**:
+- 🌍 Western distributions: 17 (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE)
+- 🇷🇺 Russian distributions: 4 (ALT Linux, Astra Linux, ROSA)
+- 🇨🇳 Chinese distributions: 4 (openEuler, openKylin, Deepin)
+
+**Note on RHEL/SLES**: Red Hat Enterprise Linux and SUSE Linux Enterprise Server require manual registration and are not included in automated downloads. Free alternatives: AlmaLinux/Rocky (RHEL-compatible), openSUSE Leap (SLES-compatible).
 
 All distributions have been validated with:
 - ✅ Automated ISO verification

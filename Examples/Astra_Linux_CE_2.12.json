@@ -1,0 +1,15 @@
+{
+  "name": "Astra Linux Common Edition 2.12 configuration",
+  "includes": [
+    "Includes/Common.json"
+  ],
+  "variables": {
+    "SERVER": {
+      "HOSTNAME": "astra-ce.local"
+    }
+  },
+  "remote": {
+    "port": 22,
+    "user": "root"
+  }
+}
