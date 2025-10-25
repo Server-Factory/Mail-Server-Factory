@@ -47,10 +47,16 @@ future scalability.
 - **Unattended Installation**: Preseed/kickstart/cloud-init/autoyast configurations for all major distributions
 - **25 Distribution Support**: Western (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE) + Russian (ALT, Astra, ROSA) + Chinese (openEuler, openKylin, Deepin)
 - **QEMU Virtualization**: Complete virtual machine automation with `scripts/qemu_manager.sh`
-- **ISO Management**: Enhanced download script with progress tracking - `Core/Utils/Iso/download_isos_enhanced.sh`
+- **ISO Management**: Enhanced download script with progress tracking and optional SMB cache support - `scripts/iso_manager.sh`
 - **Comprehensive Testing**: Full test suite including recipe coverage - `Core/Utils/Iso/test_recipe_coverage.sh`
 - **Network Configuration**: Automatic setup for .local hostname resolution
 - **Background Operation**: Non-interactive VM deployment and management
+
+### ISO Download with SMB Cache Support
+- **Network Cache**: Optional SMB share support for cached ISO images via `OS_IS_IMAGES_PATH` environment variable
+- **Fallback Mechanism**: Automatically falls back to internet download if ISO not found in SMB cache
+- **Enterprise Integration**: Seamlessly integrates with existing network infrastructure for faster deployments
+- **Security**: Uses standard SMB protocols with existing authentication mechanisms
 
 ### Comprehensive Testing Framework
 - **Mail Server Testing**: Complete SMTP/IMAP/POP3 functionality testing

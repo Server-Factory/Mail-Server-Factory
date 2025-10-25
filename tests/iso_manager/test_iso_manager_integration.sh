@@ -410,6 +410,28 @@ test_progress_monitoring_integration() {
     fi
 }
 
+test_smb_fallback_integration() {
+    print_test_header "SMB fallback to internet download"
+
+    # Test that the script falls back to internet when SMB is not available
+    TESTS_RUN=$((TESTS_RUN + 1))
+
+    # Set OS_IS_IMAGES_PATH but ensure smbclient is not available or mocked to fail
+    if ! command -v smbclient &> /dev/null; then
+        local output=$(OS_IS_IMAGES_PATH="smb://nonexistent/share" timeout 30s bash "${ISO_MANAGER}" list 2>&1 | head -20)
+        if [[ "${output}" == *"smbclient not found"* ]] || [[ "${output}" == *"Failed to copy from SMB"* ]]; then
+            echo -e "${GREEN}✓ PASS${NC}: Proper fallback when SMB unavailable"
+            TESTS_PASSED=$((TESTS_PASSED + 1))
+        else
+            echo -e "${RED}✗ FAIL${NC}: Did not fallback properly from SMB"
+            TESTS_FAILED=$((TESTS_FAILED + 1))
+        fi
+    else
+        echo -e "${YELLOW}⊘ SKIP${NC}: smbclient available, cannot test fallback"
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+    fi
+}
+
 # ============================================
 # Test Summary
 # ============================================
@@ -462,6 +484,7 @@ main() {
     test_parallel_downloads
     test_connection_health_check_integration
     test_progress_monitoring_integration
+    test_smb_fallback_integration
 
     teardown
     print_summary

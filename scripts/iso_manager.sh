@@ -98,6 +98,79 @@ declare -a ISO_DEFINITIONS=(
 )
 
 # ============================================
+# SMB Helper Functions
+# ============================================
+
+# Check if smbclient is available
+check_smbclient() {
+    if ! command -v smbclient &> /dev/null; then
+        log_warn "smbclient not found. SMB functionality disabled."
+        return 1
+    fi
+    return 0
+}
+
+# Check if a file exists in SMB share
+smb_file_exists() {
+    local smb_path="$1"
+    local filename="$2"
+
+    if ! check_smbclient; then
+        return 1
+    fi
+
+    # Parse SMB path: smb://server/share/path
+    local smb_url=$(echo "${smb_path}" | sed 's|^smb://||')
+    local server=$(echo "${smb_url}" | cut -d'/' -f1)
+    local share_path=$(echo "${smb_url}" | cut -d'/' -f2-)
+
+    # Use smbclient to list files and check if our file exists
+    if echo "ls ${share_path}/${filename}" | smbclient "//${server}/${share_path%/*}" -c "ls ${share_path}/${filename}" 2>/dev/null | grep -q "${filename}"; then
+        log_info "File ${filename} found in SMB share: ${smb_path}"
+        return 0
+    else
+        log_info "File ${filename} not found in SMB share: ${smb_path}"
+        return 1
+    fi
+}
+
+# Copy file from SMB share
+copy_from_smb() {
+    local smb_path="$1"
+    local filename="$2"
+    local local_path="$3"
+
+    if ! check_smbclient; then
+        return 1
+    fi
+
+    # Parse SMB path
+    local smb_url=$(echo "${smb_path}" | sed 's|^smb://||')
+    local server=$(echo "${smb_url}" | cut -d'/' -f1)
+    local share_path=$(echo "${smb_url}" | cut -d'/' -f2-)
+
+    print_info "Copying ${filename} from SMB share..."
+    log_info "Copying from SMB: //${server}/${share_path}/${filename} to ${local_path}"
+
+    # Use smbclient to copy the file
+    if echo "get ${share_path}/${filename} ${local_path}" | smbclient "//${server}/${share_path%/*}" -c "get ${share_path}/${filename} ${local_path}" 2>/dev/null; then
+        if [ -f "${local_path}" ]; then
+            print_success "Successfully copied ${filename} from SMB share"
+            log_success "SMB copy completed: ${filename}"
+            return 0
+        else
+            print_error "Failed to copy ${filename} from SMB share (file not found locally after copy)"
+            log_error "SMB copy failed: ${filename} (local file missing)"
+            return 1
+        fi
+    else
+        print_error "Failed to copy ${filename} from SMB share"
+        log_error "SMB copy failed: ${filename}"
+        return 1
+    fi
+}
+
+# ============================================
 # Helper Functions
 # ============================================
 
@@ -553,6 +626,33 @@ process_iso() {
         fi
     fi
 
+    # Check for SMB cache if OS_IS_IMAGES_PATH is set
+    if [ -n "${OS_IS_IMAGES_PATH:-}" ]; then
+        print_info "Checking SMB cache for ${iso_filename}..."
+        log_info "OS_IS_IMAGES_PATH set: ${OS_IS_IMAGES_PATH}"
+
+        if smb_file_exists "${OS_IS_IMAGES_PATH}" "${iso_filename}"; then
+            if copy_from_smb "${OS_IS_IMAGES_PATH}" "${iso_filename}" "${iso_path}"; then
+                # Verify the copied ISO
+                if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
+                    print_success "ISO copied from SMB cache and verified"
+                    log_success "ISO successfully obtained from SMB cache: ${iso_filename}"
+                    return 0
+                else
+                    print_warning "ISO from SMB cache failed verification, falling back to internet download"
+                    log_warn "SMB ISO failed verification: ${iso_filename}"
+                    cleanup_corrupted_partial "${iso_path}"
+                fi
+            else
+                print_warning "Failed to copy from SMB cache, falling back to internet download"
+                log_warn "SMB copy failed: ${iso_filename}"
+            fi
+        else
+            print_info "ISO not found in SMB cache, proceeding with internet download"
+            log_info "ISO not in SMB cache: ${iso_filename}"
+        fi
+    fi
+
     # Download ISO with enhanced resilience features
     download_file "${iso_url}" "${iso_path}" "${name} ISO" 5 600 30
     if [ $? -ne 0 ]; then
@@ -696,13 +796,14 @@ Options:
     --force     Force re-download even if ISO exists
 
 Features:
-    ✓ Resume capability for interrupted downloads
-    ✓ Automatic corruption detection and cleanup
-    ✓ Connection health checks before download
-    ✓ Download stall detection (auto-retry on hang)
-    ✓ Progress monitoring with speed tracking
-    ✓ Exponential backoff with jitter
-    ✓ Checksum verification (SHA256/SHA512/MD5)
+     ✓ Resume capability for interrupted downloads
+     ✓ Automatic corruption detection and cleanup
+     ✓ Connection health checks before download
+     ✓ Download stall detection (auto-retry on hang)
+     ✓ Progress monitoring with speed tracking
+     ✓ Exponential backoff with jitter
+     ✓ Checksum verification (SHA256/SHA512/MD5)
+     ✓ Optional SMB cache support for local network ISOs
 
 Examples:
     $(basename "$0") download              # Download all ISOs
@@ -711,9 +812,10 @@ Examples:
     $(basename "$0") list                  # List available ISOs
 
 Environment Variables:
-    STALL_TIMEOUT            Seconds without progress before retry (default: 60)
-    PROGRESS_CHECK_INTERVAL  Progress check frequency in seconds (default: 10)
-    MIN_DOWNLOAD_SPEED       Minimum acceptable speed in bytes/sec (default: 10240)
+     OS_IS_IMAGES_PATH        SMB path for cached ISOs (e.g., smb://server/share/isos)
+     STALL_TIMEOUT            Seconds without progress before retry (default: 60)
+     PROGRESS_CHECK_INTERVAL  Progress check frequency in seconds (default: 10)
+     MIN_DOWNLOAD_SPEED       Minimum acceptable speed in bytes/sec (default: 10240)
 
 EOF
 }
