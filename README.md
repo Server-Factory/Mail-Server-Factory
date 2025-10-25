@@ -47,16 +47,19 @@ future scalability.
 - **Unattended Installation**: Preseed/kickstart/cloud-init/autoyast configurations for all major distributions
 - **25 Distribution Support**: Western (Ubuntu, Debian, CentOS, Fedora, AlmaLinux, Rocky, openSUSE) + Russian (ALT, Astra, ROSA) + Chinese (openEuler, openKylin, Deepin)
 - **QEMU Virtualization**: Complete virtual machine automation with `scripts/qemu_manager.sh`
-- **ISO Management**: Enhanced download script with progress tracking and optional SMB cache support - `scripts/iso_manager.sh`
+- **ISO Management**: Enhanced download script with progress tracking, bidirectional SMB sync, and enterprise caching - `scripts/iso_manager.sh`
 - **Comprehensive Testing**: Full test suite including recipe coverage - `Core/Utils/Iso/test_recipe_coverage.sh`
 - **Network Configuration**: Automatic setup for .local hostname resolution
 - **Background Operation**: Non-interactive VM deployment and management
 
-### ISO Download with SMB Cache Support
+### ISO Download with Bidirectional SMB Sync
 - **Network Cache**: Optional SMB share support for cached ISO images via `OS_IS_IMAGES_PATH` environment variable
-- **Fallback Mechanism**: Automatically falls back to internet download if ISO not found in SMB cache
+- **Bidirectional Sync**: Full two-way synchronization with SMB shares using `OS_IS_IMAGES_SMB_WRITABLE` for uploads
+- **Smart Sync Logic**: Downloads missing ISOs from SMB, uploads missing ISOs to writable SMB, falls back to internet download
+- **Fallback Mechanism**: Automatically falls back to internet download if ISO not found locally or in SMB cache
 - **Enterprise Integration**: Seamlessly integrates with existing network infrastructure for faster deployments
 - **Security**: Uses standard SMB protocols with existing authentication mechanisms
+- **Verification**: All ISOs are checksum-verified regardless of source (local, SMB, or internet)
 
 ### Comprehensive Testing Framework
 - **Mail Server Testing**: Complete SMTP/IMAP/POP3 functionality testing
@@ -463,6 +466,76 @@ The launcher searches for `Application.jar` in the following locations (in order
 7. `/opt/mail-factory/Application.jar`
 
 If the JAR is not found in any location, the launcher will display all searched paths and suggest building the application.
+
+### ISO Management with Bidirectional SMB Sync
+
+The project includes an enhanced ISO manager script (`scripts/iso_manager.sh`) that supports bidirectional synchronization with SMB shares for efficient ISO distribution management.
+
+#### Commands
+
+| Command | Description |
+|---------|-------------|
+| `download` | Download all ISOs and verify checksums |
+| `verify` | Verify checksums of existing ISOs |
+| `list` | List all available ISOs and their status |
+| `sync` | Bidirectional sync with SMB share (upload/download missing ISOs) |
+| `help` | Show help message |
+
+#### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `OS_IS_IMAGES_PATH` | SMB path for reading cached ISOs (e.g., `smb://server/share/isos`) |
+| `OS_IS_IMAGES_SMB_WRITABLE` | SMB path for writing ISOs (e.g., `smb://server/share/isos`) |
+
+#### Sync Behavior
+
+The sync command provides intelligent bidirectional synchronization:
+
+1. **Download from SMB**: Downloads missing ISOs from the SMB share if available
+2. **Upload to SMB**: Uploads missing ISOs to the writable SMB share if configured
+3. **Internet Fallback**: Downloads from the internet if not found locally or in SMB
+4. **Verification**: All ISOs are checksum-verified regardless of source
+
+#### Examples
+
+**Basic download:**
+```bash
+./scripts/iso_manager.sh download
+```
+
+**Sync with SMB (read-only):**
+```bash
+export OS_IS_IMAGES_PATH="smb://fileserver/isos"
+./scripts/iso_manager.sh download
+```
+
+**Bidirectional sync (read and write):**
+```bash
+export OS_IS_IMAGES_PATH="smb://fileserver/isos"
+export OS_IS_IMAGES_SMB_WRITABLE="smb://fileserver/isos"
+./scripts/iso_manager.sh sync
+```
+
+**List available ISOs:**
+```bash
+./scripts/iso_manager.sh list
+```
+
+#### Testing ISO Management
+
+Comprehensive test suites are available:
+
+```bash
+# Test SMB functionality (mocked)
+./test_smb_mocked.sh
+
+# Test bidirectional SMB sync (mocked)
+./scripts/test_smb_sync.sh
+
+# Test with real SMB server (if available)
+./test_smb_functionality.sh
+```
 
 ### Testing the Launcher
 

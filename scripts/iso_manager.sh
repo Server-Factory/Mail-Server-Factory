@@ -110,6 +110,74 @@ check_smbclient() {
     return 0
 }
 
+# Check if SMB share is writable
+check_smb_writable() {
+    local smb_path="$1"
+
+    if ! check_smbclient; then
+        return 1
+    fi
+
+    # Parse SMB path
+    local smb_url=$(echo "${smb_path}" | sed 's|^smb://||')
+    local server=$(echo "${smb_url}" | cut -d'/' -f1)
+    local share_path=$(echo "${smb_url}" | cut -d'/' -f2-)
+
+    # Try to create a temporary file to test write access
+    local temp_file="test_write_$$.tmp"
+    local temp_path="${share_path}/${temp_file}"
+
+    print_info "Testing SMB write access..."
+    log_info "Testing write access to SMB: //${server}/${share_path}"
+
+    # Attempt to put a small test file
+    if echo "put /dev/null ${temp_path}" | smbclient "//${server}/${share_path%/*}" -c "put /dev/null ${temp_path}" 2>/dev/null; then
+        # Try to remove the test file
+        if echo "del ${temp_path}" | smbclient "//${server}/${share_path%/*}" -c "del ${temp_path}" 2>/dev/null; then
+            print_success "SMB share is writable"
+            log_success "SMB write access confirmed: ${smb_path}"
+            return 0
+        else
+            print_warning "SMB share writable but cleanup failed"
+            log_warn "SMB write access confirmed but cleanup failed: ${smb_path}"
+            return 0
+        fi
+    else
+        print_warning "SMB share is not writable"
+        log_warn "SMB write access denied: ${smb_path}"
+        return 1
+    fi
+}
+
+# List files in SMB share
+list_smb_files() {
+    local smb_path="$1"
+
+    if ! check_smbclient; then
+        return 1
+    fi
+
+    # Parse SMB path
+    local smb_url=$(echo "${smb_path}" | sed 's|^smb://||')
+    local server=$(echo "${smb_url}" | cut -d'/' -f1)
+    local share_path=$(echo "${smb_url}" | cut -d'/' -f2-)
+
+    print_info "Listing files in SMB share..."
+    log_info "Listing SMB files: //${server}/${share_path}"
+
+    # Use smbclient to list files
+    local files=$(echo "ls ${share_path}" | smbclient "//${server}/${share_path%/*}" -c "ls ${share_path}" 2>/dev/null | grep -E '\.iso$' | awk '{print $1}' || true)
+
+    if [ -n "${files}" ]; then
+        log_info "Found ISO files in SMB: ${files}"
+        echo "${files}"
+        return 0
+    else
+        log_info "No ISO files found in SMB share"
+        return 1
+    fi
+}
+
 # Check if a file exists in SMB share
 smb_file_exists() {
     local smb_path="$1"
@@ -166,6 +234,50 @@ copy_from_smb() {
     else
         print_error "Failed to copy ${filename} from SMB share"
         log_error "SMB copy failed: ${filename}"
+        return 1
+    fi
+}
+
+# Copy file to SMB share
+copy_to_smb() {
+    local local_path="$1"
+    local smb_path="$2"
+    local filename="$3"
+
+    if ! check_smbclient; then
+        return 1
+    fi
+
+    # Check if SMB is writable
+    if ! check_smb_writable "${smb_path}"; then
+        print_error "SMB share is not writable: ${smb_path}"
+        log_error "SMB share not writable: ${smb_path}"
+        return 1
+    fi
+
+    # Parse SMB path
+    local smb_url=$(echo "${smb_path}" | sed 's|^smb://||')
+    local server=$(echo "${smb_url}" | cut -d'/' -f1)
+    local share_path=$(echo "${smb_url}" | cut -d'/' -f2-)
+
+    print_info "Copying ${filename} to SMB share..."
+    log_info "Copying to SMB: ${local_path} to //${server}/${share_path}/${filename}"
+
+    # Use smbclient to copy the file
+    if echo "put ${local_path} ${share_path}/${filename}" | smbclient "//${server}/${share_path%/*}" -c "put ${local_path} ${share_path}/${filename}" 2>/dev/null; then
+        # Verify the file was uploaded by checking if it exists
+        if smb_file_exists "${smb_path}" "${filename}"; then
+            print_success "Successfully copied ${filename} to SMB share"
+            log_success "SMB upload completed: ${filename}"
+            return 0
+        else
+            print_error "Failed to verify upload of ${filename} to SMB share"
+            log_error "SMB upload verification failed: ${filename}"
+            return 1
+        fi
+    else
+        print_error "Failed to copy ${filename} to SMB share"
+        log_error "SMB upload failed: ${filename}"
         return 1
     fi
 }
@@ -637,6 +749,14 @@ process_iso() {
                 if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
                     print_success "ISO copied from SMB cache and verified"
                     log_success "ISO successfully obtained from SMB cache: ${iso_filename}"
+
+                    # Upload to writable SMB if configured
+                    if [ -n "${OS_IS_IMAGES_SMB_WRITABLE:-}" ]; then
+                        if copy_to_smb "${iso_path}" "${OS_IS_IMAGES_SMB_WRITABLE}" "${iso_filename}"; then
+                            print_success "Uploaded to writable SMB share"
+                        fi
+                    fi
+
                     return 0
                 else
                     print_warning "ISO from SMB cache failed verification, falling back to internet download"
@@ -665,6 +785,14 @@ process_iso() {
     if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
         print_success "Download and verification complete for ${name}"
         log_success "ISO successfully downloaded and verified: ${iso_filename}"
+
+        # Upload to writable SMB if configured
+        if [ -n "${OS_IS_IMAGES_SMB_WRITABLE:-}" ]; then
+            if copy_to_smb "${iso_path}" "${OS_IS_IMAGES_SMB_WRITABLE}" "${iso_filename}"; then
+                print_success "Uploaded to writable SMB share"
+            fi
+        fi
+
         return 0
     else
         print_error "Downloaded ISO failed verification"
@@ -780,9 +908,149 @@ list_isos() {
     done
 }
 
+sync_isos() {
+    local smb_path="${OS_IS_IMAGES_PATH:-}"
+    local writable_smb="${OS_IS_IMAGES_SMB_WRITABLE:-}"
+
+    if [ -z "${smb_path}" ]; then
+        print_error "SMB path not configured. Set OS_IS_IMAGES_PATH environment variable."
+        log_error "SMB sync failed: OS_IS_IMAGES_PATH not set"
+        return 1
+    fi
+
+    print_header "Bidirectional ISO Sync with SMB"
+    log_info "Starting bidirectional sync with SMB: ${smb_path}"
+
+    # Check if SMB is available
+    if ! check_smbclient; then
+        print_error "smbclient not available. Cannot perform SMB sync."
+        log_error "SMB sync failed: smbclient not available"
+        return 1
+    fi
+
+    # Check if SMB is writable if writable path is set
+    if [ -n "${writable_smb}" ]; then
+        if ! check_smb_writable "${writable_smb}"; then
+            print_warning "SMB share not writable. Upload functionality disabled."
+            log_warn "SMB upload disabled: share not writable"
+            writable_smb=""
+        fi
+    fi
+
+    local success_count=0
+    local fail_count=0
+    local total=${#ISO_DEFINITIONS[@]}
+
+    print_info "Syncing ${total} ISO definitions..."
+
+    for definition in "${ISO_DEFINITIONS[@]}"; do
+        IFS='|' read -r name version url checksum_url checksum_type <<< "${definition}"
+
+        local iso_filename=$(basename "${url}")
+        local iso_path="${ISO_DIR}/${iso_filename}"
+        local checksum_filename="${name}.${checksum_type}"
+        local checksum_path="${CHECKSUM_DIR}/${checksum_filename}"
+
+        print_header "Syncing: ${name} ${version}"
+
+        # Ensure checksum file exists
+        if [ ! -f "${checksum_path}" ]; then
+            print_info "Downloading checksum file..."
+            download_file "${checksum_url}" "${checksum_path}" "checksum file" 3 120 15
+            if [ $? -ne 0 ]; then
+                print_error "Failed to download checksum file"
+                log_error "Checksum download failed: ${checksum_url}"
+                fail_count=$((fail_count + 1))
+                continue
+            fi
+        fi
+
+        # Check local ISO
+        local local_exists=false
+        if [ -f "${iso_path}" ]; then
+            if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
+                local_exists=true
+                print_success "Local ISO is valid"
+            else
+                print_warning "Local ISO is corrupted, removing..."
+                rm -f "${iso_path}"
+                local_exists=false
+            fi
+        fi
+
+        # Check SMB ISO
+        local smb_exists=false
+        if smb_file_exists "${smb_path}" "${iso_filename}"; then
+            if [ "${local_exists}" = false ]; then
+                # Download from SMB
+                print_info "Downloading from SMB..."
+                if copy_from_smb "${smb_path}" "${iso_filename}" "${iso_path}"; then
+                    if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
+                        smb_exists=true
+                        print_success "Downloaded and verified from SMB"
+                    else
+                        print_warning "Downloaded from SMB but verification failed"
+                        rm -f "${iso_path}"
+                    fi
+                fi
+            else
+                smb_exists=true
+                print_info "ISO exists in both local and SMB"
+            fi
+        fi
+
+        # If not in local or SMB, download from internet
+        if [ "${local_exists}" = false ] && [ "${smb_exists}" = false ]; then
+            print_info "Downloading from internet..."
+            download_file "${url}" "${iso_path}" "${name} ISO" 5 600 30
+            if [ $? -eq 0 ]; then
+                if verify_checksum "${iso_path}" "${checksum_path}" "${checksum_type}"; then
+                    local_exists=true
+                    print_success "Downloaded and verified from internet"
+                else
+                    print_error "Downloaded from internet but verification failed"
+                    rm -f "${iso_path}"
+                    fail_count=$((fail_count + 1))
+                    continue
+                fi
+            else
+                print_error "Failed to download from internet"
+                fail_count=$((fail_count + 1))
+                continue
+            fi
+        fi
+
+        # Upload to SMB if writable and local exists but SMB doesn't
+        if [ "${local_exists}" = true ] && [ "${smb_exists}" = false ] && [ -n "${writable_smb}" ]; then
+            print_info "Uploading to SMB..."
+            if copy_to_smb "${iso_path}" "${writable_smb}" "${iso_filename}"; then
+                print_success "Uploaded to SMB"
+            else
+                print_warning "Failed to upload to SMB"
+            fi
+        fi
+
+        success_count=$((success_count + 1))
+        echo ""
+    done
+
+    print_header "Sync Summary"
+    echo -e "Total: ${total}"
+    echo -e "${GREEN}Success: ${success_count}${NC}"
+    echo -e "${RED}Failed: ${fail_count}${NC}"
+
+    log_info "Sync complete. Success: ${success_count}, Failed: ${fail_count}"
+
+    if [ ${fail_count} -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 show_help() {
     cat <<EOF
-ISO Manager - Download and Verify Linux Server ISOs
+ISO Manager - Download, Verify, and Sync Linux Server ISOs
 
 Usage: $(basename "$0") [COMMAND] [OPTIONS]
 
@@ -790,6 +1058,7 @@ Commands:
     download    Download all ISOs and verify checksums
     verify      Verify checksums of existing ISOs
     list        List all available ISOs and their status
+    sync        Bidirectional sync with SMB share (upload/download missing ISOs)
     help        Show this help message
 
 Options:
@@ -804,18 +1073,27 @@ Features:
      ✓ Exponential backoff with jitter
      ✓ Checksum verification (SHA256/SHA512/MD5)
      ✓ Optional SMB cache support for local network ISOs
+     ✓ Bidirectional SMB sync (upload to and download from SMB)
 
 Examples:
     $(basename "$0") download              # Download all ISOs
     $(basename "$0") verify                # Verify existing ISOs
     $(basename "$0") download --force      # Force re-download all ISOs
     $(basename "$0") list                  # List available ISOs
+    $(basename "$0") sync                  # Sync with SMB share
 
 Environment Variables:
-     OS_IS_IMAGES_PATH        SMB path for cached ISOs (e.g., smb://server/share/isos)
-     STALL_TIMEOUT            Seconds without progress before retry (default: 60)
-     PROGRESS_CHECK_INTERVAL  Progress check frequency in seconds (default: 10)
-     MIN_DOWNLOAD_SPEED       Minimum acceptable speed in bytes/sec (default: 10240)
+     OS_IS_IMAGES_PATH           SMB path for reading cached ISOs (e.g., smb://server/share/isos)
+     OS_IS_IMAGES_SMB_WRITABLE   SMB path for writing ISOs (e.g., smb://server/share/isos)
+     STALL_TIMEOUT               Seconds without progress before retry (default: 60)
+     PROGRESS_CHECK_INTERVAL     Progress check frequency in seconds (default: 10)
+     MIN_DOWNLOAD_SPEED          Minimum acceptable speed in bytes/sec (default: 10240)
+
+Sync Behavior:
+     - Downloads missing ISOs from SMB if available
+     - Uploads missing ISOs to writable SMB share
+     - Falls back to internet download if not found locally or in SMB
+     - Verifies all ISOs after sync operations
 
 EOF
 }
@@ -845,6 +1123,9 @@ main() {
             ;;
         list)
             list_isos
+            ;;
+        sync)
+            sync_isos
             ;;
         help|--help|-h)
             show_help
