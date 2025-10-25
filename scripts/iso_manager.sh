@@ -88,10 +88,10 @@ declare -a ISO_DEFINITIONS=(
     "fedora-server-41|41|https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-dvd-x86_64-41-1.4.iso|https://download.fedoraproject.org/pub/fedora/linux/releases/41/Server/x86_64/iso/Fedora-Server-41-1.4-x86_64-CHECKSUM|sha256"
 
     # AlmaLinux
-    "almalinux-9|9.5|https://repo.almalinux.org/almalinux/9.5/isos/x86_64/AlmaLinux-9.5-x86_64-dvd.iso|https://repo.almalinux.org/almalinux/9.5/isos/x86_64/CHECKSUM|sha256"
+    "almalinux-9|9-latest|https://repo.almalinux.org/almalinux/9/isos/x86_64/AlmaLinux-9-latest-x86_64-dvd.iso|https://repo.almalinux.org/almalinux/9/isos/x86_64/CHECKSUM|sha256"
 
     # Rocky Linux
-    "rocky-9|9.5|https://download.rockylinux.org/pub/rocky/9.5/isos/x86_64/Rocky-9.5-x86_64-dvd.iso|https://download.rockylinux.org/pub/rocky/9.5/isos/x86_64/CHECKSUM|sha256"
+    "rocky-9|9-latest|https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9-latest-x86_64-dvd.iso|https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM|sha256"
 
     # openSUSE Leap
     "opensuse-leap-15|15.6|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso|https://download.opensuse.org/distribution/leap/15.6/iso/openSUSE-Leap-15.6-DVD-x86_64-Media.iso.sha256|sha256"
@@ -419,12 +419,28 @@ extract_checksum() {
 
     # Try to find the checksum for the ISO file
     if [ -f "${checksum_file}" ]; then
-        # Different distributions have different checksum file formats
-        local checksum=$(grep "${iso_filename}" "${checksum_file}" | awk '{print $1}' | head -1)
+        # Strip PGP signature if present
+        local checksum_content
+        if grep -q "BEGIN PGP SIGNED MESSAGE" "${checksum_file}"; then
+            # Extract content between PGP headers (skip the first 3 lines after BEGIN and before END signature)
+            checksum_content=$(sed -n '/BEGIN PGP SIGNED MESSAGE/,/BEGIN PGP SIGNATURE/p' "${checksum_file}" | \
+                grep -v "BEGIN PGP" | grep -v "^Hash:" | grep -v "^$")
+        else
+            checksum_content=$(cat "${checksum_file}")
+        fi
 
+        # Different distributions have different checksum file formats
+        # Try to find exact filename match first
+        local checksum=$(echo "${checksum_content}" | grep "${iso_filename}" | awk '{print $1}' | head -1)
+
+        # If no exact match, try to extract from SHA256 (filename) = checksum format
         if [ -z "${checksum}" ]; then
-            # Try alternate format (checksum might be the whole file for single ISO)
-            checksum=$(head -1 "${checksum_file}" | awk '{print $1}')
+            checksum=$(echo "${checksum_content}" | grep "${iso_filename}" | sed -n 's/.*= \([a-f0-9]\{64\}\)/\1/p' | head -1)
+        fi
+
+        # If still no match, try alternate format (checksum might be at the beginning of line)
+        if [ -z "${checksum}" ]; then
+            checksum=$(echo "${checksum_content}" | grep "${iso_filename}" | grep -oP '^[a-f0-9]{64}' | head -1)
         fi
 
         echo "${checksum}"
