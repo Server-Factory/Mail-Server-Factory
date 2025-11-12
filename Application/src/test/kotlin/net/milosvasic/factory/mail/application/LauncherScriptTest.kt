@@ -140,7 +140,7 @@ class LauncherScriptTest {
             mapOf("hasJava" to true, "hasJar" to true, "hasConfig" to true),
             mapOf("hasJava" to true, "hasJar" to false, "hasConfig" to true),
             mapOf("hasJava" to false, "hasJar" to true, "hasConfig" to true),
-            mapOf("hasJava" to false, "hasJar" to false, "hasConfig" to false)
+            mapOf("hasJava" to true, "hasJar" to false, "hasConfig" to false)
         )
         
         configScenarios.forEach { scenario ->
