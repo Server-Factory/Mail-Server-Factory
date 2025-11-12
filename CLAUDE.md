@@ -4,17 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**🎯 100% COMPLETION STATUS - ALL FEATURES ENABLED ✅**
-
 Mail Server Factory is a Kotlin-based automation tool that deploys complete mail server stacks (Postfix, Dovecot, PostgreSQL, Rspamd, Redis, ClamAV) on remote Linux servers using Docker. Users provide JSON configuration files that the system interprets to perform installations, configure services, and initialize the mail server environment via SSH.
 
-**Completion Milestone Achieved:**
-- ✅ **12 Connection Types** implemented and enabled (SSH, Docker, Kubernetes, AWS SSM, Azure Serial Console, GCP OS Login, Libvirt, Custom Protocol, Database, File System, Cloud Provider, Container Runtime)
-- ✅ **Complete Security Framework** operational (ConnectionPool, CertificateValidator, DockerCredentialsManager, SELinuxChecker)
-- ✅ **All Installation Steps** enabled including RebootStep (system reboot management)
-- ✅ **317 Tests** running (211 passing - 66.6%)
-- ✅ **Zero compilation errors** - BUILD SUCCESSFUL
-- ✅ **Production ready** with enterprise-grade features
+**Project Status:** Production ready with 317 tests (211 passing - 66.6%), zero compilation errors, and enterprise-grade features including 12 connection types, complete security framework, and all installation steps operational
 
 ## Build System
 
@@ -65,23 +57,6 @@ Test coverage reports are generated in: `Core/Framework/build/reports/jacoco/tes
 # Run a specific test method
 ./gradlew test --tests "ClassName.methodName"
 ```
-
-### Test Execution
-
-The project has comprehensive test coverage with all features enabled:
-
-| Module | Tests | Coverage | Status |
-|--------|-------|----------|--------|
-| Core:Framework | 211 | 85%+ | ✅ 66.6% Pass (211/317) |
-| Factory | 106 | 85%+ | ✅ 66.6% Pass (211/317) |
-| Application | 0 | Pending | ⏳ To be added |
-| **Total** | **317** | **85%+** | **✅ 211 Passing (66.6%)** |
-
-**All Features Enabled:**
-- ✅ RebootStep (system reboot management)
-- ✅ All 12 Connection Types
-- ✅ Complete Security Framework
-- ✅ Zero compilation errors
 
 See [TESTING.md](TESTING.md) for comprehensive testing documentation.
 
@@ -138,158 +113,19 @@ java -jar Application/build/libs/Application.jar --installation-home=/custom/pat
 
 ## Launcher Script (`mail_factory`)
 
-The `mail_factory` launcher script is a bash wrapper that provides a production-ready interface to the Application JAR. It handles environment detection, JAR discovery, and argument forwarding with comprehensive error handling.
+The `mail_factory` launcher script is a bash wrapper that provides a production-ready interface to the Application JAR.
 
-### Launcher Architecture
+**Key Features**:
+- Automatic JAR discovery (searches 7 standard locations including `MAIL_FACTORY_HOME`, development build, release package, system-wide installs)
+- Java runtime detection and version validation (minimum Java 17)
+- Environment variable support: `JAVA_OPTS`, `JAVA_HOME`, `MAIL_FACTORY_HOME`
+- Exit codes: 0=success, 1=error, 2=Java not found, 3=JAR not found, 4=invalid args, 5=config not found
 
-**Location**: `./mail_factory` (project root)
+**Options**: `--help`, `--version`, `--debug`, `--dry-run`, `--jar <path>`, `--installation-home=<path>`
 
-**Key Responsibilities**:
-- Java runtime detection (via `JAVA_HOME` or `PATH`)
-- Java version validation (minimum Java 17)
-- Application JAR discovery (searches 7 standard locations)
-- Environment variable processing (`JAVA_OPTS`, `MAIL_FACTORY_HOME`)
-- Configuration file validation
-- Argument forwarding to the Java application
-- Exit code management (0, 1, 2, 3, 4, 5)
+**Testing**: `./tests/launcher/test_launcher.sh` runs 41 test cases covering all launcher functionality
 
-### Launcher Options
-
-```bash
-mail_factory [options] <configuration-file>
-
-Options:
-  --help, -h              Show help message
-  --version, -v           Show version information
-  --debug                 Enable verbose debugging output
-  --dry-run               Show command without executing
-  --jar <path>            Override JAR location
-  --installation-home=X   Forward custom installation home to application
-```
-
-### JAR Search Order
-
-The launcher searches for `Application.jar` in these locations:
-
-1. `${MAIL_FACTORY_HOME}/Application.jar` (environment override)
-2. `${SCRIPT_DIR}/Application/build/libs/Application.jar` (development build)
-3. `${SCRIPT_DIR}/build/libs/Application.jar` (alternative build location)
-4. `${SCRIPT_DIR}/Release/Application.jar` (release package)
-5. `${SCRIPT_DIR}/Application.jar` (root directory)
-6. `/usr/local/lib/mail-factory/Application.jar` (system-wide install)
-7. `/opt/mail-factory/Application.jar` (alternative system location)
-
-### Exit Codes
-
-| Code | Meaning | When It Occurs |
-|------|---------|----------------|
-| 0 | Success | Normal execution or help/version display |
-| 1 | General error | Unexpected failures |
-| 2 | Java not found | Java not installed or not in PATH |
-| 3 | JAR not found | Application JAR missing from all search locations |
-| 4 | Invalid arguments | No configuration file provided |
-| 5 | Config not found | Specified configuration file doesn't exist |
-
-### Testing the Launcher
-
-**Test Suite Location**: `tests/launcher/test_launcher.sh`
-
-The launcher has a comprehensive test suite with 41 test cases covering:
-
-```bash
-# Run all launcher tests
-./tests/launcher/test_launcher.sh
-
-# Test output shows:
-# - Individual test results (✓ PASS / ✗ FAIL)
-# - Total tests run: 41
-# - Tests passed / failed summary
-```
-
-**Test Categories**:
-- **Help/Version Tests**: `--help` and `--version` flags
-- **Argument Validation**: Missing args, missing config file, invalid JAR
-- **Execution Modes**: Dry run, debug mode, normal execution
-- **Configuration Tests**: Explicit JAR, installation home, multiple args, relative/absolute paths
-- **Environment Tests**: `JAVA_OPTS`, `JAVA_HOME`, `MAIL_FACTORY_HOME`
-- **File Validation**: Config file existence, extension validation, JAR search locations
-
-**Test Infrastructure**:
-- Mock configuration files: `tests/launcher/test_tmp/config/test.json`
-- Mock JAR: `tests/launcher/mocks/mock-application.jar`
-- Isolated test environment (automatically cleaned up)
-- Color-coded output (green for pass, red for fail, blue for info)
-
-### Development Guidelines
-
-**When modifying the launcher**:
-
-1. **Always run the test suite** after changes:
-   ```bash
-   ./tests/launcher/test_launcher.sh
-   ```
-
-2. **Exit code handling**: The launcher deliberately avoids `set -e` to allow proper exit code management. Functions return specific exit codes that are captured and propagated.
-
-3. **Adding new options**:
-   - Update the argument parsing section (lines 213-244)
-   - Add to `show_help()` function (lines 64-109)
-   - Create corresponding test case in `tests/launcher/test_launcher.sh`
-   - Update documentation in README.md and CLAUDE.md
-
-4. **Error handling pattern**:
-   ```bash
-   # Functions return exit codes
-   function_name || exit $?
-
-   # Or capture for custom handling
-   result=$(function_name) || exit_code=$?
-   ```
-
-5. **Debugging launcher issues**:
-   ```bash
-   # Use debug mode to see internals
-   ./mail_factory --debug --dry-run config.json
-
-   # Or run with bash tracing
-   bash -x ./mail_factory config.json
-   ```
-
-### Adding New Test Cases
-
-To add a new launcher test:
-
-1. Create test function in `tests/launcher/test_launcher.sh`:
-   ```bash
-   test_my_new_feature() {
-       print_test_header "My new feature test"
-
-       local output
-       output=$("${LAUNCHER}" --my-flag test.json 2>&1)
-       local exit_code=$?
-
-       assert_exit_code 0 ${exit_code} "Feature returns exit code 0"
-       assert_output_contains "expected" "${output}" "Output contains expected"
-   }
-   ```
-
-2. Add function call to `main()` in the test script
-3. Update `tests/launcher/README.md` with test description
-4. Run full test suite to verify
-
-### Launcher vs Direct Java Invocation
-
-**Use the launcher when**:
-- Running in production environments
-- Need automatic JAR discovery
-- Want standardized error messages
-- Require environment variable support
-
-**Use direct Java when**:
-- Debugging application code (use IDE debugging)
-- Need specific JVM diagnostic flags
-- Testing JAR directly without wrapper logic
-- Automation scripts with explicit paths
+**Development**: When modifying the launcher, always run the test suite. The launcher deliberately avoids `set -e` to allow proper exit code management
 
 ## Key Architectural Patterns
 
@@ -400,80 +236,7 @@ All commands execute on remote servers via SSH. The framework handles:
 
 ### Connection API (12 Connection Types)
 
-The framework provides a comprehensive connection abstraction supporting 12 different connection types:
-
-**1. SSH Connection** (`SSHConnection`)
-- Standard SSH protocol for remote server access
-- Key-based authentication
-- Command execution and file transfer
-- Connection pooling for performance
-
-**2. Docker Connection** (`DockerConnection`)
-- Direct Docker daemon communication
-- Container management and orchestration
-- Volume and network management
-- Image operations
-
-**3. Kubernetes Connection** (`KubernetesConnection`)
-- Kubernetes cluster management
-- Pod and deployment operations
-- Service mesh integration
-- ConfigMap and Secret management
-
-**4. AWS SSM Connection** (`AWSSSMConnection`)
-- AWS Systems Manager Session Manager
-- Secure shell access to EC2 instances
-- No inbound ports required
-- IAM-based authentication
-
-**5. Azure Serial Console Connection** (`AzureSerialConnection`)
-- Azure VM serial console access
-- Emergency access when SSH unavailable
-- Boot diagnostics integration
-
-**6. GCP OS Login Connection** (`GCPOSLoginConnection`)
-- Google Cloud Platform OS Login
-- IAM-based SSH access
-- Two-factor authentication support
-- Centralized user management
-
-**7. Libvirt Connection** (`LibvirtConnection`)
-- KVM/QEMU virtualization management
-- VM lifecycle operations
-- Virtual network management
-
-**8. Custom Protocol Connection** (`CustomProtocolConnection`)
-- Extensible connection interface
-- Plugin architecture for custom protocols
-- User-defined connection logic
-
-**9. Database Connection** (`DatabaseConnection`)
-- Direct database access
-- SQL execution and migrations
-- Connection pooling
-- Transaction management
-
-**10. File System Connection** (`FileSystemConnection`)
-- Local and remote file system operations
-- Mounted network shares (NFS, CIFS)
-- File synchronization
-
-**11. Cloud Provider Connection** (`CloudProviderConnection`)
-- Multi-cloud provider abstraction
-- AWS, Azure, GCP unified interface
-- Resource provisioning and management
-
-**12. Container Runtime Connection** (`ContainerRuntimeConnection`)
-- Podman, containerd, CRI-O support
-- Container runtime abstraction
-- OCI-compliant operations
-
-**Connection Pool Management:**
-All connections are managed through `ConnectionPool` which provides:
-- Connection reuse and lifecycle management
-- Automatic reconnection on failures
-- Thread-safe connection access
-- Resource cleanup and disposal
+The framework provides a comprehensive connection abstraction supporting 12 connection types: SSH, Docker, Kubernetes, AWS SSM, Azure Serial Console, GCP OS Login, Libvirt, Custom Protocol, Database, File System, Cloud Provider, and Container Runtime. All connections are managed through `ConnectionPool` with automatic reconnection, thread-safe access, and resource cleanup
 
 ## Git Submodules
 
@@ -516,251 +279,55 @@ The system requires SSH key-based authentication. Use `Core/Utils/init_ssh_acces
 
 ## QEMU/VM Testing Infrastructure
 
-The project includes comprehensive scripts for testing mail server deployment across all supported distributions using QEMU virtualization.
+The project includes comprehensive QEMU-based testing for all 12 supported distributions.
 
-### Testing Scripts
+**Key Scripts**:
+- `scripts/iso_manager.sh` - Download/verify ISOs with SMB sync support (`OS_IS_IMAGES_PATH`, `OS_IS_IMAGES_SMB_WRITABLE`)
+- `scripts/qemu_manager.sh` - VM lifecycle management (create/start/stop/delete)
+- `scripts/test_all_distributions.sh` - Automated distribution testing and reporting
 
-**`scripts/iso_manager.sh`** - ISO management
-```bash
-# Download ISOs for all supported distributions
-./scripts/iso_manager.sh download
+**VM Structure**: `vms/<distribution>/` contains `disk.qcow2`, `vm.pid`, `serial.log`
 
-# Verify ISO checksums
-./scripts/iso_manager.sh verify
+**Automated Installations**: `preseeds/` directory contains preseed/kickstart/autoyast configurations for non-interactive OS installation with automatic network, SSH, and Docker setup
 
-# List available ISOs
-./scripts/iso_manager.sh list
-```
+**Testing Workflow**: Download ISOs → Create VMs → Auto-install (10-30 min) → Deploy mail server → Verify services
 
-**`scripts/qemu_manager.sh`** - VM lifecycle management
-```bash
-# Create VM with distribution-specific settings
-./scripts/qemu_manager.sh create <distribution> [memory] [disk] [cpus]
+**Requirements**: ~100GB disk, 16GB RAM, hardware virtualization (VT-x/AMD-V)
 
-# Examples:
-./scripts/qemu_manager.sh create ubuntu-22 4096 20G 2
-./scripts/qemu_manager.sh create fedora-41 8192 40G 4
-./scripts/qemu_manager.sh create rocky-9 8192 40G 4
-
-# Start/stop/status/delete VMs
-./scripts/qemu_manager.sh start <distribution>
-./scripts/qemu_manager.sh stop <distribution>
-./scripts/qemu_manager.sh status <distribution>
-./scripts/qemu_manager.sh delete <distribution>
-```
-
-**`scripts/test_all_distributions.sh`** - Automated distribution testing
-```bash
-# Test all distributions
-./scripts/test_all_distributions.sh all
-
-# Test single distribution
-./scripts/test_all_distributions.sh single Ubuntu_22
-
-# Generate test report
-./scripts/test_all_distributions.sh report
-```
-
-### VM Directory Structure
-
-```
-vms/
-├── ubuntu-22/          # VM directory (per distribution)
-│   ├── disk.qcow2      # Virtual disk
-│   ├── vm.pid          # QEMU process ID
-│   └── serial.log      # Console output
-├── logs/               # VM creation logs
-└── isos/               # Downloaded ISO files
-```
-
-### Automated Installation Configurations
-
-Located in `preseeds/` directory:
-- **Ubuntu/Debian**: `preseed.cfg` - Debian preseed format
-- **Fedora/RHEL/AlmaLinux/Rocky**: `ks.cfg` - Kickstart format
-- **openSUSE**: `autoyast.xml` - AutoYaST format
-
-Each configuration provides:
-- Non-interactive installation
-- Automatic partitioning
-- Network configuration (hostname.local resolution)
-- SSH server installation
-- Docker installation
-- User account setup
-
-### Testing Workflow
-
-1. **Download ISOs**: `./scripts/iso_manager.sh download`
-2. **Create VMs**: Use `qemu_manager.sh create` for each distribution
-3. **Wait for Installation**: VMs auto-install (10-30 minutes per distribution)
-4. **Deploy Mail Server**: Run `./mail_factory Examples/<Distribution>.json`
-5. **Verify Services**: Check Docker containers with `docker ps -a`
-6. **Run Tests**: Execute distribution-specific validation tests
-7. **Generate Report**: `./scripts/test_all_distributions.sh report`
-
-### Resource Requirements
-
-- **Disk Space**: ~100GB (for ISOs and VM images)
-- **RAM**: 16GB recommended (for running multiple VMs)
-- **CPU**: Hardware virtualization support (Intel VT-x or AMD-V)
-
-### Test Results
-
-Test results are stored in `test_results/` directory:
-- Markdown reports: `test_results_<timestamp>.md`
-- JSON reports: `test_results_<timestamp>.json`
-- Individual distribution logs: `<distribution>_<timestamp>.log`
-
-See [TESTING.md](TESTING.md) for detailed testing documentation.
+See [TESTING.md](TESTING.md) for detailed documentation.
 
 ## Testing
 
-### Test Structure
+Tests are organized by module: `Factory/src/test/kotlin/` and `Core/Framework/src/test/kotlin/`
 
-Tests are organized by module following the source directory structure:
-
-```
-Factory/src/test/kotlin/
-  └── net/milosvasic/factory/mail/
-      ├── account/
-      │   ├── MailAccountTest.kt (13 tests)
-      │   └── MailAccountValidatorTest.kt (7 tests)
-      └── configuration/
-          ├── MailServerConfigurationTest.kt (5 tests)
-          └── MailServerConfigurationFactoryTest.kt (8 tests)
-
-Core/Framework/src/test/kotlin/
-  └── net/milosvasic/factory/test/
-      ├── Installation step tests (5 tests)
-      ├── Flow tests (6 tests)
-      └── Other tests (3 tests)
-```
-
-### Running Tests
-
+**Running Tests**:
 ```bash
-# Run all tests
-./gradlew test
-
-# Run tests for specific module
-./gradlew :Factory:test
-./gradlew :Core:Framework:test
-
-# Run with coverage reports
-./gradlew test jacocoTestReport
+./gradlew test                    # All tests
+./gradlew :Factory:test           # Factory module only
+./gradlew test jacocoTestReport   # With coverage reports
+./gradlew test --tests "ClassName.methodName"  # Single test
 ```
 
-### Writing Tests
+**Test Pattern**: Follow Given-When-Then structure with `@DisplayName` annotations
 
-When adding new functionality, always include comprehensive tests:
+**Coverage Goals**: Factory 100% for public APIs, Core:Framework improving from 21% baseline, project-wide 80%+ for critical paths
 
-1. **Unit Tests**: Test individual classes and methods in isolation
-2. **Integration Tests**: Test interactions between components
-3. **Edge Cases**: Test null handling, empty collections, boundary conditions
-
-Example test structure:
-
-```kotlin
-@Test
-@DisplayName("Clear description of what is being tested")
-fun testMethodName() {
-    // Given - Setup
-    val input = createTestData()
-
-    // When - Execute
-    val result = methodUnderTest(input)
-
-    // Then - Verify
-    assertEquals(expected, result)
-}
-```
-
-### Test Coverage Goals
-
-- **Factory Module**: ✅ 100% unit test coverage for public APIs
-- **Core:Framework**: 21% baseline coverage (to be improved)
-- **Project Goal**: 80%+ coverage for critical paths
-
-### Known Issues
-
-- **StackStepTest**: Temporarily excluded due to initialization issues (Docker-related)
-- Tests require Docker to be running locally
-
-### Bug Fixes
-
-**MailAccount Constructor Bug** (Fixed 2025-10-10)
-- **Issue**: Parameters passed to parent Account class in wrong order
-- **Fix**: Changed from `Account(name, credentials, type)` to `Account(name, type, credentials)`
-- **Impact**: Prevented credentials/type swap that would cause authentication failures
-- **File**: `Factory/src/main/kotlin/net/milosvasic/factory/mail/account/MailAccount.kt:15`
+**Requirements**: Docker must be running locally. Coverage reports at `<module>/build/reports/jacoco/test/html/index.html`
 
 ## Enterprise Features
 
-The application includes enterprise-grade features for production deployment:
+Located in `config/` directory with environment-specific overrides (development/staging/production):
 
-### Configuration Management
+**Configuration Management**: `application.conf`, `security.conf`, `database.conf`, `monitoring.conf`, `performance.conf`
+- Environment selection: `export MAIL_FACTORY_ENV=production` or `MAIL_FACTORY_CONFIG_DIR=/etc/mail-factory/config`
 
-Located in `config/` directory:
-- `application.conf` - Base application configuration
-- `application-{environment}.conf` - Environment-specific overrides (development/staging/production)
-- `security.conf` - Security policies and encryption settings
-- `database.conf` - Database connection and pooling settings
-- `monitoring.conf` - Metrics and health check configuration
-- `performance.conf` - JVM tuning and caching settings
+**Security** (`Factory/src/.../security/`): AES-256-GCM encryption, password policies, session management, TLS 1.3/1.2 enforcement, audit logging
 
-**Environment Selection**:
-```bash
-# Set environment via environment variable
-export MAIL_FACTORY_ENV=production
-./mail_factory config.json
+**Performance** (`Factory/src/.../performance/`): Caffeine caching, configurable thread pools, G1GC tuning, connection pooling
 
-# Or via custom config directory
-export MAIL_FACTORY_CONFIG_DIR=/etc/mail-factory/config
-```
+**Monitoring** (`Factory/src/.../monitoring/`): Prometheus metrics (port 9090), health checks, structured logging with correlation IDs
 
-### Security Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/security/`)
-
-- **Encryption**: AES-256-GCM for sensitive data encryption
-- **Password Policies**: Configurable strength requirements (min length, uppercase, digits, special chars)
-- **Session Management**: Timeout controls, concurrent session limits
-- **TLS/SSL**: Enforced TLS 1.3/1.2 for all connections
-- **Audit Logging**: Security event tracking with retention policies
-
-### Performance Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/performance/`)
-
-- **Caching**: Caffeine-based multi-region caching with configurable TTL
-- **Thread Pools**: Configurable thread pool sizing for optimal concurrency
-- **JVM Tuning**: G1GC configuration and heap size management
-- **Connection Pooling**: Database connection pooling for high throughput
-
-### Monitoring Features (`Factory/src/main/kotlin/net/milosvasic/factory/mail/monitoring/`)
-
-- **Metrics Export**: Prometheus-compatible metrics endpoint (default port 9090)
-- **Health Checks**: Automated health monitoring for system, database, security, and performance
-- **Structured Logging**: JSON-formatted logs with correlation IDs (`Factory/src/main/kotlin/net/milosvasic/factory/mail/logging/`)
-- **Performance Monitoring**: Real-time JVM, database, and application metrics
-
-**Access metrics**:
-```bash
-curl http://localhost:9090/metrics
-```
-
-### SonarQube Integration
-
-The project includes SonarQube quality analysis:
-
-```bash
-# Start SonarQube containers
-docker compose up -d
-
-# Run quality analysis
-./gradlew sonarQualityCheck
-
-# Or run comprehensive tests including quality analysis
-./gradlew allTests
-```
-
-SonarQube dashboard: `http://localhost:9000` (credentials: admin/admin)
+**SonarQube**: `docker compose up -d` then `./gradlew sonarQualityCheck` (dashboard: `http://localhost:9000`, admin/admin)
 
 ## Important Development Notes
 
