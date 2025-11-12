@@ -634,6 +634,30 @@ ssh root@mail.yourdomain.com "doveadm mailbox list -u john@example.com"
 
 ## Troubleshooting
 
+### Security Setup
+
+#### SSH Key Generation
+Mail Server Factory requires SSH keys with passphrases for security:
+
+```bash
+# Run the SSH setup script
+./Core/Utils/init_ssh_access.sh mail.yourdomain.com
+
+# Enter a strong passphrase (minimum 12 characters)
+# The script will generate and install the SSH key
+```
+
+#### Firewall Configuration
+The factory automatically configures firewall rules. To verify:
+
+```bash
+# Check firewall status
+sudo firewall-cmd --list-all  # (firewalld systems)
+sudo ufw status              # (ufw systems)
+
+# Should show ports 22, 25, 587, 465, 993, 995 open
+```
+
 ### Issue: "SSH connection failed"
 
 **Symptoms**: Cannot connect to remote server
@@ -643,6 +667,7 @@ ssh root@mail.yourdomain.com "doveadm mailbox list -u john@example.com"
 2. Check SSH port: `telnet mail.yourdomain.com 22`
 3. Verify SSH key: `ssh -i ~/.ssh/server_factory root@mail.yourdomain.com`
 4. Check firewall on server allows port 22
+5. Ensure SSH key has a passphrase (required for security)
 
 ### Issue: "Docker installation failed"
 

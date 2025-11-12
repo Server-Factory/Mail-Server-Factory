@@ -318,6 +318,31 @@ ssh -p 2222 root@localhost "docker ps"
 tail -f logs/mail_factory_*.log
 ```
 
+## Security Features
+
+Mail Server Factory includes enterprise-grade security features:
+
+### SSH Key Setup
+```bash
+# Generate SSH key with mandatory passphrase
+./Core/Utils/init_ssh_access.sh your-server.com
+
+# The script will prompt for a passphrase (minimum 12 characters)
+# This ensures all SSH keys are protected
+```
+
+### Firewall Configuration
+The mail server stack automatically configures firewall rules for:
+- **SMTP**: Port 25 (mail submission)
+- **SMTP Submission**: Port 587 (authenticated mail)
+- **SMTPS**: Port 465 (encrypted mail)
+- **IMAPS**: Port 993 (encrypted IMAP)
+- **POP3S**: Port 995 (encrypted POP3)
+- **SSH**: Port 22 (secure shell)
+
+### Encrypted Configuration
+Sensitive data like passwords are automatically encrypted using AES-256-GCM.
+
 ## Next Steps
 
 1. **Read Documentation**
