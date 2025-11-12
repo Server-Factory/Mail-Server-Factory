@@ -1,3 +1,6 @@
+.kotlin
+.kotlin/*
+
 # Runtime directories
 orchestration_logs/
 test_results/
